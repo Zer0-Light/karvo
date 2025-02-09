@@ -13,7 +13,7 @@ const Hero = () => {
         <h1 className="text-3xl font-bold text-primary">KARVO</h1>
       </div>
 
-      <div className="container mx-auto px-4 py-32 relative z-10">
+      <div className="w-full px-4 py-32 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -63,12 +63,12 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="mt-12"
+            className="mt-12 -mx-4 md:-mx-8 lg:-mx-16 xl:-mx-32"
           >
             <img
               src="/lovable-uploads/09957f3f-713e-4d24-9c6f-b3e8f135dc3e.png"
               alt="People enjoying a car ride"
-              className="rounded-2xl shadow-xl w-full max-w-4xl mx-auto object-cover"
+              className="w-full object-cover shadow-xl"
             />
           </motion.div>
         </motion.div>
