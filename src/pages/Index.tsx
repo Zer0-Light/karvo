@@ -13,8 +13,8 @@ const Index = () => {
       transition={{ duration: 0.5 }}
     >
       <Hero />
-      <Features />
       <CarShowcase />
+      <Features />
       <HowItWorks />
       
       <section className="py-24 bg-primary text-white">
