@@ -12,7 +12,7 @@ const cars = [
   },
   {
     name: "Tesla Model S",
-    image: "/images/tesla.jpg",
+    image: "/lovable-uploads/101fe907-60d5-4140-a031-4f82b3da6079.png",
     price: "249",
     type: "Electric Luxury",
   },
