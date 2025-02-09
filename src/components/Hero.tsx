@@ -1,9 +1,18 @@
 
 import { motion } from "framer-motion";
+import { Input } from "./ui/input";
+import { Calendar } from "./ui/calendar";
+import { Button } from "./ui/button";
+import { Search } from "lucide-react";
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-white to-gray-50">
+    <section className="relative min-h-screen flex flex-col items-center justify-start overflow-hidden bg-gradient-to-b from-white to-gray-50">
+      {/* Logo */}
+      <div className="absolute top-8 left-8 z-20">
+        <h1 className="text-3xl font-bold text-primary">KARVO</h1>
+      </div>
+
       <div className="container mx-auto px-4 py-32 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -17,12 +26,37 @@ const Hero = () => {
           <h1 className="text-5xl md:text-7xl font-bold text-primary mb-6">
             Rent Premium Cars from Local Owners
           </h1>
-          <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
             Experience the future of car rental. Premium vehicles, seamless technology, and unmatched flexibility.
           </p>
-          <button className="bg-primary text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-primary/90 transition-all transform hover:scale-105">
-            Start Your Journey
-          </button>
+
+          {/* Search Section */}
+          <div className="bg-white rounded-full shadow-lg p-2 flex flex-col md:flex-row items-center gap-2 max-w-4xl mx-auto">
+            <div className="flex-1 min-w-[200px]">
+              <Input 
+                type="text" 
+                placeholder="City, airport, address or hotel" 
+                className="border-none focus-visible:ring-0 text-base"
+              />
+            </div>
+            <div className="flex-1 min-w-[150px]">
+              <Input 
+                type="text" 
+                placeholder="From" 
+                className="border-none focus-visible:ring-0 text-base"
+              />
+            </div>
+            <div className="flex-1 min-w-[150px]">
+              <Input 
+                type="text" 
+                placeholder="Until" 
+                className="border-none focus-visible:ring-0 text-base"
+              />
+            </div>
+            <Button size="icon" className="bg-accent hover:bg-accent/90 rounded-full w-12 h-12">
+              <Search className="h-5 w-5" />
+            </Button>
+          </div>
         </motion.div>
       </div>
       <div className="absolute inset-0 bg-[url('/images/pattern.svg')] opacity-5"></div>
