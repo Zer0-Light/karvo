@@ -57,6 +57,20 @@ const Hero = () => {
               <Search className="h-5 w-5" />
             </Button>
           </div>
+
+          {/* Hero Image */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="mt-12"
+          >
+            <img
+              src="/lovable-uploads/09957f3f-713e-4d24-9c6f-b3e8f135dc3e.png"
+              alt="People enjoying a car ride"
+              className="rounded-2xl shadow-xl w-full max-w-4xl mx-auto object-cover"
+            />
+          </motion.div>
         </motion.div>
       </div>
       <div className="absolute inset-0 bg-[url('/images/pattern.svg')] opacity-5"></div>
