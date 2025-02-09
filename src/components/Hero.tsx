@@ -63,7 +63,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="mt-12 -mx-4 md:-mx-8 lg:-mx-16 xl:-mx-32"
+            className="mt-12 -mx-8 md:-mx-16 lg:-mx-32 xl:-mx-48"
           >
             <img
               src="/lovable-uploads/09957f3f-713e-4d24-9c6f-b3e8f135dc3e.png"
