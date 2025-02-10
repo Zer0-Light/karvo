@@ -33,7 +33,7 @@ const Hero = () => {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-start overflow-hidden bg-gradient-to-b from-white to-gray-50">
       {/* Logo and Become a Host */}
-      <div className="absolute top-8 w-full px-8 flex justify-between items-center z-20">
+      <div className="absolute top-8 w-full px-4 md:px-8 flex justify-between items-center z-20">
         <h1 className="text-3xl font-bold text-primary">KARVO</h1>
         <Button 
           variant="outline" 
@@ -43,7 +43,7 @@ const Hero = () => {
         </Button>
       </div>
 
-      <div className="w-full px-4 py-32 relative z-10">
+      <div className="w-full px-4 py-24 md:py-32 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -53,31 +53,31 @@ const Hero = () => {
           <span className="px-4 py-2 rounded-full bg-accent/10 text-accent text-sm font-medium mb-6 inline-block">
             Redefining Car Rental in the Middle East
           </span>
-          <h1 className="text-5xl md:text-7xl font-bold text-primary mb-6">
+          <h1 className="text-4xl md:text-7xl font-bold text-primary mb-6">
             Car Rentals, Reimagined.
           </h1>
-          <p className="text-lg md:text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-gray-600 mb-8 md:mb-12 max-w-2xl mx-auto">
             Rent the car you want, wherever you want
           </p>
 
           {/* Search Section */}
-          <div className="bg-white rounded-full shadow-lg p-2 flex flex-col md:flex-row items-center gap-2 max-w-4xl mx-auto">
+          <div className="bg-white rounded-2xl md:rounded-full shadow-lg p-4 md:p-2 flex flex-col md:flex-row items-stretch md:items-center gap-3 w-full max-w-4xl mx-auto">
             {/* Location Autocomplete */}
-            <div className="flex-1 min-w-[200px]">
+            <div className="flex-1">
               <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-full justify-between border-none hover:bg-transparent"
+                    className="w-full justify-between border border-gray-200 hover:bg-transparent"
                   >
                     {location
                       ? airports.find((airport) => airport.code === location)?.name
                       : "Select airport..."}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-[400px] p-0">
+                <PopoverContent className="w-[300px] md:w-[400px] p-0">
                   <Command>
                     <CommandInput placeholder="Search airports..." />
                     <CommandEmpty>No airport found.</CommandEmpty>
@@ -104,13 +104,13 @@ const Hero = () => {
             </div>
 
             {/* Start Date Calendar */}
-            <div className="flex-1 min-w-[150px]">
+            <div className="flex-1">
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
                     className={cn(
-                      "w-full justify-start text-left font-normal border-none hover:bg-transparent",
+                      "w-full justify-start text-left font-normal border border-gray-200 hover:bg-transparent",
                       !startDate && "text-muted-foreground"
                     )}
                   >
@@ -129,13 +129,13 @@ const Hero = () => {
             </div>
 
             {/* End Date Calendar */}
-            <div className="flex-1 min-w-[150px]">
+            <div className="flex-1">
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
                     className={cn(
-                      "w-full justify-start text-left font-normal border-none hover:bg-transparent",
+                      "w-full justify-start text-left font-normal border border-gray-200 hover:bg-transparent",
                       !endDate && "text-muted-foreground"
                     )}
                   >
@@ -153,7 +153,7 @@ const Hero = () => {
               </Popover>
             </div>
 
-            <Button size="icon" className="bg-accent hover:bg-accent/90 rounded-full w-12 h-12">
+            <Button size="icon" className="bg-accent hover:bg-accent/90 rounded-full w-full md:w-12 h-12">
               <Search className="h-5 w-5" />
             </Button>
           </div>
@@ -163,7 +163,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="mt-12 -mx-8 md:-mx-16 lg:-mx-32 xl:-mx-48"
+            className="mt-12 -mx-4 md:-mx-16 lg:-mx-32 xl:-mx-48"
           >
             <img
               src="/lovable-uploads/09957f3f-713e-4d24-9c6f-b3e8f135dc3e.png"
@@ -179,3 +179,4 @@ const Hero = () => {
 };
 
 export default Hero;
+
