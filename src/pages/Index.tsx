@@ -4,7 +4,6 @@ import Hero from "../components/Hero";
 import Features from "../components/Features";
 import CarShowcase from "../components/CarShowcase";
 import HowItWorks from "../components/HowItWorks";
-import Navigation from "../components/Navigation";
 
 const Index = () => {
   return (
@@ -12,9 +11,7 @@ const Index = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="pt-16" // Add padding top to account for fixed navigation
     >
-      <Navigation />
       <Hero />
       
       {/* Drive Terms Section */}
