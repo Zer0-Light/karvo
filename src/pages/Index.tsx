@@ -131,7 +131,7 @@ const Index = () => {
                   <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    transition={{ duration: 2, ease: "easeOut" }}
                   >
                     <p>Yes! Additional drivers are allowed on Karvo as long as they meet the approval requirements.</p>
                     <ul className="list-disc pl-5 mt-2 space-y-2">
