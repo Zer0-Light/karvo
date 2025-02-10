@@ -4,8 +4,6 @@ import { Menu, LogIn, UserPlus, Car, HelpCircle, Gift, Headphones, FileText, Shi
 import {
   Sheet,
   SheetContent,
-  SheetHeader,
-  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -33,10 +31,7 @@ const MainMenu = () => {
             <Menu className="h-5 w-5" />
           </Button>
         </SheetTrigger>
-        <SheetContent className="w-[300px] h-[90vh] mt-4 rounded-xl" style={{ backgroundColor: 'white' }}>
-          <SheetHeader>
-            <SheetTitle>Menu</SheetTitle>
-          </SheetHeader>
+        <SheetContent className="w-[300px] h-[80vh] mt-4 rounded-xl" style={{ backgroundColor: 'white' }}>
           <Separator className="my-4" />
           <nav className="flex flex-col space-y-4">
             {menuItems.map((item) => (
