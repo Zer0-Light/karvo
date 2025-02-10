@@ -33,7 +33,7 @@ const MainMenu = () => {
             <Menu className="h-5 w-5" />
           </Button>
         </SheetTrigger>
-        <SheetContent className="w-[300px]">
+        <SheetContent className="w-[300px] h-[90vh] mt-4 rounded-xl" style={{ backgroundColor: 'white' }}>
           <SheetHeader>
             <SheetTitle>Menu</SheetTitle>
           </SheetHeader>
