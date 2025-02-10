@@ -58,7 +58,7 @@ const Navigation = () => {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <SidebarTrigger className="p-2 hover:bg-gray-100 rounded-full">
-              <Menu className="h-6 w-6" />
+              <Menu className="h-5 w-5" />
             </SidebarTrigger>
             <Button variant="ghost" className="text-primary hover:bg-primary/5">
               Become a Host
@@ -69,22 +69,22 @@ const Navigation = () => {
       </div>
 
       <Sidebar>
-        <SidebarContent className="pt-16">
-          <div className="flex flex-col space-y-2 p-4">
-            <div className="space-y-4 mb-6">
-              <Button variant="ghost" className="w-full justify-start text-lg">Log in</Button>
-              <Button variant="ghost" className="w-full justify-start text-lg">Sign up</Button>
+        <SidebarContent className="w-[250px] max-w-[80vw] pt-16">
+          <div className="flex flex-col space-y-2 p-3">
+            <div className="space-y-3 mb-4">
+              <Button variant="ghost" className="w-full justify-start text-base">Log in</Button>
+              <Button variant="ghost" className="w-full justify-start text-base">Sign up</Button>
             </div>
-            <div className="space-y-2">
+            <div className="space-y-1">
               {menuItems.map((item) => (
                 <Button
                   key={item.title}
                   variant="ghost"
-                  className="w-full justify-start gap-3 text-gray-700 hover:text-primary"
+                  className="w-full justify-start gap-2 text-gray-700 hover:text-primary text-sm py-2"
                   asChild
                 >
                   <a href={item.href}>
-                    <item.icon className="h-5 w-5" />
+                    <item.icon className="h-4 w-4" />
                     {item.title}
                   </a>
                 </Button>
