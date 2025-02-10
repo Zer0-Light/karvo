@@ -1,11 +1,35 @@
 
 import { motion } from "framer-motion";
 import { Input } from "./ui/input";
-import { Calendar } from "./ui/calendar";
 import { Button } from "./ui/button";
 import { Search } from "lucide-react";
+import { Calendar } from "./ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "./ui/command";
+import { format } from "date-fns";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+
+// Middle Eastern airports data
+const airports = [
+  { code: "DXB", name: "Dubai International Airport", city: "Dubai, UAE" },
+  { code: "AUH", name: "Abu Dhabi International Airport", city: "Abu Dhabi, UAE" },
+  { code: "DOH", name: "Hamad International Airport", city: "Doha, Qatar" },
+  { code: "MCT", name: "Muscat International Airport", city: "Muscat, Oman" },
+  { code: "KWI", name: "Kuwait International Airport", city: "Kuwait City, Kuwait" },
+  { code: "BAH", name: "Bahrain International Airport", city: "Manama, Bahrain" },
+  { code: "RUH", name: "King Khalid International Airport", city: "Riyadh, Saudi Arabia" },
+  { code: "JED", name: "King Abdulaziz International Airport", city: "Jeddah, Saudi Arabia" },
+  { code: "CAI", name: "Cairo International Airport", city: "Cairo, Egypt" },
+  { code: "AMM", name: "Queen Alia International Airport", city: "Amman, Jordan" },
+];
 
 const Hero = () => {
+  const [location, setLocation] = useState("");
+  const [startDate, setStartDate] = useState<Date>();
+  const [endDate, setEndDate] = useState<Date>();
+  const [open, setOpen] = useState(false);
+
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-start overflow-hidden bg-gradient-to-b from-white to-gray-50">
       {/* Logo and Become a Host */}
@@ -38,27 +62,97 @@ const Hero = () => {
 
           {/* Search Section */}
           <div className="bg-white rounded-full shadow-lg p-2 flex flex-col md:flex-row items-center gap-2 max-w-4xl mx-auto">
+            {/* Location Autocomplete */}
             <div className="flex-1 min-w-[200px]">
-              <Input 
-                type="text" 
-                placeholder="City, airport, address or hotel" 
-                className="border-none focus-visible:ring-0 text-base"
-              />
+              <Popover open={open} onOpenChange={setOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open}
+                    className="w-full justify-between border-none hover:bg-transparent"
+                  >
+                    {location
+                      ? airports.find((airport) => airport.code === location)?.name
+                      : "Select airport..."}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[400px] p-0">
+                  <Command>
+                    <CommandInput placeholder="Search airports..." />
+                    <CommandEmpty>No airport found.</CommandEmpty>
+                    <CommandGroup>
+                      {airports.map((airport) => (
+                        <CommandItem
+                          key={airport.code}
+                          value={airport.code}
+                          onSelect={(currentValue) => {
+                            setLocation(currentValue);
+                            setOpen(false);
+                          }}
+                        >
+                          <span>{airport.name}</span>
+                          <span className="ml-2 text-sm text-muted-foreground">
+                            ({airport.city})
+                          </span>
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
             </div>
+
+            {/* Start Date Calendar */}
             <div className="flex-1 min-w-[150px]">
-              <Input 
-                type="text" 
-                placeholder="From" 
-                className="border-none focus-visible:ring-0 text-base"
-              />
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full justify-start text-left font-normal border-none hover:bg-transparent",
+                      !startDate && "text-muted-foreground"
+                    )}
+                  >
+                    {startDate ? format(startDate, "PPP") : "From date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={startDate}
+                    onSelect={setStartDate}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
             </div>
+
+            {/* End Date Calendar */}
             <div className="flex-1 min-w-[150px]">
-              <Input 
-                type="text" 
-                placeholder="Until" 
-                className="border-none focus-visible:ring-0 text-base"
-              />
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full justify-start text-left font-normal border-none hover:bg-transparent",
+                      !endDate && "text-muted-foreground"
+                    )}
+                  >
+                    {endDate ? format(endDate, "PPP") : "Until date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={endDate}
+                    onSelect={setEndDate}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
             </div>
+
             <Button size="icon" className="bg-accent hover:bg-accent/90 rounded-full w-12 h-12">
               <Search className="h-5 w-5" />
             </Button>
