@@ -8,9 +8,15 @@ import { Search } from "lucide-react";
 const Hero = () => {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-start overflow-hidden bg-gradient-to-b from-white to-gray-50">
-      {/* Logo */}
-      <div className="absolute top-8 left-8 z-20">
+      {/* Logo and Become a Host */}
+      <div className="absolute top-8 w-full px-8 flex justify-between items-center z-20">
         <h1 className="text-3xl font-bold text-primary">KARVO</h1>
+        <Button 
+          variant="outline" 
+          className="bg-white hover:bg-accent/10 border-2 border-accent text-accent font-semibold rounded-full px-6"
+        >
+          Become a Host
+        </Button>
       </div>
 
       <div className="w-full px-4 py-32 relative z-10">
