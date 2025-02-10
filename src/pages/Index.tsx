@@ -15,7 +15,7 @@ const Index = () => {
       <Hero />
       
       {/* Drive Terms Section */}
-      <section className="py-24 bg-gradient-to-br from-white to-gray-50">
+      <section className="py-24 bg-gradient-to-br from-white to-gray-50 w-full">
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row items-center gap-12">
             <div className="lg:w-1/2 space-y-8">
