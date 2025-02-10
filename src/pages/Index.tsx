@@ -9,7 +9,7 @@ import FAQ from "../components/FAQ";
 
 const Index = () => {
   return (
-    <>
+    <div className="w-full">
       <MainSidebar />
       <motion.div
         initial={{ opacity: 0 }}
@@ -118,7 +118,7 @@ const Index = () => {
           </div>
         </section>
       </motion.div>
-    </>
+    </div>
   );
 };
 
