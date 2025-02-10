@@ -54,12 +54,6 @@ const BecomeHost = () => {
             >
               List your car
             </Button>
-            <Button 
-              variant="outline"
-              className="border-2 border-accent text-accent hover:bg-accent/10 text-lg px-8 py-6"
-            >
-              Calculate earnings
-            </Button>
           </div>
         </motion.div>
         
