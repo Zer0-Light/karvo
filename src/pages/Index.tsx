@@ -1,9 +1,11 @@
+
 import { motion } from "framer-motion";
 import Hero from "../components/Hero";
 import Features from "../components/Features";
 import CarShowcase from "../components/CarShowcase";
 import HowItWorks from "../components/HowItWorks";
 import MainSidebar from "../components/MainSidebar";
+import FAQ from "../components/FAQ";
 
 const Index = () => {
   return (
@@ -102,6 +104,7 @@ const Index = () => {
         <HowItWorks />
         <CarShowcase />
         <Features />
+        <FAQ />
         
         <section className="py-24 bg-primary text-white">
           <div className="container mx-auto px-4 text-center">
