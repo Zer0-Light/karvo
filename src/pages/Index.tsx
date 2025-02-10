@@ -88,8 +88,8 @@ const Index = () => {
         </div>
       </section>
       
-      <CarShowcase />
       <Features />
+      <CarShowcase />
       <HowItWorks />
       
       <section className="py-24 bg-primary text-white">
