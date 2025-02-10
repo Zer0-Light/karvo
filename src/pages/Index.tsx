@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import Hero from "../components/Hero";
 import Features from "../components/Features";
@@ -10,108 +11,131 @@ const Index = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
+      className="relative"
     >
-      {/* Promo Banner */}
-      <motion.div 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="bg-accent text-white py-3 text-center font-medium"
-      >
-        First-time riders get 15% off—your adventure starts for less! 🚗💨
-      </motion.div>
-      
-      <Hero />
-      
-      {/* Drive Terms Section */}
-      <section className="py-24 bg-gradient-to-br from-white to-gray-100 w-full">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row items-center gap-12">
-            <div className="lg:w-1/2 space-y-8">
-              <motion.h2 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="text-4xl md:text-5xl font-bold text-primary leading-tight"
-              >
-                Ditch the rental counter—drive on your terms.
-              </motion.h2>
-              
+      {/* Animated Background */}
+      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0">
+          {[...Array(20)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute h-[1px] w-[100px] bg-accent/10"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                transform: `rotate(${Math.random() * 360}deg)`,
+                animation: `moveLines ${5 + Math.random() * 5}s linear infinite`,
+                animationDelay: `${Math.random() * 5}s`,
+              }}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10">
+        {/* Promo Banner */}
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-accent text-white py-3 text-center font-medium"
+        >
+          First-time riders get 15% off—your adventure starts for less! 🚗💨
+        </motion.div>
+        
+        <Hero />
+        
+        {/* Drive Terms Section */}
+        <section className="py-24 bg-gradient-to-br from-white/80 to-gray-100/80 backdrop-blur-sm w-full">
+          <div className="container mx-auto px-4">
+            <div className="flex flex-col lg:flex-row items-center gap-12">
+              <div className="lg:w-1/2 space-y-8">
+                <motion.h2 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="text-4xl md:text-5xl font-bold text-primary leading-tight"
+                >
+                  Ditch the rental counter—drive on your terms.
+                </motion.h2>
+                
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  className="space-y-6"
+                >
+                  <p className="text-lg text-gray-600 mb-8">
+                    Choose from a wide range of cars, wherever you need them.
+                  </p>
+                  
+                  <ul className="space-y-4">
+                    <li className="flex items-start gap-3">
+                      <div className="h-6 w-6 rounded-full bg-accent/10 flex items-center justify-center mt-1">
+                        <div className="h-2 w-2 rounded-full bg-accent"></div>
+                      </div>
+                      <span className="text-gray-600">
+                        Convenient airport pickups in the UAE, Oman, Qatar, Kuwait
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <div className="h-6 w-6 rounded-full bg-accent/10 flex items-center justify-center mt-1">
+                        <div className="h-2 w-2 rounded-full bg-accent"></div>
+                      </div>
+                      <span className="text-gray-600">
+                        Skip the lines—book, find, and unlock your car with the app
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <div className="h-6 w-6 rounded-full bg-accent/10 flex items-center justify-center mt-1">
+                        <div className="h-2 w-2 rounded-full bg-accent"></div>
+                      </div>
+                      <span className="text-gray-600">
+                        24/7 support for a hassle-free experience
+                      </span>
+                    </li>
+                  </ul>
+                  
+                  <p className="text-xl font-semibold text-primary mt-8">
+                    Your ride, your way.
+                  </p>
+                </motion.div>
+              </div>
+
+              {/* Image */}
               <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="space-y-6"
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="lg:w-1/2"
               >
-                <p className="text-lg text-gray-600 mb-8">
-                  Choose from a wide range of cars, wherever you need them.
-                </p>
-                
-                <ul className="space-y-4">
-                  <li className="flex items-start gap-3">
-                    <div className="h-6 w-6 rounded-full bg-accent/10 flex items-center justify-center mt-1">
-                      <div className="h-2 w-2 rounded-full bg-accent"></div>
-                    </div>
-                    <span className="text-gray-600">
-                      Convenient airport pickups in the UAE, Oman, Qatar, Kuwait
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="h-6 w-6 rounded-full bg-accent/10 flex items-center justify-center mt-1">
-                      <div className="h-2 w-2 rounded-full bg-accent"></div>
-                    </div>
-                    <span className="text-gray-600">
-                      Skip the lines—book, find, and unlock your car with the app
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="h-6 w-6 rounded-full bg-accent/10 flex items-center justify-center mt-1">
-                      <div className="h-2 w-2 rounded-full bg-accent"></div>
-                    </div>
-                    <span className="text-gray-600">
-                      24/7 support for a hassle-free experience
-                    </span>
-                  </li>
-                </ul>
-                
-                <p className="text-xl font-semibold text-primary mt-8">
-                  Your ride, your way.
-                </p>
+                <img
+                  src="/lovable-uploads/3ae54749-b797-49c4-9011-645aac2c7885.png"
+                  alt="World map illustration showing global car rental locations"
+                  className="w-full h-auto rounded-2xl"
+                />
               </motion.div>
             </div>
-
-            {/* Image */}
-            <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="lg:w-1/2"
-            >
-              <img
-                src="/lovable-uploads/3ae54749-b797-49c4-9011-645aac2c7885.png"
-                alt="World map illustration showing global car rental locations"
-                className="w-full h-auto rounded-2xl"
-              />
-            </motion.div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <HowItWorks />
-      <CarShowcase />
-      <Features />
-      
-      <section className="py-24 bg-primary text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-8">Ready to Get Started?</h2>
-          <p className="text-xl mb-12 opacity-90 max-w-2xl mx-auto">
-            Join thousands of satisfied users who have already discovered the future of car rental.
-          </p>
-          <button className="bg-white text-primary px-8 py-4 rounded-full text-lg font-medium hover:bg-gray-100 transition-all transform hover:scale-105">
-            Download Karvo App
-          </button>
-        </div>
-      </section>
+        <HowItWorks />
+        <CarShowcase />
+        <Features />
+        
+        <section className="py-24 bg-primary/95 backdrop-blur-sm text-white relative z-10">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-4xl font-bold mb-8">Ready to Get Started?</h2>
+            <p className="text-xl mb-12 opacity-90 max-w-2xl mx-auto">
+              Join thousands of satisfied users who have already discovered the future of car rental.
+            </p>
+            <button className="bg-white text-primary px-8 py-4 rounded-full text-lg font-medium hover:bg-gray-100 transition-all transform hover:scale-105">
+              Download Karvo App
+            </button>
+          </div>
+        </section>
+      </div>
     </motion.div>
   );
 };
