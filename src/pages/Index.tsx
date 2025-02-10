@@ -12,7 +12,20 @@ const Index = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
+      {/* Promo Banner */}
+      <motion.div 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="bg-accent text-white py-3 text-center font-medium"
+      >
+        First-time riders get 15% off—your adventure starts for less! 🚗💨
+      </motion.div>
+      
       <Hero />
+      <Features />
+      <CarShowcase />
+      <HowItWorks />
       
       {/* Drive Terms Section */}
       <section className="py-24 bg-gradient-to-br from-white to-gray-50 w-full">
@@ -87,10 +100,6 @@ const Index = () => {
           </div>
         </div>
       </section>
-      
-      <Features />
-      <CarShowcase />
-      <HowItWorks />
       
       <section className="py-24 bg-primary text-white">
         <div className="container mx-auto px-4 text-center">
