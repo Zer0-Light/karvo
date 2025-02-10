@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -9,6 +8,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "
 import { format } from "date-fns";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
 
 // Middle Eastern airports data
 const airports = [
@@ -25,6 +25,7 @@ const airports = [
 ];
 
 const Hero = () => {
+  const navigate = useNavigate();
   const [location, setLocation] = useState("");
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
@@ -38,6 +39,7 @@ const Hero = () => {
         <Button 
           variant="outline" 
           className="bg-white hover:bg-accent/10 border-2 border-accent text-accent font-semibold rounded-full px-6"
+          onClick={() => navigate("/become-host")}
         >
           Become a Host
         </Button>
