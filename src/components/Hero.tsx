@@ -33,7 +33,7 @@ const Hero = () => {
             Car Rentals, Reimagined.
           </h1>
           <p className="text-lg md:text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
-            Rent the car you want, wherever you want
+            Experience the future of car rental. Premium vehicles, seamless technology, and unmatched flexibility.
           </p>
 
           {/* Search Section */}
