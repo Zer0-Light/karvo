@@ -129,9 +129,9 @@ const Index = () => {
                 </AccordionTrigger>
                 <AccordionContent className="px-6 text-gray-600">
                   <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
                   >
                     <p>Yes! Additional drivers are allowed on Karvo as long as they meet the approval requirements.</p>
                     <ul className="list-disc pl-5 mt-2 space-y-2">
@@ -149,9 +149,9 @@ const Index = () => {
                 </AccordionTrigger>
                 <AccordionContent className="px-6 text-gray-600">
                   <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.3 }}
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
                   >
                     <p>Karvo offers exclusive discounts for weekly and monthly trips, helping you save when you book for longer periods.</p>
                     <p className="font-medium mt-4">Stay updated on deals & offers:</p>
