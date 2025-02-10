@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Menu } from "lucide-react";
+import { Menu, LogIn, UserPlus, Car, HelpCircle, Gift, Headphones, FileText, Shield, Wrench, Calculator } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -13,10 +13,16 @@ import { Separator } from "@/components/ui/separator";
 
 const MainMenu = () => {
   const menuItems = [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '#about' },
-    { name: 'Features', href: '#features' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Log in', href: '#', icon: LogIn },
+    { name: 'Sign up', href: '#', icon: UserPlus },
+    { name: 'Become a host', href: '#', icon: Car },
+    { name: 'How Turo works', href: '#', icon: HelpCircle },
+    { name: 'Gift cards', href: '#', icon: Gift },
+    { name: 'Contact support', href: '#', icon: Headphones },
+    { name: 'Legal', href: '#', icon: FileText },
+    { name: 'Insurance & protection', href: '#', icon: Shield },
+    { name: 'Host tools', href: '#', icon: Wrench },
+    { name: 'Calculator', href: '#', icon: Calculator },
   ];
 
   return (
@@ -37,9 +43,10 @@ const MainMenu = () => {
               <a
                 key={item.name}
                 href={item.href}
-                className="text-lg hover:text-primary transition-colors"
+                className="flex items-center gap-3 text-lg hover:text-primary transition-colors"
               >
-                {item.name}
+                <item.icon className="h-5 w-5" />
+                <span>{item.name}</span>
               </a>
             ))}
           </nav>
