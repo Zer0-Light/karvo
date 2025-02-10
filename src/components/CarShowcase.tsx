@@ -5,6 +5,12 @@ import { useState } from "react";
 
 const cars = [
   {
+    name: "Tesla Model S",
+    image: "/lovable-uploads/101fe907-60d5-4140-a031-4f82b3da6079.png",
+    price: "249",
+    type: "Electric Luxury",
+  },
+  {
     name: "Mercedes-Benz S-Class",
     image: "/lovable-uploads/817a1468-13e5-4f50-8aec-8af223f60317.png",
     price: "329",
@@ -15,12 +21,6 @@ const cars = [
     image: "/lovable-uploads/c6fbb849-d6d6-488b-8758-8d24c9ebd615.png",
     price: "299",
     type: "Luxury Sedan",
-  },
-  {
-    name: "Tesla Model S",
-    image: "/lovable-uploads/101fe907-60d5-4140-a031-4f82b3da6079.png",
-    price: "249",
-    type: "Electric Luxury",
   },
 ];
 
