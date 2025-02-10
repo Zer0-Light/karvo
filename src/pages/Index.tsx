@@ -24,8 +24,8 @@ const Index = () => {
       
       <Hero />
       <HowItWorks />
-      <Features />
       <CarShowcase />
+      <Features />
       
       {/* Drive Terms Section */}
       <section className="py-24 bg-gradient-to-br from-white to-gray-50 w-full">
