@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -51,7 +50,7 @@ const Hero = () => {
           className="text-center max-w-4xl mx-auto"
         >
           <span className="px-4 py-2 rounded-full bg-accent/10 text-accent text-sm font-medium mb-6 inline-block">
-            Redefining Car Rental in the Middle East
+            Beta • Redefining Car Rental in the Middle East
           </span>
           <h1 className="text-4xl md:text-7xl font-bold text-primary mb-6">
             Car Rentals, Reimagined.
@@ -179,4 +178,3 @@ const Hero = () => {
 };
 
 export default Hero;
-
