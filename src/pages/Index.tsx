@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import Hero from "../components/Hero";
 import Features from "../components/Features";
@@ -129,12 +128,18 @@ const Index = () => {
                   Can other people drive a car I rented?
                 </AccordionTrigger>
                 <AccordionContent className="px-6 text-gray-600">
-                  <p>Yes! Additional drivers are allowed on Karvo as long as they meet the approval requirements.</p>
-                  <ul className="list-disc pl-5 mt-2 space-y-2">
-                    <li>The primary renter (the person who books the car) can add extra drivers at no additional cost.</li>
-                    <li>The added driver must have a valid driver's license and meet the age requirements for the rented car.</li>
-                    <li>For faster approval, have the additional driver create a Karvo account and get approved before the trip. In the US and Canada, guests can also request to add a driver while the trip is in progress.</li>
-                  </ul>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <p>Yes! Additional drivers are allowed on Karvo as long as they meet the approval requirements.</p>
+                    <ul className="list-disc pl-5 mt-2 space-y-2">
+                      <li>The primary renter (the person who books the car) can add extra drivers at no additional cost.</li>
+                      <li>The added driver must have a valid driver's license and meet the age requirements for the rented car.</li>
+                      <li>For faster approval, have the additional driver create a Karvo account and get approved before the trip. In the US and Canada, guests can also request to add a driver while the trip is in progress.</li>
+                    </ul>
+                  </motion.div>
                 </AccordionContent>
               </AccordionItem>
 
@@ -143,12 +148,18 @@ const Index = () => {
                   How do I get discounts when booking a car?
                 </AccordionTrigger>
                 <AccordionContent className="px-6 text-gray-600">
-                  <p>Karvo offers exclusive discounts for weekly and monthly trips, helping you save when you book for longer periods.</p>
-                  <p className="font-medium mt-4">Stay updated on deals & offers:</p>
-                  <ul className="list-disc pl-5 mt-2 space-y-2">
-                    <li>Enable email and push notifications in your Karvo app to receive promotions and discounts.</li>
-                    <li>Earn rewards through Karvo's loyalty program—take trips totaling 10 days in a 90-day period and unlock a free rental day!</li>
-                  </ul>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <p>Karvo offers exclusive discounts for weekly and monthly trips, helping you save when you book for longer periods.</p>
+                    <p className="font-medium mt-4">Stay updated on deals & offers:</p>
+                    <ul className="list-disc pl-5 mt-2 space-y-2">
+                      <li>Enable email and push notifications in your Karvo app to receive promotions and discounts.</li>
+                      <li>Earn rewards through Karvo's loyalty program—take trips totaling 10 days in a 90-day period and unlock a free rental day!</li>
+                    </ul>
+                  </motion.div>
                 </AccordionContent>
               </AccordionItem>
 
@@ -157,8 +168,14 @@ const Index = () => {
                   What payment methods does Karvo accept?
                 </AccordionTrigger>
                 <AccordionContent className="px-6 text-gray-600">
-                  <p>Karvo accepts most major credit and debit cards from financial institutions, including Visa, Mastercard, American Express, and Discover.</p>
-                  <p className="mt-2">📲Mobile payment options like Apple Pay and Google Pay are also accepted. However, Karvo does not accept cash, checks, or prepaid cards as payment methods.</p>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <p>Karvo accepts most major credit and debit cards from financial institutions, including Visa, Mastercard, American Express, and Discover.</p>
+                    <p className="mt-2">📲Mobile payment options like Apple Pay and Google Pay are also accepted. However, Karvo does not accept cash, checks, or prepaid cards as payment methods.</p>
+                  </motion.div>
                 </AccordionContent>
               </AccordionItem>
 
@@ -167,13 +184,19 @@ const Index = () => {
                   What is Karvo's cancellation policy?
                 </AccordionTrigger>
                 <AccordionContent className="px-6 text-gray-600">
-                  <p>We get it—plans change! Karvo offers flexible cancellation options:</p>
-                  <ul className="list-disc pl-5 mt-2 space-y-2">
-                    <li>Cancel up to 24 hours before your trip for a full refund (unless you've chosen a non-refundable discount).</li>
-                    <li>If your trip starts within 24 hours, you have one hour after booking to cancel for free.</li>
-                    <li>If you cancel after the free period, a cancellation fee may apply.</li>
-                    <li>In the rare case that a host cancels, Karvo will notify you immediately so you can rebook another car or request a refund.</li>
-                  </ul>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <p>We get it—plans change! Karvo offers flexible cancellation options:</p>
+                    <ul className="list-disc pl-5 mt-2 space-y-2">
+                      <li>Cancel up to 24 hours before your trip for a full refund (unless you've chosen a non-refundable discount).</li>
+                      <li>If your trip starts within 24 hours, you have one hour after booking to cancel for free.</li>
+                      <li>If you cancel after the free period, a cancellation fee may apply.</li>
+                      <li>In the rare case that a host cancels, Karvo will notify you immediately so you can rebook another car or request a refund.</li>
+                    </ul>
+                  </motion.div>
                 </AccordionContent>
               </AccordionItem>
 
@@ -182,7 +205,13 @@ const Index = () => {
                   What are Karvo's cleaning and safety policies?
                 </AccordionTrigger>
                 <AccordionContent className="px-6 text-gray-600">
-                  Under Karvo's enhanced cleaning policy, hosts must thoroughly disinfect their vehicles before every trip to ensure a clean and safe driving experience. Karvo also provides hosts with up-to-date cleaning guidelines to help prevent the spread of viruses and bacteria.
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    Under Karvo's enhanced cleaning policy, hosts must thoroughly disinfect their vehicles before every trip to ensure a clean and safe driving experience. Karvo also provides hosts with up-to-date cleaning guidelines to help prevent the spread of viruses and bacteria.
+                  </motion.div>
                 </AccordionContent>
               </AccordionItem>
 
@@ -191,11 +220,17 @@ const Index = () => {
                   Can I get my car delivered to me?
                 </AccordionTrigger>
                 <AccordionContent className="px-6 text-gray-600">
-                  <p>Yes! Many Karvo hosts offer delivery to airports, train stations, hotels, or custom locations for your convenience.</p>
-                  <ul className="list-disc pl-5 mt-2 space-y-2">
-                    <li>Near major airports? Get your car delivered for easy pickup and drop-off.</li>
-                    <li>Prefer a doorstep delivery? Some hosts offer free vehicle delivery, while others may charge a small fee.</li>
-                  </ul>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <p>Yes! Many Karvo hosts offer delivery to airports, train stations, hotels, or custom locations for your convenience.</p>
+                    <ul className="list-disc pl-5 mt-2 space-y-2">
+                      <li>Near major airports? Get your car delivered for easy pickup and drop-off.</li>
+                      <li>Prefer a doorstep delivery? Some hosts offer free vehicle delivery, while others may charge a small fee.</li>
+                    </ul>
+                  </motion.div>
                 </AccordionContent>
               </AccordionItem>
 
@@ -204,11 +239,17 @@ const Index = () => {
                   Can I drive unlimited miles during my trip?
                 </AccordionTrigger>
                 <AccordionContent className="px-6 text-gray-600">
-                  <p>Some Karvo hosts offer unlimited mileage, while others set a daily distance limit.</p>
-                  <ul className="list-disc pl-5 mt-2 space-y-2">
-                    <li>You can check the total miles or kilometers included in your trip under the "Distance Included" section on the vehicle page.</li>
-                    <li>Want unlimited miles? Use the "Unlimited Distance" filter to find cars offering this option.</li>
-                  </ul>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <p>Some Karvo hosts offer unlimited mileage, while others set a daily distance limit.</p>
+                    <ul className="list-disc pl-5 mt-2 space-y-2">
+                      <li>You can check the total miles or kilometers included in your trip under the "Distance Included" section on the vehicle page.</li>
+                      <li>Want unlimited miles? Use the "Unlimited Distance" filter to find cars offering this option.</li>
+                    </ul>
+                  </motion.div>
                 </AccordionContent>
               </AccordionItem>
 
@@ -217,8 +258,14 @@ const Index = () => {
                   Are there cars available near the airport?
                 </AccordionTrigger>
                 <AccordionContent className="px-6 text-gray-600">
-                  <p>Absolutely! Many Karvo hosts provide vehicles at or near major airports.</p>
-                  <p className="mt-2">Arriving at the airport? Have your car delivered and ready for pickup at your terminal, hotel, or vacation rental for a seamless experience.</p>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <p>Absolutely! Many Karvo hosts provide vehicles at or near major airports.</p>
+                    <p className="mt-2">Arriving at the airport? Have your car delivered and ready for pickup at your terminal, hotel, or vacation rental for a seamless experience.</p>
+                  </motion.div>
                 </AccordionContent>
               </AccordionItem>
 
@@ -227,8 +274,14 @@ const Index = () => {
                   Is Karvo a rental car company?
                 </AccordionTrigger>
                 <AccordionContent className="px-6 text-gray-600">
-                  <p>No, Karvo is not a traditional rental car company. It's a peer-to-peer car-sharing marketplace, connecting travelers with local car owners in the Middle East</p>
-                  <p className="mt-2">Unlike corporate rental agencies, Karvo hosts set their own pricing, availability, and delivery options, giving you more flexibility, more variety, and a smoother experience.</p>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <p>No, Karvo is not a traditional rental car company. It's a peer-to-peer car-sharing marketplace, connecting travelers with local car owners in the Middle East</p>
+                    <p className="mt-2">Unlike corporate rental agencies, Karvo hosts set their own pricing, availability, and delivery options, giving you more flexibility, more variety, and a smoother experience.</p>
+                  </motion.div>
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
