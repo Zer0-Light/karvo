@@ -1,8 +1,10 @@
+
 import { motion } from "framer-motion";
 import Hero from "../components/Hero";
 import Features from "../components/Features";
 import CarShowcase from "../components/CarShowcase";
 import HowItWorks from "../components/HowItWorks";
+import MainMenu from "../components/MainMenu";
 
 const Index = () => {
   return (
@@ -21,6 +23,7 @@ const Index = () => {
         First-time riders get 15% off—your adventure starts for less! 🚗💨
       </motion.div>
       
+      <MainMenu />
       <Hero />
       
       {/* Drive Terms Section */}
