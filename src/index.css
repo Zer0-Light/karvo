@@ -88,15 +88,6 @@
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
-
-  @keyframes moveLines {
-    0% {
-      transform: translateX(-100%) rotate(var(--rotation));
-    }
-    100% {
-      transform: translateX(200%) rotate(var(--rotation));
-    }
-  }
 }
 
 @layer base {

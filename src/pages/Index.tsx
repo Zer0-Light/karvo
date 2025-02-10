@@ -1,39 +1,19 @@
-
 import { motion } from "framer-motion";
 import Hero from "../components/Hero";
 import Features from "../components/Features";
 import CarShowcase from "../components/CarShowcase";
 import HowItWorks from "../components/HowItWorks";
+import MainSidebar from "../components/MainSidebar";
 
 const Index = () => {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className="relative"
-    >
-      {/* Animated Background */}
-      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute inset-0">
-          {[...Array(20)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute h-[1px] w-[100px] bg-accent/10"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                transform: `rotate(${Math.random() * 360}deg)`,
-                animation: `moveLines ${5 + Math.random() * 5}s linear infinite`,
-                animationDelay: `${Math.random() * 5}s`,
-              }}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="relative z-10">
+    <>
+      <MainSidebar />
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         {/* Promo Banner */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
@@ -47,7 +27,7 @@ const Index = () => {
         <Hero />
         
         {/* Drive Terms Section */}
-        <section className="py-24 bg-gradient-to-br from-white/80 to-gray-100/80 backdrop-blur-sm w-full">
+        <section className="py-24 bg-gradient-to-br from-white to-gray-100 w-full">
           <div className="container mx-auto px-4">
             <div className="flex flex-col lg:flex-row items-center gap-12">
               <div className="lg:w-1/2 space-y-8">
@@ -102,8 +82,7 @@ const Index = () => {
                   </p>
                 </motion.div>
               </div>
-
-              {/* Image */}
+              
               <motion.div 
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -119,12 +98,12 @@ const Index = () => {
             </div>
           </div>
         </section>
-
+        
         <HowItWorks />
         <CarShowcase />
         <Features />
         
-        <section className="py-24 bg-primary/95 backdrop-blur-sm text-white relative z-10">
+        <section className="py-24 bg-primary text-white">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-4xl font-bold mb-8">Ready to Get Started?</h2>
             <p className="text-xl mb-12 opacity-90 max-w-2xl mx-auto">
@@ -135,8 +114,8 @@ const Index = () => {
             </button>
           </div>
         </section>
-      </div>
-    </motion.div>
+      </motion.div>
+    </>
   );
 };
 
