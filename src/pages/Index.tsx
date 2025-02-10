@@ -23,9 +23,6 @@ const Index = () => {
       </motion.div>
       
       <Hero />
-      <HowItWorks />
-      <CarShowcase />
-      <Features />
       
       {/* Drive Terms Section */}
       <section className="py-24 bg-gradient-to-br from-white to-gray-50 w-full">
@@ -100,6 +97,10 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      <HowItWorks />
+      <CarShowcase />
+      <Features />
       
       <section className="py-24 bg-primary text-white">
         <div className="container mx-auto px-4 text-center">
