@@ -23,9 +23,9 @@ const Index = () => {
       </motion.div>
       
       <Hero />
+      <HowItWorks />
       <Features />
       <CarShowcase />
-      <HowItWorks />
       
       {/* Drive Terms Section */}
       <section className="py-24 bg-gradient-to-br from-white to-gray-50 w-full">
