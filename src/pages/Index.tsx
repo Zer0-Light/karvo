@@ -13,14 +13,12 @@ const Index = () => {
       transition={{ duration: 0.5 }}
     >
       <Hero />
-      <CarShowcase />
       
-      {/* New Drive Terms Section */}
+      {/* Drive Terms Section */}
       <section className="py-24 bg-gradient-to-br from-white to-gray-50">
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row items-center gap-12">
-            {/* Text Content */}
-            <div className="lg:w-1/2 space-y-8">
+            <div className="lg:w-2/3 mx-auto space-y-8">
               <motion.h2 
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -72,24 +70,11 @@ const Index = () => {
                 </p>
               </motion.div>
             </div>
-            
-            {/* Image */}
-            <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="lg:w-1/2"
-            >
-              <img
-                src="/lovable-uploads/817a1468-13e5-4f50-8aec-8af223f60317.png"
-                alt="Luxury car rental experience"
-                className="w-full h-auto rounded-2xl shadow-2xl"
-              />
-            </motion.div>
           </div>
         </div>
       </section>
       
+      <CarShowcase />
       <Features />
       <HowItWorks />
       
