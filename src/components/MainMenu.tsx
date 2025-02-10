@@ -16,7 +16,7 @@ const MainMenu = () => {
     { name: 'Log in', href: '#', icon: LogIn },
     { name: 'Sign up', href: '#', icon: UserPlus },
     { name: 'Become a host', href: '#', icon: Car },
-    { name: 'How Turo works', href: '#', icon: HelpCircle },
+    { name: 'How Karvo works', href: '#', icon: HelpCircle },
     { name: 'Gift cards', href: '#', icon: Gift },
     { name: 'Contact support', href: '#', icon: Headphones },
     { name: 'Legal', href: '#', icon: FileText },
