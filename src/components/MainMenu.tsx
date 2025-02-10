@@ -32,17 +32,18 @@ const MainMenu = () => {
           </Button>
         </SheetTrigger>
         <SheetContent className="w-[300px] h-[60vh] mt-4 rounded-xl" style={{ backgroundColor: 'white' }}>
-          <Separator className="my-4" />
           <nav className="flex flex-col space-y-4">
-            {menuItems.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="flex items-center gap-3 text-lg hover:text-primary transition-colors"
-              >
-                <item.icon className="h-5 w-5" />
-                <span>{item.name}</span>
-              </a>
+            {menuItems.map((item, index) => (
+              <React.Fragment key={item.name}>
+                <a
+                  href={item.href}
+                  className="flex items-center gap-3 text-lg hover:text-primary transition-colors"
+                >
+                  <item.icon className="h-5 w-5" />
+                  <span>{item.name}</span>
+                </a>
+                {index === 2 && <Separator className="my-4" />}
+              </React.Fragment>
             ))}
           </nav>
         </SheetContent>
