@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -32,7 +33,7 @@ const Hero = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-start overflow-hidden bg-[#FFFFFF]">
+    <section className="relative min-h-screen flex flex-col items-center justify-start bg-background">
       {/* Logo and Become a Host */}
       <div className="absolute top-8 w-full px-4 md:px-8 flex justify-between items-center z-20">
         <h1 className="text-3xl font-bold text-primary">KARVO</h1>
@@ -45,7 +46,7 @@ const Hero = () => {
         </Button>
       </div>
 
-      <div className="w-full px-4 py-24 md:py-32 relative z-10 bg-[#FFFFFF]">
+      <div className="w-full px-4 py-24 md:py-32 relative z-10 bg-background">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -175,7 +176,6 @@ const Hero = () => {
           </motion.div>
         </motion.div>
       </div>
-      <div className="absolute inset-0 bg-[url('/images/pattern.svg')] opacity-5 z-0"></div>
     </section>
   );
 };
