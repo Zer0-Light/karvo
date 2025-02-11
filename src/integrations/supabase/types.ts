@@ -67,11 +67,15 @@ export type Database = {
           created_at: string
           email_verified: boolean | null
           full_name: string | null
+          host_description: string | null
+          host_since: string | null
           id: string
           is_approved_to_drive: boolean | null
+          is_host: boolean
           join_date: string | null
           phone_number: string | null
           phone_verified: boolean | null
+          total_cars_listed: number | null
           updated_at: string
         }
         Insert: {
@@ -79,11 +83,15 @@ export type Database = {
           created_at?: string
           email_verified?: boolean | null
           full_name?: string | null
+          host_description?: string | null
+          host_since?: string | null
           id: string
           is_approved_to_drive?: boolean | null
+          is_host?: boolean
           join_date?: string | null
           phone_number?: string | null
           phone_verified?: boolean | null
+          total_cars_listed?: number | null
           updated_at?: string
         }
         Update: {
@@ -91,11 +99,15 @@ export type Database = {
           created_at?: string
           email_verified?: boolean | null
           full_name?: string | null
+          host_description?: string | null
+          host_since?: string | null
           id?: string
           is_approved_to_drive?: boolean | null
+          is_host?: boolean
           join_date?: string | null
           phone_number?: string | null
           phone_verified?: boolean | null
+          total_cars_listed?: number | null
           updated_at?: string
         }
         Relationships: []
