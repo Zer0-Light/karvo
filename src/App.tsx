@@ -19,9 +19,10 @@ const queryClient = new QueryClient();
 
 const MenuButton = () => {
   const location = useLocation();
-  const isAuthPage = location.pathname === '/login' || location.pathname === '/signup';
+  const hiddenPages = ['/login', '/signup', '/become-host'];
+  const shouldHideButton = hiddenPages.includes(location.pathname);
 
-  if (isAuthPage) return null;
+  if (shouldHideButton) return null;
 
   return (
     <div className="fixed top-4 right-4 z-50">
