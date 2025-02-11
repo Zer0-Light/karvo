@@ -4,8 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import MainMenu from "./components/MainMenu";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
@@ -24,13 +23,7 @@ const MenuButton = () => {
 
   if (shouldHideButton) return null;
 
-  return (
-    <div className="fixed top-4 right-4 z-50">
-      <Button variant="outline" size="icon" className="bg-white/90 backdrop-blur-sm">
-        <Menu className="h-5 w-5" />
-      </Button>
-    </div>
-  );
+  return <MainMenu />;
 };
 
 const App = () => (
