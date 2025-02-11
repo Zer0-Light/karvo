@@ -52,7 +52,8 @@ const MainMenu = () => {
 
   const getMenuItems = () => {
     const items = [
-      { name: isAuthenticated ? 'Log out' : 'Log in', 
+      { 
+        name: isAuthenticated ? 'Log out' : 'Log in', 
         href: '#', 
         icon: LogOut,
         onClick: isAuthenticated ? handleLogout : () => navigate("/login")
@@ -60,20 +61,70 @@ const MainMenu = () => {
     ];
 
     if (!isAuthenticated) {
-      items.push({ name: 'Sign up', href: '/signup', icon: Menu });
+      items.push({ 
+        name: 'Sign up', 
+        href: '/signup', 
+        icon: Menu,
+        onClick: () => navigate("/signup")
+      });
     }
 
     return [
       ...items,
-      { name: 'Search Rentals', href: '/search', icon: Search },
-      { name: 'Become a host', href: '/become-host', icon: Car },
-      { name: 'How Karvo works', href: '#', icon: HelpCircle },
-      { name: 'Gift cards', href: '#', icon: Gift },
-      { name: 'Contact support', href: '#', icon: Headphones },
-      { name: 'Legal', href: '#', icon: FileText },
-      { name: 'Insurance & protection', href: '#', icon: Shield },
-      { name: 'Host tools', href: '#', icon: Wrench },
-      { name: 'Calculator', href: '#', icon: Calculator },
+      { 
+        name: 'Search Rentals', 
+        href: '/search', 
+        icon: Search,
+        onClick: () => navigate("/search")
+      },
+      { 
+        name: 'Become a host', 
+        href: '/become-host', 
+        icon: Car,
+        onClick: () => navigate("/become-host")
+      },
+      { 
+        name: 'How Karvo works', 
+        href: '#', 
+        icon: HelpCircle,
+        onClick: () => {}
+      },
+      { 
+        name: 'Gift cards', 
+        href: '#', 
+        icon: Gift,
+        onClick: () => {}
+      },
+      { 
+        name: 'Contact support', 
+        href: '#', 
+        icon: Headphones,
+        onClick: () => {}
+      },
+      { 
+        name: 'Legal', 
+        href: '#', 
+        icon: FileText,
+        onClick: () => {}
+      },
+      { 
+        name: 'Insurance & protection', 
+        href: '#', 
+        icon: Shield,
+        onClick: () => {}
+      },
+      { 
+        name: 'Host tools', 
+        href: '#', 
+        icon: Wrench,
+        onClick: () => {}
+      },
+      { 
+        name: 'Calculator', 
+        href: '#', 
+        icon: Calculator,
+        onClick: () => {}
+      },
     ];
   };
 
@@ -93,11 +144,7 @@ const MainMenu = () => {
                   href={item.href}
                   onClick={(e) => {
                     e.preventDefault();
-                    if (item.onClick) {
-                      item.onClick();
-                    } else if (item.href.startsWith('/')) {
-                      navigate(item.href);
-                    }
+                    item.onClick();
                   }}
                   className="flex items-center gap-3 text-lg hover:text-primary transition-colors"
                 >
