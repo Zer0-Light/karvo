@@ -6,18 +6,68 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useNavigate } from "react-router-dom";
 import { UserPlus } from "lucide-react";
+import { supabase } from "@/lib/supabase";
+import { useToast } from "@/components/ui/use-toast";
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement signup logic
-    console.log("SignUp attempt with:", { name, email, password });
+    
+    if (password !== confirmPassword) {
+      toast({
+        variant: "destructive",
+        title: "Passwords do not match",
+        description: "Please make sure your passwords match",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: name,
+          },
+        },
+      });
+
+      if (error) {
+        toast({
+          variant: "destructive",
+          title: "Sign up failed",
+          description: error.message,
+        });
+        return;
+      }
+
+      if (data.user) {
+        toast({
+          title: "Success",
+          description: "Please check your email to confirm your account",
+        });
+        navigate("/login"); // Redirect to login page after successful signup
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "An error occurred",
+        description: "Please try again later",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -47,6 +97,7 @@ const SignUp = () => {
                 placeholder="John Doe"
                 required
                 className="mt-1"
+                disabled={isLoading}
               />
             </div>
 
@@ -60,6 +111,7 @@ const SignUp = () => {
                 placeholder="name@example.com"
                 required
                 className="mt-1"
+                disabled={isLoading}
               />
             </div>
 
@@ -73,6 +125,7 @@ const SignUp = () => {
                 placeholder="Create a password"
                 required
                 className="mt-1"
+                disabled={isLoading}
               />
             </div>
 
@@ -86,13 +139,14 @@ const SignUp = () => {
                 placeholder="Confirm your password"
                 required
                 className="mt-1"
+                disabled={isLoading}
               />
             </div>
           </div>
 
-          <Button type="submit" className="w-full">
+          <Button type="submit" className="w-full" disabled={isLoading}>
             <UserPlus className="mr-2" size={20} />
-            Sign up
+            {isLoading ? "Creating account..." : "Sign up"}
           </Button>
 
           <p className="text-center text-sm text-gray-600">
@@ -101,6 +155,7 @@ const SignUp = () => {
               type="button"
               onClick={() => navigate("/login")}
               className="text-accent hover:underline font-medium"
+              disabled={isLoading}
             >
               Sign in
             </button>
