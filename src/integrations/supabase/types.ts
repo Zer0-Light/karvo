@@ -39,6 +39,20 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "fk_receiver"
+            columns: ["receiver_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_sender"
+            columns: ["sender_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "messages_trip_id_fkey"
             columns: ["trip_id"]
             isOneToOne: false
