@@ -27,6 +27,15 @@ type Message = {
   is_read: boolean;
 };
 
+type MessageWithProfiles = Message & {
+  sender: {
+    full_name: string | null;
+  } | null;
+  receiver: {
+    full_name: string | null;
+  } | null;
+};
+
 type Conversation = {
   user_id: string;
   full_name: string | null;
@@ -66,7 +75,7 @@ const Inbox = () => {
       // Group messages by conversation
       const conversationsMap = new Map<string, Conversation>();
       
-      messages.forEach((message) => {
+      (messages as MessageWithProfiles[]).forEach((message) => {
         const otherUserId = message.sender_id === user.id ? message.receiver_id : message.sender_id;
         const otherUserProfile = message.sender_id === user.id ? message.receiver : message.sender;
         const existingConversation = conversationsMap.get(otherUserId);
