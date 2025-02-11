@@ -64,7 +64,7 @@ const Hero = () => {
           </p>
 
           {/* Search Section */}
-          <div className="bg-white rounded-2xl md:rounded-full shadow-lg p-4 md:p-2 flex flex-col md:flex-row items-stretch md:items-center gap-3 w-full max-w-4xl mx-auto">
+          <div className="bg-[#FFFFFF] rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] p-6 flex flex-col md:flex-row items-stretch md:items-center gap-4 w-full max-w-4xl mx-auto backdrop-blur-sm border border-gray-100">
             {/* Location Autocomplete */}
             <div className="flex-1">
               <Popover open={open} onOpenChange={setOpen}>
@@ -73,7 +73,7 @@ const Hero = () => {
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-full justify-between border border-gray-200 hover:bg-transparent"
+                    className="w-full justify-between rounded-xl bg-gray-50/80 border-0 hover:bg-gray-100/80 hover:text-primary transition-colors"
                   >
                     {location
                       ? airports.find((airport) => airport.code === location)?.name
@@ -113,7 +113,7 @@ const Hero = () => {
                   <Button
                     variant="outline"
                     className={cn(
-                      "w-full justify-start text-left font-normal border border-gray-200 hover:bg-transparent",
+                      "w-full justify-start text-left rounded-xl bg-gray-50/80 border-0 hover:bg-gray-100/80 hover:text-primary transition-colors",
                       !startDate && "text-muted-foreground"
                     )}
                   >
@@ -138,7 +138,7 @@ const Hero = () => {
                   <Button
                     variant="outline"
                     className={cn(
-                      "w-full justify-start text-left font-normal border border-gray-200 hover:bg-transparent",
+                      "w-full justify-start text-left rounded-xl bg-gray-50/80 border-0 hover:bg-gray-100/80 hover:text-primary transition-colors",
                       !endDate && "text-muted-foreground"
                     )}
                   >
@@ -156,7 +156,7 @@ const Hero = () => {
               </Popover>
             </div>
 
-            <Button size="icon" className="bg-accent hover:bg-accent/90 rounded-full w-full md:w-12 h-12">
+            <Button className="bg-accent hover:bg-accent/90 rounded-xl w-full md:w-14 h-14 flex items-center justify-center">
               <Search className="h-5 w-5" />
             </Button>
           </div>
