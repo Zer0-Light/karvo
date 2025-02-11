@@ -13,16 +13,19 @@ import {
 } from "@/components/ui/select";
 import { Search as SearchIcon, Calendar, Car } from "lucide-react";
 import AuthGuard from "@/components/AuthGuard";
+import { format } from "date-fns";
+import { Calendar as CalendarComponent } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 
 const Search = () => {
   const [location, setLocation] = useState("");
   const [carType, setCarType] = useState("");
-  const [dates, setDates] = useState("");
+  const [date, setDate] = useState<Date>();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement search functionality
-    console.log("Search with:", { location, carType, dates });
+    console.log("Search with:", { location, carType, date });
   };
 
   return (
@@ -70,18 +73,29 @@ const Search = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="dates">Rental Period</Label>
-                  <div className="relative">
-                    <Calendar className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                    <Input
-                      id="dates"
-                      type="text"
-                      placeholder="Select dates"
-                      value={dates}
-                      onChange={(e) => setDates(e.target.value)}
-                      className="pl-10"
-                    />
-                  </div>
+                  <Label htmlFor="date">Rental Date</Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "w-full justify-start text-left font-normal",
+                          !date && "text-muted-foreground"
+                        )}
+                      >
+                        <Calendar className="mr-2 h-4 w-4" />
+                        {date ? format(date, "PPP") : "Select date"}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <CalendarComponent
+                        mode="single"
+                        selected={date}
+                        onSelect={setDate}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
                 </div>
               </div>
 
