@@ -9,6 +9,62 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      cars: {
+        Row: {
+          created_at: string
+          description: string | null
+          features: string[] | null
+          host_id: string
+          id: string
+          location: string
+          make: string
+          model: string
+          photos: string[] | null
+          price_per_day: number
+          status: Database["public"]["Enums"]["car_status"] | null
+          updated_at: string
+          year: number
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          features?: string[] | null
+          host_id: string
+          id?: string
+          location: string
+          make: string
+          model: string
+          photos?: string[] | null
+          price_per_day: number
+          status?: Database["public"]["Enums"]["car_status"] | null
+          updated_at?: string
+          year: number
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          features?: string[] | null
+          host_id?: string
+          id?: string
+          location?: string
+          make?: string
+          model?: string
+          photos?: string[] | null
+          price_per_day?: number
+          status?: Database["public"]["Enums"]["car_status"] | null
+          updated_at?: string
+          year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cars_host_id_fkey"
+            columns: ["host_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       messages: {
         Row: {
           content: string
@@ -153,7 +209,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      car_status: "available" | "booked" | "maintenance" | "unlisted"
     }
     CompositeTypes: {
       [_ in never]: never
