@@ -145,9 +145,16 @@ const Trips = () => {
               ))}
             </div>
           ) : (
-            <Card>
+            <Card className="text-center py-8">
               <CardHeader>
-                <CardTitle>No trips found</CardTitle>
+                <div className="mx-auto w-48 h-48 mb-4">
+                  <img 
+                    src="/lovable-uploads/817a1468-13e5-4f50-8aec-8af223f60317.png"
+                    alt="No trips found"
+                    className="w-full h-full object-contain opacity-50"
+                  />
+                </div>
+                <CardTitle className="text-2xl">No trips found</CardTitle>
                 <CardDescription>
                   {statusFilter === 'all' 
                     ? "You haven't made any trips yet."
