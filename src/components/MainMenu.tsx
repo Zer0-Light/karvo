@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Menu, LogIn, UserPlus, Car, HelpCircle, Gift, Headphones, FileText, Shield, Wrench, Calculator } from "lucide-react";
+import { Menu, LogOut, Car, HelpCircle, Gift, Headphones, FileText, Shield, Wrench, Calculator, Search } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -8,20 +8,74 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useEffect, useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
 const MainMenu = () => {
-  const menuItems = [
-    { name: 'Log in', href: '#', icon: LogIn },
-    { name: 'Sign up', href: '#', icon: UserPlus },
-    { name: 'Become a host', href: '#', icon: Car },
-    { name: 'How Karvo works', href: '#', icon: HelpCircle },
-    { name: 'Gift cards', href: '#', icon: Gift },
-    { name: 'Contact support', href: '#', icon: Headphones },
-    { name: 'Legal', href: '#', icon: FileText },
-    { name: 'Insurance & protection', href: '#', icon: Shield },
-    { name: 'Host tools', href: '#', icon: Wrench },
-    { name: 'Calculator', href: '#', icon: Calculator },
-  ];
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsAuthenticated(!!session);
+    };
+
+    checkAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setIsAuthenticated(!!session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to log out. Please try again.",
+      });
+    } else {
+      toast({
+        title: "Success",
+        description: "You have been logged out successfully.",
+      });
+      navigate("/");
+    }
+  };
+
+  const getMenuItems = () => {
+    const items = [
+      { name: isAuthenticated ? 'Log out' : 'Log in', 
+        href: '#', 
+        icon: LogOut,
+        onClick: isAuthenticated ? handleLogout : () => navigate("/login")
+      },
+    ];
+
+    if (!isAuthenticated) {
+      items.push({ name: 'Sign up', href: '/signup', icon: Menu });
+    }
+
+    return [
+      ...items,
+      { name: 'Search Rentals', href: '/search', icon: Search },
+      { name: 'Become a host', href: '/become-host', icon: Car },
+      { name: 'How Karvo works', href: '#', icon: HelpCircle },
+      { name: 'Gift cards', href: '#', icon: Gift },
+      { name: 'Contact support', href: '#', icon: Headphones },
+      { name: 'Legal', href: '#', icon: FileText },
+      { name: 'Insurance & protection', href: '#', icon: Shield },
+      { name: 'Host tools', href: '#', icon: Wrench },
+      { name: 'Calculator', href: '#', icon: Calculator },
+    ];
+  };
 
   return (
     <div className="fixed top-4 right-4 z-50">
@@ -33,10 +87,18 @@ const MainMenu = () => {
         </SheetTrigger>
         <SheetContent className="w-[300px] h-[60vh] mt-4 rounded-xl" style={{ backgroundColor: 'white' }}>
           <nav className="flex flex-col space-y-4">
-            {menuItems.map((item, index) => (
+            {getMenuItems().map((item, index) => (
               <React.Fragment key={item.name}>
                 <a
                   href={item.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    if (item.onClick) {
+                      item.onClick();
+                    } else if (item.href.startsWith('/')) {
+                      navigate(item.href);
+                    }
+                  }}
                   className="flex items-center gap-3 text-lg hover:text-primary transition-colors"
                 >
                   <item.icon className="h-5 w-5" />
