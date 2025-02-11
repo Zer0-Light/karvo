@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Menu, LogOut, Car, HelpCircle, Gift, Headphones, FileText, Shield, Wrench, Calculator, Search, Clock } from "lucide-react";
+import { Menu, LogOut, Car, HelpCircle, Gift, Headphones, FileText, Shield, Wrench, Calculator, Search, Clock, MessageSquare } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -82,6 +82,12 @@ const MainMenu = () => {
         href: '/trips', 
         icon: Clock,
         onClick: () => navigate("/trips")
+      },
+      { 
+        name: 'Messages', 
+        href: '/inbox', 
+        icon: MessageSquare,
+        onClick: () => navigate("/inbox")
       },
       { 
         name: 'Become a host', 
