@@ -51,26 +51,7 @@ const MainMenu = () => {
   };
 
   const getMenuItems = () => {
-    const items = [
-      { 
-        name: isAuthenticated ? 'Log out' : 'Log in', 
-        href: '#', 
-        icon: LogOut,
-        onClick: isAuthenticated ? handleLogout : () => navigate("/login")
-      },
-    ];
-
-    if (!isAuthenticated) {
-      items.push({ 
-        name: 'Sign up', 
-        href: '/signup', 
-        icon: Menu,
-        onClick: () => navigate("/signup")
-      });
-    }
-
-    return [
-      ...items,
+    const authenticatedItems = [
       { 
         name: 'Search Rentals', 
         href: '/search', 
@@ -89,6 +70,36 @@ const MainMenu = () => {
         icon: MessageSquare,
         onClick: () => navigate("/inbox")
       },
+      { 
+        name: 'Log out', 
+        href: '#', 
+        icon: LogOut,
+        onClick: handleLogout
+      },
+    ];
+
+    const unauthenticatedItems = [
+      { 
+        name: 'Log in', 
+        href: '#', 
+        icon: LogOut,
+        onClick: () => navigate("/login")
+      },
+      { 
+        name: 'Sign up', 
+        href: '/signup', 
+        icon: Menu,
+        onClick: () => navigate("/signup")
+      },
+      { 
+        name: 'Search Rentals', 
+        href: '/search', 
+        icon: Search,
+        onClick: () => navigate("/search")
+      },
+    ];
+
+    const commonItems = [
       { 
         name: 'Become a host', 
         href: '/become-host', 
@@ -126,6 +137,8 @@ const MainMenu = () => {
         onClick: () => {}
       }
     ];
+
+    return isAuthenticated ? [...authenticatedItems, ...commonItems] : [...unauthenticatedItems, ...commonItems];
   };
 
   return (
@@ -151,7 +164,11 @@ const MainMenu = () => {
                   <item.icon className="h-5 w-5" />
                   <span>{item.name}</span>
                 </a>
-                {index === (isAuthenticated ? 0 : 1) && <Separator className="my-4" />}
+                {isAuthenticated ? (
+                  index === 3 && <Separator className="my-4" />
+                ) : (
+                  index === 2 && <Separator className="my-4" />
+                )}
               </React.Fragment>
             ))}
           </nav>
