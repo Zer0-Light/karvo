@@ -41,7 +41,7 @@ const Login = () => {
           title: "Success",
           description: "You have successfully logged in!",
         });
-        navigate("/"); // Redirect to home page after successful login
+        navigate("/search"); // Changed from "/" to "/search"
       }
     } catch (error) {
       toast({
