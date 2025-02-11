@@ -57,80 +57,117 @@ const Profile = () => {
 
   return (
     <AuthGuard>
-      <div className="container max-w-4xl mx-auto px-4 py-8">
-        <div className="space-y-8">
-          {/* Header Section */}
-          <div className="flex flex-col md:flex-row items-center gap-6">
-            <Avatar className="w-24 h-24">
-              <AvatarImage src={profile.avatar_url || undefined} />
-              <AvatarFallback>{profile.full_name?.charAt(0) || "U"}</AvatarFallback>
-            </Avatar>
-            <div className="text-center md:text-left">
-              <h1 className="text-2xl font-semibold">{profile.full_name}</h1>
-              <p className="text-muted-foreground">
-                Joined {format(new Date(profile.join_date), 'MMMM yyyy')}
-              </p>
-            </div>
-          </div>
-
-          {/* Verification Status */}
-          <Card>
-            <CardContent className="p-6">
-              <h2 className="text-lg font-semibold mb-4">Account Status</h2>
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <Mail className="h-5 w-5 text-muted-foreground" />
-                  <div className="flex-1">
-                    <p className="font-medium">{email}</p>
-                    <p className="text-sm text-muted-foreground">Email</p>
-                  </div>
-                  {profile.email_verified ? (
-                    <BadgeCheck className="h-5 w-5 text-green-500" />
-                  ) : (
-                    <AlertCircle className="h-5 w-5 text-yellow-500" />
-                  )}
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <Phone className="h-5 w-5 text-muted-foreground" />
-                  <div className="flex-1">
-                    <p className="font-medium">{profile.phone_number || "Not provided"}</p>
-                    <p className="text-sm text-muted-foreground">Phone number</p>
-                  </div>
-                  {profile.phone_verified ? (
-                    <BadgeCheck className="h-5 w-5 text-green-500" />
-                  ) : (
-                    <AlertCircle className="h-5 w-5 text-yellow-500" />
-                  )}
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <Shield className="h-5 w-5 text-muted-foreground" />
-                  <div className="flex-1">
-                    <p className="font-medium">
-                      {profile.is_approved_to_drive ? "Approved to drive" : "Not approved to drive"}
-                    </p>
-                    <p className="text-sm text-muted-foreground">Driver status</p>
-                  </div>
-                  {profile.is_approved_to_drive ? (
-                    <BadgeCheck className="h-5 w-5 text-green-500" />
-                  ) : (
-                    <AlertCircle className="h-5 w-5 text-yellow-500" />
-                  )}
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <Calendar className="h-5 w-5 text-muted-foreground" />
-                  <div className="flex-1">
-                    <p className="font-medium">
-                      {format(new Date(profile.join_date), 'MMMM d, yyyy')}
-                    </p>
-                    <p className="text-sm text-muted-foreground">Member since</p>
-                  </div>
+      <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20">
+        <div className="container max-w-4xl mx-auto px-4 py-12">
+          <div className="space-y-8">
+            {/* Profile Header */}
+            <div className="relative">
+              <div className="absolute inset-0 h-48 bg-gradient-to-r from-accent to-primary/10 rounded-lg opacity-50" />
+              <div className="relative pt-16 px-6 pb-8">
+                <div className="flex flex-col items-center">
+                  <Avatar className="w-32 h-32 border-4 border-background shadow-xl">
+                    <AvatarImage src={profile.avatar_url || undefined} />
+                    <AvatarFallback className="text-2xl bg-primary text-primary-foreground">
+                      {profile.full_name?.charAt(0) || "U"}
+                    </AvatarFallback>
+                  </Avatar>
+                  <h1 className="mt-4 text-3xl font-bold">{profile.full_name}</h1>
+                  <p className="text-muted-foreground">
+                    Member since {format(new Date(profile.join_date), 'MMMM yyyy')}
+                  </p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+
+            {/* Account Status Card */}
+            <Card className="border-none shadow-lg bg-card/50 backdrop-blur-sm">
+              <CardContent className="p-8">
+                <h2 className="text-xl font-semibold mb-6">Account Status</h2>
+                <div className="grid gap-6">
+                  {/* Email Status */}
+                  <div className="flex items-center gap-4 p-4 rounded-lg bg-background/50 transition-colors hover:bg-background">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
+                      <Mail className="h-6 w-6 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-medium">{email}</p>
+                      <p className="text-sm text-muted-foreground">Email</p>
+                    </div>
+                    {profile.email_verified ? (
+                      <div className="flex items-center gap-1 text-green-500">
+                        <BadgeCheck className="h-5 w-5" />
+                        <span className="text-sm font-medium">Verified</span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-1 text-yellow-500">
+                        <AlertCircle className="h-5 w-5" />
+                        <span className="text-sm font-medium">Unverified</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Phone Status */}
+                  <div className="flex items-center gap-4 p-4 rounded-lg bg-background/50 transition-colors hover:bg-background">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
+                      <Phone className="h-6 w-6 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-medium">{profile.phone_number || "Not provided"}</p>
+                      <p className="text-sm text-muted-foreground">Phone number</p>
+                    </div>
+                    {profile.phone_verified ? (
+                      <div className="flex items-center gap-1 text-green-500">
+                        <BadgeCheck className="h-5 w-5" />
+                        <span className="text-sm font-medium">Verified</span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-1 text-yellow-500">
+                        <AlertCircle className="h-5 w-5" />
+                        <span className="text-sm font-medium">Unverified</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Driver Status */}
+                  <div className="flex items-center gap-4 p-4 rounded-lg bg-background/50 transition-colors hover:bg-background">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
+                      <Shield className="h-6 w-6 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-medium">
+                        {profile.is_approved_to_drive ? "Approved to drive" : "Not approved to drive"}
+                      </p>
+                      <p className="text-sm text-muted-foreground">Driver status</p>
+                    </div>
+                    {profile.is_approved_to_drive ? (
+                      <div className="flex items-center gap-1 text-green-500">
+                        <BadgeCheck className="h-5 w-5" />
+                        <span className="text-sm font-medium">Approved</span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-1 text-yellow-500">
+                        <AlertCircle className="h-5 w-5" />
+                        <span className="text-sm font-medium">Not approved</span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Join Date */}
+                  <div className="flex items-center gap-4 p-4 rounded-lg bg-background/50 transition-colors hover:bg-background">
+                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
+                      <Calendar className="h-6 w-6 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-medium">
+                        {format(new Date(profile.join_date), 'MMMM d, yyyy')}
+                      </p>
+                      <p className="text-sm text-muted-foreground">Member since</p>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     </AuthGuard>
