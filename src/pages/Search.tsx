@@ -21,11 +21,12 @@ import { cn } from "@/lib/utils";
 const Search = () => {
   const [location, setLocation] = useState("");
   const [carType, setCarType] = useState("");
-  const [date, setDate] = useState<Date>();
+  const [pickupDate, setPickupDate] = useState<Date>();
+  const [returnDate, setReturnDate] = useState<Date>();
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Search with:", { location, carType, date });
+    console.log("Search with:", { location, carType, pickupDate, returnDate });
   };
 
   return (
@@ -41,7 +42,7 @@ const Search = () => {
           
           <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
             <form onSubmit={handleSearch} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="location">Location</Label>
                   <div className="relative">
@@ -73,26 +74,54 @@ const Search = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="date">Rental Date</Label>
+                  <Label htmlFor="pickupDate">Pickup Date</Label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
                         className={cn(
                           "w-full justify-start text-left font-normal",
-                          !date && "text-muted-foreground"
+                          !pickupDate && "text-muted-foreground"
                         )}
                       >
                         <Calendar className="mr-2 h-4 w-4" />
-                        {date ? format(date, "PPP") : "Select date"}
+                        {pickupDate ? format(pickupDate, "PPP") : "Select pickup date"}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
                       <CalendarComponent
                         mode="single"
-                        selected={date}
-                        onSelect={setDate}
+                        selected={pickupDate}
+                        onSelect={setPickupDate}
                         initialFocus
+                        disabled={(date) => date < new Date()}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="returnDate">Return Date</Label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "w-full justify-start text-left font-normal",
+                          !returnDate && "text-muted-foreground"
+                        )}
+                      >
+                        <Calendar className="mr-2 h-4 w-4" />
+                        {returnDate ? format(returnDate, "PPP") : "Select return date"}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <CalendarComponent
+                        mode="single"
+                        selected={returnDate}
+                        onSelect={setReturnDate}
+                        initialFocus
+                        disabled={(date) => pickupDate ? date <= pickupDate : date < new Date()}
                       />
                     </PopoverContent>
                   </Popover>
