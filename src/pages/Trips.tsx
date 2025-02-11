@@ -68,7 +68,7 @@ const Trips = () => {
 
   return (
     <AuthGuard>
-      <div className="min-h-screen bg-gray-50/50 p-6">
+      <div className="min-h-screen bg-gray-50/50 p-6 pt-20">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
