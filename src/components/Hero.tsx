@@ -1,20 +1,35 @@
-
 import { motion } from "framer-motion";
+import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Search } from "lucide-react";
 import { Calendar } from "./ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "./ui/command";
 import { format } from "date-fns";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
-import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
+
+// Middle Eastern airports data
+const airports = [
+  { code: "DXB", name: "Dubai International Airport", city: "Dubai, UAE" },
+  { code: "AUH", name: "Abu Dhabi International Airport", city: "Abu Dhabi, UAE" },
+  { code: "DOH", name: "Hamad International Airport", city: "Doha, Qatar" },
+  { code: "MCT", name: "Muscat International Airport", city: "Muscat, Oman" },
+  { code: "KWI", name: "Kuwait International Airport", city: "Kuwait City, Kuwait" },
+  { code: "BAH", name: "Bahrain International Airport", city: "Manama, Bahrain" },
+  { code: "RUH", name: "King Khalid International Airport", city: "Riyadh, Saudi Arabia" },
+  { code: "JED", name: "King Abdulaziz International Airport", city: "Jeddah, Saudi Arabia" },
+  { code: "CAI", name: "Cairo International Airport", city: "Cairo, Egypt" },
+  { code: "AMM", name: "Queen Alia International Airport", city: "Amman, Jordan" },
+];
 
 const Hero = () => {
   const navigate = useNavigate();
-  const [location, setLocation] = useState<any>(null);
+  const [location, setLocation] = useState("");
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
+  const [open, setOpen] = useState(false);
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-start overflow-hidden bg-gradient-to-b from-white to-gray-50">
@@ -51,30 +66,43 @@ const Hero = () => {
           <div className="bg-white rounded-2xl md:rounded-full shadow-lg p-4 md:p-2 flex flex-col md:flex-row items-stretch md:items-center gap-3 w-full max-w-4xl mx-auto">
             {/* Location Autocomplete */}
             <div className="flex-1">
-              <GooglePlacesAutocomplete
-                apiKey={process.env.VITE_GOOGLE_PLACES_API_KEY}
-                selectProps={{
-                  value: location,
-                  onChange: setLocation,
-                  placeholder: 'Enter location...',
-                  styles: {
-                    control: (provided) => ({
-                      ...provided,
-                      border: '1px solid #e2e8f0',
-                      borderRadius: '0.375rem',
-                      minHeight: '40px',
-                      boxShadow: 'none',
-                      '&:hover': {
-                        borderColor: '#e2e8f0'
-                      }
-                    }),
-                    menu: (provided) => ({
-                      ...provided,
-                      zIndex: 999
-                    })
-                  }
-                }}
-              />
+              <Popover open={open} onOpenChange={setOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open}
+                    className="w-full justify-between border border-gray-200 hover:bg-transparent"
+                  >
+                    {location
+                      ? airports.find((airport) => airport.code === location)?.name
+                      : "Select airport..."}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[300px] md:w-[400px] p-0">
+                  <Command>
+                    <CommandInput placeholder="Search airports..." />
+                    <CommandEmpty>No airport found.</CommandEmpty>
+                    <CommandGroup>
+                      {airports.map((airport) => (
+                        <CommandItem
+                          key={airport.code}
+                          value={airport.code}
+                          onSelect={(currentValue) => {
+                            setLocation(currentValue);
+                            setOpen(false);
+                          }}
+                        >
+                          <span>{airport.name}</span>
+                          <span className="ml-2 text-sm text-muted-foreground">
+                            ({airport.city})
+                          </span>
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
             </div>
 
             {/* Start Date Calendar */}
