@@ -55,7 +55,8 @@ const Inbox = () => {
           sender_id,
           receiver_id,
           is_read,
-          profiles!messages_sender_id_fkey(full_name)
+          sender:profiles!sender_id(full_name),
+          receiver:profiles!receiver_id(full_name)
         `)
         .or(`sender_id.eq.${user.id},receiver_id.eq.${user.id}`)
         .order('created_at', { ascending: false });
@@ -67,12 +68,13 @@ const Inbox = () => {
       
       messages.forEach((message) => {
         const otherUserId = message.sender_id === user.id ? message.receiver_id : message.sender_id;
+        const otherUserProfile = message.sender_id === user.id ? message.receiver : message.sender;
         const existingConversation = conversationsMap.get(otherUserId);
         
         if (!existingConversation) {
           conversationsMap.set(otherUserId, {
             user_id: otherUserId,
-            full_name: message.profiles?.full_name || "Unknown User",
+            full_name: otherUserProfile?.full_name || "Unknown User",
             last_message: message.content,
             last_message_time: message.created_at,
             unread_count: message.is_read ? 0 : 1
