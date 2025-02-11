@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Menu, LogOut, Car, HelpCircle, Gift, Headphones, FileText, Shield, Wrench, Calculator, Search } from "lucide-react";
+import { Menu, LogOut, Car, HelpCircle, Gift, Headphones, FileText, Shield, Wrench, Calculator, Search, Clock } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -78,6 +78,12 @@ const MainMenu = () => {
         onClick: () => navigate("/search")
       },
       { 
+        name: 'My Trips', 
+        href: '/trips', 
+        icon: Clock,
+        onClick: () => navigate("/trips")
+      },
+      { 
         name: 'Become a host', 
         href: '/become-host', 
         icon: Car,
@@ -151,7 +157,7 @@ const MainMenu = () => {
                   <item.icon className="h-5 w-5" />
                   <span>{item.name}</span>
                 </a>
-                {index === 2 && <Separator className="my-4" />}
+                {index === (isAuthenticated ? 0 : 1) && <Separator className="my-4" />}
               </React.Fragment>
             ))}
           </nav>

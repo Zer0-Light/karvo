@@ -33,6 +33,39 @@ export type Database = {
         }
         Relationships: []
       }
+      trips: {
+        Row: {
+          created_at: string
+          id: string
+          pickup_date: string
+          pickup_location: string
+          return_date: string
+          status: string
+          user_id: string
+          vehicle_type: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          pickup_date: string
+          pickup_location: string
+          return_date: string
+          status?: string
+          user_id: string
+          vehicle_type: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          pickup_date?: string
+          pickup_location?: string
+          return_date?: string
+          status?: string
+          user_id?: string
+          vehicle_type?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
