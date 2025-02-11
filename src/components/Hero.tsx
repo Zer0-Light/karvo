@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -71,8 +70,7 @@ const Hero = () => {
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
-                    role="combobox"
-                    aria-expanded={open}
+                    type="button"
                     className="w-full justify-between rounded-xl bg-gray-50/80 border-0 hover:bg-gray-100/80 hover:text-primary transition-colors"
                   >
                     {location
