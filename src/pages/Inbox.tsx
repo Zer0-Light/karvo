@@ -27,13 +27,21 @@ type Message = {
   is_read: boolean;
 };
 
-type MessageWithProfiles = Message & {
-  sender: {
-    full_name: string | null;
-  } | null;
-  receiver: {
-    full_name: string | null;
-  } | null;
+type Profile = {
+  id: string;
+  full_name: string | null;
+};
+
+type MessageWithProfiles = {
+  id: string;
+  content: string;
+  created_at: string;
+  sender_id: string;
+  receiver_id: string;
+  trip_id: string | null;
+  is_read: boolean;
+  sender: Profile | null;
+  receiver: Profile | null;
 };
 
 type Conversation = {
@@ -55,7 +63,7 @@ const Inbox = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Not authenticated");
 
-      const { data: messages, error } = await supabase
+      const { data, error } = await supabase
         .from('messages')
         .select(`
           id,
@@ -63,9 +71,10 @@ const Inbox = () => {
           created_at,
           sender_id,
           receiver_id,
+          trip_id,
           is_read,
-          sender:profiles!sender_id(full_name),
-          receiver:profiles!receiver_id(full_name)
+          sender:profiles!sender_id(id, full_name),
+          receiver:profiles!receiver_id(id, full_name)
         `)
         .or(`sender_id.eq.${user.id},receiver_id.eq.${user.id}`)
         .order('created_at', { ascending: false });
@@ -75,7 +84,9 @@ const Inbox = () => {
       // Group messages by conversation
       const conversationsMap = new Map<string, Conversation>();
       
-      (messages as MessageWithProfiles[]).forEach((message) => {
+      const messagesWithProfiles = data as unknown as MessageWithProfiles[];
+      
+      messagesWithProfiles.forEach((message) => {
         const otherUserId = message.sender_id === user.id ? message.receiver_id : message.sender_id;
         const otherUserProfile = message.sender_id === user.id ? message.receiver : message.sender;
         const existingConversation = conversationsMap.get(otherUserId);
