@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
-import { AuthGuard } from "@/components/AuthGuard";
+import AuthGuard from "@/components/AuthGuard";
 import { supabase } from "@/integrations/supabase/client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
