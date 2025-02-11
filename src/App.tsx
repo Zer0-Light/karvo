@@ -12,6 +12,7 @@ import Search from "./pages/Search";
 import BecomeHost from "./pages/BecomeHost";
 import Trips from "./pages/Trips";
 import Inbox from "./pages/Inbox";
+import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -41,6 +42,7 @@ const App = () => (
           <Route path="/become-host" element={<BecomeHost />} />
           <Route path="/trips" element={<Trips />} />
           <Route path="/inbox" element={<Inbox />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </TooltipProvider>
