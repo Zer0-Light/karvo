@@ -19,12 +19,19 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/integrations/supabase/client";
 
+const GCC_COUNTRIES = ["UAE", "United Arab Emirates", "Oman", "Kuwait", "Bahrain", "Qatar"];
+
 const locationFormSchema = z.object({
   street_address: z.string().min(1, "Street address is required"),
   city: z.string().min(1, "City is required"),
   state: z.string().min(1, "State is required"),
   postal_code: z.string().min(1, "Postal code is required"),
-  country: z.string().min(1, "Country is required"),
+  country: z.string().min(1, "Country is required")
+    .refine(value => GCC_COUNTRIES.some(country => 
+      country.toLowerCase() === value.toLowerCase()
+    ), {
+      message: "Sorry, we currently only operate in UAE, Oman, Kuwait, Bahrain, and Qatar."
+    }),
 });
 
 const ListYourCar = () => {
@@ -65,7 +72,11 @@ const ListYourCar = () => {
       state: values.state,
       postal_code: values.postal_code,
       country: values.country,
-      status: 'unlisted'
+      status: 'unlisted',
+      make: '', // Required fields with placeholder values
+      model: '',
+      price_per_day: 0,
+      year: new Date().getFullYear() // Current year as placeholder
     });
 
     setIsSubmitting(false);
@@ -141,7 +152,7 @@ const ListYourCar = () => {
                       <FormItem>
                         <FormLabel>City</FormLabel>
                         <FormControl>
-                          <Input placeholder="San Francisco" {...field} />
+                          <Input placeholder="Dubai" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -153,9 +164,9 @@ const ListYourCar = () => {
                     name="state"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>State</FormLabel>
+                        <FormLabel>State/Emirate</FormLabel>
                         <FormControl>
-                          <Input placeholder="California" {...field} />
+                          <Input placeholder="Dubai" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -169,7 +180,7 @@ const ListYourCar = () => {
                       <FormItem>
                         <FormLabel>Postal Code</FormLabel>
                         <FormControl>
-                          <Input placeholder="94105" {...field} />
+                          <Input placeholder="12345" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -183,9 +194,9 @@ const ListYourCar = () => {
                       <FormItem>
                         <FormLabel>Country</FormLabel>
                         <FormControl>
-                          <Input placeholder="United States" {...field} />
+                          <Input placeholder="UAE" {...field} />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="text-destructive" />
                       </FormItem>
                     )}
                   />
