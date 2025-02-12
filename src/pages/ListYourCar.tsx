@@ -15,6 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Progress } from "@/components/ui/progress";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/integrations/supabase/client";
@@ -121,6 +122,15 @@ const ListYourCar = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
+            {/* Progress Section */}
+            <div className="mb-8">
+              <div className="flex justify-between text-sm text-muted-foreground mb-2">
+                <span>Step 1 of 11</span>
+                <span>Location Details</span>
+              </div>
+              <Progress value={9.09} className="h-2" /> {/* 100/11 ≈ 9.09% */}
+            </div>
+
             <h1 className="text-3xl font-bold text-center mb-8">
               List Your Car
             </h1>
