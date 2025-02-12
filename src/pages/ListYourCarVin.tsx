@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
@@ -33,6 +33,39 @@ const ListYourCarVin = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Add verification of carId
+  useEffect(() => {
+    const verifyCar = async () => {
+      if (!carId) {
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "No car ID provided",
+        });
+        navigate("/list-your-car");
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from('cars')
+        .select('id')
+        .eq('id', carId)
+        .single();
+
+      if (error || !data) {
+        console.error('Error verifying car:', error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Invalid car ID",
+        });
+        navigate("/list-your-car");
+      }
+    };
+
+    verifyCar();
+  }, [carId, navigate, toast]);
+
   const form = useForm<z.infer<typeof vinFormSchema>>({
     resolver: zodResolver(vinFormSchema),
     defaultValues: {
@@ -41,31 +74,51 @@ const ListYourCarVin = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof vinFormSchema>) => {
-    setIsSubmitting(true);
-    
-    const { error } = await supabase
-      .from('cars')
-      .update({ vin: values.vin })
-      .eq('id', carId);
-
-    setIsSubmitting(false);
-
-    if (error) {
+    if (!carId) {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to save VIN. Please try again.",
+        description: "No car ID provided",
       });
       return;
     }
 
-    toast({
-      title: "VIN saved",
-      description: "Let's continue with listing your car.",
-    });
+    setIsSubmitting(true);
     
-    // Navigate to the next step with the current carId
-    navigate(`/list-your-car/details/${carId}`);
+    try {
+      const { error } = await supabase
+        .from('cars')
+        .update({ vin: values.vin.toUpperCase() })
+        .eq('id', carId);
+
+      setIsSubmitting(false);
+
+      if (error) {
+        console.error('Error saving VIN:', error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to save VIN. Please try again.",
+        });
+        return;
+      }
+
+      toast({
+        title: "VIN saved",
+        description: "Let's continue with listing your car.",
+      });
+      
+      // Navigate to the next step with the current carId
+      navigate(`/list-your-car/details/${carId}`);
+    } catch (error) {
+      console.error('Error in submission:', error);
+      setIsSubmitting(false);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "An unexpected error occurred. Please try again.",
+      });
+    }
   };
 
   return (
@@ -95,10 +148,10 @@ const ListYourCarVin = () => {
             {/* Progress Section */}
             <div className="mb-8">
               <div className="flex justify-between text-sm text-muted-foreground mb-2">
-                <span>Step 1 of 10</span>
+                <span>Step 2 of 11</span>
                 <span>Vehicle Identification</span>
               </div>
-              <Progress value={10} className="h-2" /> {/* 100/10 = 10% */}
+              <Progress value={18.18} className="h-2" />
             </div>
 
             <h1 className="text-3xl font-bold text-center mb-8">

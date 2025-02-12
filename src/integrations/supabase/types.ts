@@ -79,6 +79,7 @@ export type Database = {
           status: Database["public"]["Enums"]["car_status"] | null
           street_address: string | null
           updated_at: string
+          vin: string | null
           year: number
         }
         Insert: {
@@ -99,6 +100,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["car_status"] | null
           street_address?: string | null
           updated_at?: string
+          vin?: string | null
           year: number
         }
         Update: {
@@ -119,6 +121,7 @@ export type Database = {
           status?: Database["public"]["Enums"]["car_status"] | null
           street_address?: string | null
           updated_at?: string
+          vin?: string | null
           year?: number
         }
         Relationships: [
