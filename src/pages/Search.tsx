@@ -40,12 +40,12 @@ const GCC_CITIES = [
 ];
 
 const Search = () => {
-  const [location, setLocation] = useState("");
-  const [carType, setCarType] = useState("");
-  const [pickupDate, setPickupDate] = useState<Date>();
-  const [returnDate, setReturnDate] = useState<Date>();
+  const [location, setLocation] = useState<string>("");
+  const [carType, setCarType] = useState<string>("");
+  const [pickupDate, setPickupDate] = useState<Date | undefined>();
+  const [returnDate, setReturnDate] = useState<Date | undefined>();
 
-  const { data: cars, isLoading } = useQuery({
+  const { data: cars = [], isLoading } = useQuery({
     queryKey: ['available-cars', location, carType, pickupDate, returnDate],
     enabled: !!(location && pickupDate && returnDate),
     queryFn: async () => {
@@ -61,7 +61,7 @@ const Search = () => {
       const { data, error } = await query;
 
       if (error) throw error;
-      return data;
+      return data || []; // Ensure we always return an array
     },
   });
 
@@ -182,7 +182,7 @@ const Search = () => {
           {/* Results section */}
           {isLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[1, 2, 3].map((i) => (
+              {Array.from({ length: 3 }).map((_, i) => (
                 <div key={i} className="animate-pulse">
                   <div className="bg-white rounded-lg shadow-lg">
                     <div className="h-48 bg-gray-200 rounded-t-lg" />
@@ -194,7 +194,7 @@ const Search = () => {
                 </div>
               ))}
             </div>
-          ) : cars?.length ? (
+          ) : cars.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {cars.map((car) => (
                 <CarCard key={car.id} {...car} />
