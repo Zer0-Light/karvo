@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -96,6 +97,15 @@ const ListYourCarDetails = () => {
   }, [watchMake, form]);
 
   const onSubmit = async (values: z.infer<typeof carFormSchema>) => {
+    if (!carId) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Car ID is missing. Please try again.",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     
     const { error } = await supabase
@@ -105,11 +115,12 @@ const ListYourCarDetails = () => {
         make: values.make,
         model: values.model,
       })
-      .eq('id', carId);
+      .eq('id', carId); // Using the actual carId from params
 
     setIsSubmitting(false);
 
     if (error) {
+      console.error('Error updating car:', error);
       toast({
         variant: "destructive",
         title: "Error",
@@ -124,7 +135,7 @@ const ListYourCarDetails = () => {
     });
     
     // Navigate to the next step
-    navigate(`/list-your-car/location/${carId}`);
+    navigate(`/list-your-car/specs/${carId}`);
   };
 
   return (
