@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -78,40 +77,6 @@ const ListYourCarDetails = () => {
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 30 }, (_, i) => (currentYear - i).toString());
 
-  // Add this useEffect to verify carId on component mount
-  useEffect(() => {
-    if (!carId) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "No car ID provided. Redirecting to start.",
-      });
-      navigate("/list-your-car");
-      return;
-    }
-
-    // Verify the carId exists in the database
-    const checkCar = async () => {
-      const { data, error } = await supabase
-        .from('cars')
-        .select('id')
-        .eq('id', carId)
-        .single();
-
-      if (error || !data) {
-        console.error('Error fetching car:', error);
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Invalid car ID. Redirecting to start.",
-        });
-        navigate("/list-your-car");
-      }
-    };
-
-    checkCar();
-  }, [carId, navigate, toast]);
-
   const form = useForm<z.infer<typeof carFormSchema>>({
     resolver: zodResolver(carFormSchema),
     defaultValues: {
@@ -131,51 +96,35 @@ const ListYourCarDetails = () => {
   }, [watchMake, form]);
 
   const onSubmit = async (values: z.infer<typeof carFormSchema>) => {
-    if (!carId) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Car ID is missing. Please try again.",
-      });
-      navigate("/list-your-car");
-      return;
-    }
+    setIsSubmitting(true);
+    
+    const { error } = await supabase
+      .from('cars')
+      .update({
+        year: parseInt(values.year),
+        make: values.make,
+        model: values.model,
+      })
+      .eq('id', carId);
 
-    try {
-      setIsSubmitting(true);
-      console.log('Updating car with ID:', carId); // Debug log
-      
-      const { error } = await supabase
-        .from('cars')
-        .update({
-          year: parseInt(values.year),
-          make: values.make,
-          model: values.model,
-        })
-        .eq('id', carId);
+    setIsSubmitting(false);
 
-      if (error) {
-        console.error('Supabase error:', error); // Debug log
-        throw error;
-      }
-
-      toast({
-        title: "Car details saved",
-        description: "Let's continue with listing your car.",
-      });
-      
-      // Navigate to the odometer and transmission section
-      navigate(`/list-your-car/specs/${carId}`);
-    } catch (error) {
-      console.error('Error updating car:', error);
+    if (error) {
       toast({
         variant: "destructive",
         title: "Error",
         description: "Failed to save car details. Please try again.",
       });
-    } finally {
-      setIsSubmitting(false);
+      return;
     }
+
+    toast({
+      title: "Car details saved",
+      description: "Let's continue with listing your car.",
+    });
+    
+    // Navigate to the next step
+    navigate(`/list-your-car/location/${carId}`);
   };
 
   return (
