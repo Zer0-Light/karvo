@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -40,12 +39,33 @@ const MANUFACTURERS = [
   "Tesla", "Toyota", "Volkswagen", "Volvo"
 ];
 
-// Sample models - in a real app, this would be dynamic based on make
 const CAR_MODELS: { [key: string]: string[] } = {
-  BMW: ["3 Series", "5 Series", "7 Series", "X3", "X5", "X7"],
-  Toyota: ["Camry", "Corolla", "RAV4", "Highlander", "Land Cruiser", "Prius"],
-  "Mercedes-Benz": ["A-Class", "C-Class", "E-Class", "S-Class", "GLE", "GLS"],
-  // Add more makes and their models
+  Acura: ["ILX", "TLX", "RDX", "MDX", "NSX"],
+  Audi: ["A3", "A4", "A6", "Q3", "Q5", "Q7", "Q8", "e-tron"],
+  BMW: ["3 Series", "5 Series", "7 Series", "X3", "X5", "X7", "i4", "iX"],
+  Chevrolet: ["Malibu", "Camaro", "Corvette", "Tahoe", "Suburban", "Silverado"],
+  Chrysler: ["300", "Pacifica"],
+  Dodge: ["Challenger", "Charger", "Durango"],
+  Ford: ["Mustang", "F-150", "Explorer", "Escape", "Bronco", "Expedition"],
+  GMC: ["Sierra", "Yukon", "Acadia", "Terrain"],
+  Honda: ["Civic", "Accord", "CR-V", "Pilot", "Odyssey", "HR-V"],
+  Hyundai: ["Elantra", "Sonata", "Tucson", "Santa Fe", "Palisade"],
+  Infiniti: ["Q50", "Q60", "QX50", "QX60", "QX80"],
+  Jeep: ["Wrangler", "Grand Cherokee", "Cherokee", "Compass", "Gladiator"],
+  Kia: ["Forte", "K5", "Telluride", "Sportage", "Sorento"],
+  Lexus: ["IS", "ES", "LS", "NX", "RX", "GX", "LX"],
+  Lincoln: ["Navigator", "Aviator", "Nautilus", "Corsair"],
+  Mazda: ["Mazda3", "Mazda6", "CX-5", "CX-9", "MX-5 Miata"],
+  "Mercedes-Benz": ["A-Class", "C-Class", "E-Class", "S-Class", "GLE", "GLS", "G-Class"],
+  Mitsubishi: ["Outlander", "Eclipse Cross", "Mirage"],
+  Nissan: ["Altima", "Maxima", "Rogue", "Murano", "Pathfinder", "Armada"],
+  Porsche: ["911", "Cayenne", "Macan", "Panamera", "Taycan"],
+  Ram: ["1500", "2500", "3500", "ProMaster"],
+  Subaru: ["Impreza", "Legacy", "Outback", "Forester", "Ascent"],
+  Tesla: ["Model 3", "Model Y", "Model S", "Model X", "Cybertruck"],
+  Toyota: ["Camry", "Corolla", "RAV4", "Highlander", "4Runner", "Land Cruiser", "Prius"],
+  Volkswagen: ["Jetta", "Passat", "Tiguan", "Atlas", "ID.4"],
+  Volvo: ["S60", "S90", "XC40", "XC60", "XC90"]
 };
 
 const ListYourCarDetails = () => {
