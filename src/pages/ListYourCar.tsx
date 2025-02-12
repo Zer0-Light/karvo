@@ -65,7 +65,7 @@ const ListYourCar = () => {
     }
 
     // Create a new car entry with location information
-    const { error } = await supabase.from('cars').insert({
+    const { data: carData, error } = await supabase.from('cars').insert({
       host_id: session.user.id,
       location: `${values.city}, ${values.state}`,
       street_address: values.street_address,
@@ -78,7 +78,7 @@ const ListYourCar = () => {
       model: '',
       price_per_day: 0,
       year: new Date().getFullYear() // Current year as placeholder
-    });
+    }).select();
 
     setIsSubmitting(false);
 
@@ -95,7 +95,9 @@ const ListYourCar = () => {
       title: "Location saved",
       description: "Let's continue with listing your car.",
     });
-    // Next steps will be implemented later
+    
+    // Navigate to the VIN segment with the car ID
+    navigate(`/list-your-car/vin/${carData[0].id}`);
   };
 
   return (
