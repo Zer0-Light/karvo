@@ -94,10 +94,10 @@ const ListYourCarVin = () => {
             {/* Progress Section */}
             <div className="mb-8">
               <div className="flex justify-between text-sm text-muted-foreground mb-2">
-                <span>Step 2 of 11</span>
+                <span>Step 1 of 10</span>
                 <span>Vehicle Identification</span>
               </div>
-              <Progress value={18.18} className="h-2" /> {/* 200/11 ≈ 18.18% */}
+              <Progress value={10} className="h-2" /> {/* 100/10 = 10% */}
             </div>
 
             <h1 className="text-3xl font-bold text-center mb-8">
