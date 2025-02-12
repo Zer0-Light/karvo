@@ -5,11 +5,86 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import AuthGuard from "@/components/AuthGuard";
 import { motion } from "framer-motion";
+import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { supabase } from "@/integrations/supabase/client";
+
+const locationFormSchema = z.object({
+  street_address: z.string().min(1, "Street address is required"),
+  city: z.string().min(1, "City is required"),
+  state: z.string().min(1, "State is required"),
+  postal_code: z.string().min(1, "Postal code is required"),
+  country: z.string().min(1, "Country is required"),
+});
 
 const ListYourCar = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [step, setStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const form = useForm<z.infer<typeof locationFormSchema>>({
+    resolver: zodResolver(locationFormSchema),
+    defaultValues: {
+      street_address: "",
+      city: "",
+      state: "",
+      postal_code: "",
+      country: "",
+    },
+  });
+
+  const onSubmit = async (values: z.infer<typeof locationFormSchema>) => {
+    setIsSubmitting(true);
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    if (!session) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "You must be logged in to list a car",
+      });
+      return;
+    }
+
+    // Create a new car entry with location information
+    const { error } = await supabase.from('cars').insert({
+      host_id: session.user.id,
+      location: `${values.city}, ${values.state}`,
+      street_address: values.street_address,
+      city: values.city,
+      state: values.state,
+      postal_code: values.postal_code,
+      country: values.country,
+      status: 'unlisted'
+    });
+
+    setIsSubmitting(false);
+
+    if (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to save location information. Please try again.",
+      });
+      return;
+    }
+
+    toast({
+      title: "Location saved",
+      description: "Let's continue with listing your car.",
+    });
+    // Next steps will be implemented later
+  };
 
   return (
     <AuthGuard>
@@ -39,17 +114,91 @@ const ListYourCar = () => {
               List Your Car
             </h1>
             <div className="text-center text-lg text-muted-foreground mb-12">
-              Let's get started with listing your car. We'll guide you through each step.
+              Before we begin, we need to know where your car is located. This helps us ensure we can operate in your area.
             </div>
 
-            {/* Placeholder for the multi-step form */}
-            <div className="space-y-8">
-              <div className="text-center">
-                <p className="text-lg">Coming soon!</p>
-                <p className="text-muted-foreground mt-2">
-                  We're working on making this the best experience for you.
-                </p>
-              </div>
+            <div className="max-w-xl mx-auto">
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <FormField
+                    control={form.control}
+                    name="street_address"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Street Address</FormLabel>
+                        <FormControl>
+                          <Input placeholder="123 Main St" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="city"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>City</FormLabel>
+                        <FormControl>
+                          <Input placeholder="San Francisco" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="state"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>State</FormLabel>
+                        <FormControl>
+                          <Input placeholder="California" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="postal_code"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Postal Code</FormLabel>
+                        <FormControl>
+                          <Input placeholder="94105" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="country"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Country</FormLabel>
+                        <FormControl>
+                          <Input placeholder="United States" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <Button 
+                    type="submit" 
+                    className="w-full"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Saving..." : "Continue"}
+                  </Button>
+                </form>
+              </Form>
             </div>
           </motion.div>
         </main>
