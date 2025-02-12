@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -147,7 +146,7 @@ const ListYourCar = () => {
             </div>
 
             <h1 className="text-3xl font-bold text-center mb-8">
-              List Your Car
+              Location
             </h1>
             <div className="text-center text-lg text-muted-foreground mb-12">
               Before we begin, we need to know where your car is located. This helps us ensure we can operate in your area.
