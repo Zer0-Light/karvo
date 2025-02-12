@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -33,21 +34,15 @@ const BecomeHost = () => {
     setShowPrerequisites(true);
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     setShowPrerequisites(false);
-    setShowForm(true);
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setError(null);
-
+    
     try {
       const { data: { user } } = await supabase.auth.getUser();
       
       if (!user) {
-        throw new Error('User not authenticated');
+        navigate('/login');
+        return;
       }
 
       const { error: updateError } = await supabase
@@ -55,27 +50,18 @@ const BecomeHost = () => {
         .update({
           is_host: true,
           host_since: new Date().toISOString(),
-          host_description: description,
         })
         .eq('id', user.id);
 
       if (updateError) throw updateError;
 
-      toast({
-        title: "Success!",
-        description: "You are now registered as a host.",
-      });
-
-      navigate('/profile');
+      navigate('/list-your-car');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
       toast({
         variant: "destructive",
         title: "Error",
         description: "Failed to register as host. Please try again.",
       });
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -188,70 +174,7 @@ const BecomeHost = () => {
         </AlertDialogContent>
       </AlertDialog>
 
-      {showForm && (
-        <AuthGuard>
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="min-h-screen bg-gradient-to-b from-background to-secondary/20 p-6 pt-24"
-          >
-            <div className="max-w-2xl mx-auto">
-              <Card className="border-none shadow-lg bg-card/50 backdrop-blur-sm">
-                <CardContent className="p-8">
-                  <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-                    <Car className="w-6 h-6 text-primary" />
-                  </div>
-                  <h2 className="text-3xl font-bold text-center mb-2">Host Sign Up</h2>
-                  <p className="text-muted-foreground text-center mb-8">
-                    Start your journey as a KARVO host today
-                  </p>
-
-                  {error && (
-                    <Alert variant="destructive" className="mb-6">
-                      <AlertCircle className="h-4 w-4" />
-                      <AlertDescription>{error}</AlertDescription>
-                    </Alert>
-                  )}
-                  
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="description">Tell us about yourself as a host</Label>
-                      <Textarea
-                        id="description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        placeholder="Share a bit about yourself, your experience with cars, and what makes you a great host..."
-                        className="h-32"
-                        required
-                      />
-                    </div>
-
-                    <div className="flex gap-4">
-                      <Button 
-                        type="button"
-                        variant="outline"
-                        className="flex-1"
-                        onClick={() => setShowForm(false)}
-                      >
-                        Back
-                      </Button>
-                      <Button 
-                        type="submit" 
-                        className="flex-1"
-                        disabled={isSubmitting}
-                      >
-                        {isSubmitting ? "Signing up..." : "Complete Sign Up"}
-                      </Button>
-                    </div>
-                  </form>
-                </CardContent>
-              </Card>
-            </div>
-          </motion.div>
-        </AuthGuard>
-      )}
-
-      {!showForm && (
+      {!showPrerequisites && (
         <section className="py-20 px-4 bg-white">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-primary text-center mb-16">

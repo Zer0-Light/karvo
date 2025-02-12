@@ -62,6 +62,8 @@ export type Database = {
       }
       cars: {
         Row: {
+          city: string | null
+          country: string | null
           created_at: string
           description: string | null
           features: string[] | null
@@ -71,12 +73,17 @@ export type Database = {
           make: string
           model: string
           photos: string[] | null
+          postal_code: string | null
           price_per_day: number
+          state: string | null
           status: Database["public"]["Enums"]["car_status"] | null
+          street_address: string | null
           updated_at: string
           year: number
         }
         Insert: {
+          city?: string | null
+          country?: string | null
           created_at?: string
           description?: string | null
           features?: string[] | null
@@ -86,12 +93,17 @@ export type Database = {
           make: string
           model: string
           photos?: string[] | null
+          postal_code?: string | null
           price_per_day: number
+          state?: string | null
           status?: Database["public"]["Enums"]["car_status"] | null
+          street_address?: string | null
           updated_at?: string
           year: number
         }
         Update: {
+          city?: string | null
+          country?: string | null
           created_at?: string
           description?: string | null
           features?: string[] | null
@@ -101,8 +113,11 @@ export type Database = {
           make?: string
           model?: string
           photos?: string[] | null
+          postal_code?: string | null
           price_per_day?: number
+          state?: string | null
           status?: Database["public"]["Enums"]["car_status"] | null
+          street_address?: string | null
           updated_at?: string
           year?: number
         }
