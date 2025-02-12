@@ -71,8 +71,7 @@ const CAR_MODELS: { [key: string]: string[] } = {
 
 const ListYourCarDetails = () => {
   const navigate = useNavigate();
-  const params = useParams<{ carId: string }>();
-  const carId = params.carId;
+  const { carId } = useParams();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [availableModels, setAvailableModels] = useState<string[]>([]);
@@ -107,36 +106,37 @@ const ListYourCarDetails = () => {
       return;
     }
 
-    setIsSubmitting(true);
-    
-    const { error } = await supabase
-      .from('cars')
-      .update({
-        year: parseInt(values.year),
-        make: values.make,
-        model: values.model,
-      })
-      .eq('id', carId);
+    try {
+      setIsSubmitting(true);
+      
+      const { error } = await supabase
+        .from('cars')
+        .update({
+          year: parseInt(values.year),
+          make: values.make,
+          model: values.model,
+        })
+        .eq('id', carId);
 
-    setIsSubmitting(false);
+      if (error) throw error;
 
-    if (error) {
+      toast({
+        title: "Car details saved",
+        description: "Let's continue with listing your car.",
+      });
+      
+      // Navigate to the odometer and transmission section
+      navigate(`/list-your-car/specs/${carId}`);
+    } catch (error) {
       console.error('Error updating car:', error);
       toast({
         variant: "destructive",
         title: "Error",
         description: "Failed to save car details. Please try again.",
       });
-      return;
+    } finally {
+      setIsSubmitting(false);
     }
-
-    toast({
-      title: "Car details saved",
-      description: "Let's continue with listing your car.",
-    });
-    
-    // Navigate to the odometer and transmission section
-    navigate(`/list-your-car/specs/${carId}`);
   };
 
   return (
