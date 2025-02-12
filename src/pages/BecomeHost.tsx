@@ -98,7 +98,7 @@ const BecomeHost = () => {
             className="max-w-4xl mx-auto text-center"
           >
             <h1 className="text-4xl md:text-6xl font-bold text-primary mb-6">
-              Start earning with your car
+              Sign up as a Host Today
             </h1>
             <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
               Turn your car into a second income by sharing it on KARVO
@@ -108,7 +108,7 @@ const BecomeHost = () => {
                 onClick={() => setShowForm(true)}
                 className="bg-accent hover:bg-accent/90 text-lg px-8 py-6"
               >
-                List your car
+                Sign up as Host
               </Button>
               <Button 
                 variant="outline"
@@ -144,9 +144,9 @@ const BecomeHost = () => {
                   <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
                     <Car className="w-6 h-6 text-primary" />
                   </div>
-                  <h2 className="text-3xl font-bold text-center mb-2">Become a Host</h2>
+                  <h2 className="text-3xl font-bold text-center mb-2">Host Sign Up</h2>
                   <p className="text-muted-foreground text-center mb-8">
-                    Share your car and start earning money today
+                    Start your journey as a KARVO host today
                   </p>
 
                   {error && (
@@ -183,7 +183,7 @@ const BecomeHost = () => {
                         className="flex-1"
                         disabled={isSubmitting}
                       >
-                        {isSubmitting ? "Registering..." : "Register as Host"}
+                        {isSubmitting ? "Signing up..." : "Complete Sign Up"}
                       </Button>
                     </div>
                   </form>
