@@ -20,15 +20,13 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/integrations/supabase/client";
 
-const GCC_COUNTRIES = ["UAE", "United Arab Emirates", "Oman", "Kuwait", "Bahrain", "Qatar"];
-
 const locationFormSchema = z.object({
   street_address: z.string().min(1, "Street address is required"),
   city: z.string().min(1, "City is required"),
   state: z.string().min(1, "State is required"),
   postal_code: z.string().min(1, "Postal code is required"),
   country: z.string().min(1, "Country is required")
-    .refine(value => GCC_COUNTRIES.some(country => 
+    .refine(value => ["UAE", "United Arab Emirates", "Oman", "Kuwait", "Bahrain", "Qatar"].some(country => 
       country.toLowerCase() === value.toLowerCase()
     ), {
       message: "Sorry, we currently only operate in UAE, Oman, Kuwait, Bahrain, and Qatar."
@@ -64,40 +62,55 @@ const ListYourCar = () => {
       return;
     }
 
-    // Create a new car entry with location information
-    const { data: carData, error } = await supabase.from('cars').insert({
-      host_id: session.user.id,
-      location: `${values.city}, ${values.state}`,
-      street_address: values.street_address,
-      city: values.city,
-      state: values.state,
-      postal_code: values.postal_code,
-      country: values.country,
-      status: 'unlisted',
-      make: '', // Required fields with placeholder values
-      model: '',
-      price_per_day: 0,
-      year: new Date().getFullYear() // Current year as placeholder
-    }).select();
+    try {
+      // Create a new car entry with location information
+      const { data: carData, error } = await supabase
+        .from('cars')
+        .insert({
+          host_id: session.user.id,
+          location: `${values.city}, ${values.state}`,
+          street_address: values.street_address,
+          city: values.city,
+          state: values.state,
+          postal_code: values.postal_code,
+          country: values.country,
+          status: 'unlisted',
+          make: '', // Required fields with placeholder values
+          model: '',
+          price_per_day: 0,
+          year: new Date().getFullYear() // Current year as placeholder
+        })
+        .select('id')
+        .single();
 
-    setIsSubmitting(false);
+      setIsSubmitting(false);
 
-    if (error) {
+      if (error || !carData) {
+        console.error('Error creating car:', error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to save location information. Please try again.",
+        });
+        return;
+      }
+
+      toast({
+        title: "Location saved",
+        description: "Let's continue with listing your car.",
+      });
+      
+      // Navigate to the VIN segment with the car ID
+      navigate(`/list-your-car/vin/${carData.id}`);
+    } catch (error) {
+      console.error('Error in submission:', error);
+      setIsSubmitting(false);
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to save location information. Please try again.",
+        description: "An unexpected error occurred. Please try again.",
       });
-      return;
     }
-
-    toast({
-      title: "Location saved",
-      description: "Let's continue with listing your car.",
-    });
-    
-    // Navigate to the VIN segment with the car ID
-    navigate(`/list-your-car/vin/${carData[0].id}`);
   };
 
   return (
@@ -130,7 +143,7 @@ const ListYourCar = () => {
                 <span>Step 1 of 11</span>
                 <span>Location Details</span>
               </div>
-              <Progress value={9.09} className="h-2" /> {/* 100/11 ≈ 9.09% */}
+              <Progress value={9.09} className="h-2" />
             </div>
 
             <h1 className="text-3xl font-bold text-center mb-8">
