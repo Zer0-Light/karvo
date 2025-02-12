@@ -1,9 +1,10 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { useQuery } from "@tanstack/react-query";
+import { format } from "date-fns";
 import { 
   Select,
   SelectContent,
@@ -11,12 +12,32 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Search as SearchIcon, Calendar, Car } from "lucide-react";
+import { Search as SearchIcon, Calendar, Car, MapPin } from "lucide-react";
 import AuthGuard from "@/components/AuthGuard";
-import { format } from "date-fns";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { supabase } from "@/integrations/supabase/client";
+import CarCard from "@/components/CarCard";
+
+const GCC_CITIES = [
+  // Saudi Arabia
+  { value: "riyadh", label: "Riyadh, Saudi Arabia" },
+  { value: "jeddah", label: "Jeddah, Saudi Arabia" },
+  { value: "dammam", label: "Dammam, Saudi Arabia" },
+  // UAE
+  { value: "dubai", label: "Dubai, UAE" },
+  { value: "abu-dhabi", label: "Abu Dhabi, UAE" },
+  { value: "sharjah", label: "Sharjah, UAE" },
+  // Qatar
+  { value: "doha", label: "Doha, Qatar" },
+  // Kuwait
+  { value: "kuwait-city", label: "Kuwait City, Kuwait" },
+  // Bahrain
+  { value: "manama", label: "Manama, Bahrain" },
+  // Oman
+  { value: "muscat", label: "Muscat, Oman" },
+];
 
 const Search = () => {
   const [location, setLocation] = useState("");
@@ -24,9 +45,29 @@ const Search = () => {
   const [pickupDate, setPickupDate] = useState<Date>();
   const [returnDate, setReturnDate] = useState<Date>();
 
+  const { data: cars, isLoading } = useQuery({
+    queryKey: ['available-cars', location, carType, pickupDate, returnDate],
+    enabled: !!(location && pickupDate && returnDate),
+    queryFn: async () => {
+      let query = supabase
+        .from('cars')
+        .select('*')
+        .eq('status', 'available');
+
+      if (location) {
+        query = query.ilike('location', `%${location}%`);
+      }
+
+      const { data, error } = await query;
+
+      if (error) throw error;
+      return data;
+    },
+  });
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Search with:", { location, carType, pickupDate, returnDate });
+    // The search will be triggered automatically by the useQuery hook
   };
 
   return (
@@ -45,16 +86,19 @@ const Search = () => {
               <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="location">Location</Label>
-                  <div className="relative">
-                    <SearchIcon className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                    <Input
-                      id="location"
-                      placeholder="Enter city or address"
-                      value={location}
-                      onChange={(e) => setLocation(e.target.value)}
-                      className="pl-10"
-                    />
-                  </div>
+                  <Select value={location} onValueChange={setLocation}>
+                    <SelectTrigger id="location" className="w-full">
+                      <MapPin className="mr-2 h-4 w-4" />
+                      <SelectValue placeholder="Select a city" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {GCC_CITIES.map((city) => (
+                        <SelectItem key={city.value} value={city.value}>
+                          {city.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div className="space-y-2">
@@ -135,13 +179,36 @@ const Search = () => {
             </form>
           </div>
 
-          {/* Results section placeholder */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white rounded-lg shadow p-6">
-              <h3 className="font-semibold mb-2">No results yet</h3>
-              <p className="text-gray-600">Use the search form above to find available vehicles.</p>
+          {/* Results section */}
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="animate-pulse">
+                  <div className="bg-white rounded-lg shadow-lg">
+                    <div className="h-48 bg-gray-200 rounded-t-lg" />
+                    <div className="p-4 space-y-4">
+                      <div className="h-4 bg-gray-200 rounded w-3/4" />
+                      <div className="h-4 bg-gray-200 rounded w-1/2" />
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-          </div>
+          ) : cars?.length ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {cars.map((car) => (
+                <CarCard key={car.id} {...car} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <Car className="mx-auto h-12 w-12 text-gray-400" />
+              <h3 className="mt-4 text-lg font-semibold">No cars available</h3>
+              <p className="text-muted-foreground">
+                Try adjusting your search criteria
+              </p>
+            </div>
+          )}
         </motion.div>
       </div>
     </AuthGuard>
