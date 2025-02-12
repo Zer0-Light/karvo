@@ -71,7 +71,8 @@ const CAR_MODELS: { [key: string]: string[] } = {
 
 const ListYourCarDetails = () => {
   const navigate = useNavigate();
-  const { carId } = useParams();
+  const params = useParams<{ carId: string }>();
+  const carId = params.carId;
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [availableModels, setAvailableModels] = useState<string[]>([]);
@@ -134,7 +135,7 @@ const ListYourCarDetails = () => {
       description: "Let's continue with listing your car.",
     });
     
-    // Navigate to the next step
+    // Navigate to the odometer and transmission section
     navigate(`/list-your-car/specs/${carId}`);
   };
 

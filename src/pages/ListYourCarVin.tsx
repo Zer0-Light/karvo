@@ -29,7 +29,8 @@ const vinFormSchema = z.object({
 
 const ListYourCarVin = () => {
   const navigate = useNavigate();
-  const { carId } = useParams();
+  const params = useParams<{ carId: string }>();
+  const carId = params.carId;
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -52,7 +53,7 @@ const ListYourCarVin = () => {
 
     setIsSubmitting(true);
     
-    // We'll store the VIN in the description field temporarily
+    // Store the VIN in the description field temporarily
     const { error } = await supabase
       .from('cars')
       .update({ description: values.vin })
@@ -75,7 +76,6 @@ const ListYourCarVin = () => {
       description: "Let's continue with listing your car.",
     });
     
-    // Navigate to the next step with the current carId
     navigate(`/list-your-car/details/${carId}`);
   };
 
