@@ -64,7 +64,8 @@ const ListYourCarVin = () => {
       description: "Let's continue with listing your car.",
     });
     
-    // Next step will be implemented later
+    // Navigate to the next step with the current carId
+    navigate(`/list-your-car/details/${carId}`);
   };
 
   return (
