@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -8,9 +7,18 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Car, AlertCircle } from "lucide-react";
+import { Car, AlertCircle, CreditCard, Camera } from "lucide-react";
 import AuthGuard from "@/components/AuthGuard";
 import { supabase } from "@/integrations/supabase/client";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
 
 const BecomeHost = () => {
   const navigate = useNavigate();
@@ -19,6 +27,16 @@ const BecomeHost = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showForm, setShowForm] = useState(false);
+  const [showPrerequisites, setShowPrerequisites] = useState(false);
+
+  const handleGetStarted = () => {
+    setShowPrerequisites(true);
+  };
+
+  const handleContinue = () => {
+    setShowPrerequisites(false);
+    setShowForm(true);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,7 +81,6 @@ const BecomeHost = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Navigation */}
       <nav className="absolute top-0 w-full px-4 py-6 flex justify-between items-center z-50">
         <h1 
           onClick={() => navigate("/")} 
@@ -88,49 +105,89 @@ const BecomeHost = () => {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      {!showForm && (
-        <section className="relative min-h-[80vh] flex items-center justify-center bg-gradient-to-b from-white to-gray-50 px-4">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-4xl mx-auto text-center"
-          >
-            <h1 className="text-4xl md:text-6xl font-bold text-primary mb-6">
-              Sign up as a Host Today
-            </h1>
-            <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Turn your car into a second income by sharing it on KARVO
-            </p>
-            <div className="flex flex-col md:flex-row gap-4 justify-center">
-              <Button 
-                onClick={() => setShowForm(true)}
-                className="bg-accent hover:bg-accent/90 text-lg px-8 py-6"
-              >
-                Sign up as Host
-              </Button>
-              <Button 
-                variant="outline"
-                className="border-2 border-accent text-accent hover:bg-accent/10 text-lg px-8 py-6"
-              >
-                Calculate earnings
-              </Button>
-            </div>
-          </motion.div>
-          
-          {/* Background Image */}
-          <div className="absolute inset-0 -z-10">
-            <img
-              src="/lovable-uploads/09957f3f-713e-4d24-9c6f-b3e8f135dc3e.png"
-              alt="Luxury car"
-              className="w-full h-full object-cover opacity-30"
-            />
+      <section className="relative min-h-[80vh] flex items-center justify-center bg-gradient-to-b from-white to-gray-50 px-4">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="max-w-4xl mx-auto text-center"
+        >
+          <h1 className="text-4xl md:text-6xl font-bold text-primary mb-6">
+            Sign up as a Host Today
+          </h1>
+          <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            Turn your car into a second income by sharing it on KARVO
+          </p>
+          <div className="flex flex-col md:flex-row gap-4 justify-center">
+            <Button 
+              onClick={handleGetStarted}
+              className="bg-accent hover:bg-accent/90 text-lg px-8 py-6"
+            >
+              Sign up as Host
+            </Button>
+            <Button 
+              variant="outline"
+              className="border-2 border-accent text-accent hover:bg-accent/10 text-lg px-8 py-6"
+            >
+              Calculate earnings
+            </Button>
           </div>
-        </section>
-      )}
+        </motion.div>
+        
+        <div className="absolute inset-0 -z-10">
+          <img
+            src="/lovable-uploads/09957f3f-713e-4d24-9c6f-b3e8f135dc3e.png"
+            alt="Luxury car"
+            className="w-full h-full object-cover opacity-30"
+          />
+        </div>
+      </section>
 
-      {/* Registration Form */}
+      <AlertDialog open={showPrerequisites} onOpenChange={setShowPrerequisites}>
+        <AlertDialogContent className="max-w-md">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-2xl font-bold text-center">
+              Ready, set, list
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-center text-base">
+              This will take about 10 minutes, and you'll need:
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <div className="py-6 space-y-6">
+            <div className="flex gap-4 items-start">
+              <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
+                <CreditCard className="w-5 h-5 text-accent" />
+              </div>
+              <div>
+                <h3 className="font-semibold mb-1">License plate number</h3>
+                <p className="text-sm text-muted-foreground">
+                  We need this to ensure your car is protected by our vehicle protection packages.
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-4 items-start">
+              <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
+                <Camera className="w-5 h-5 text-accent" />
+              </div>
+              <div>
+                <h3 className="font-semibold mb-1">Photos of your car</h3>
+                <p className="text-sm text-muted-foreground">
+                  Guests need to see your car before they book it. Don't worry about this yet — we'll coach you on taking high quality photos later.
+                </p>
+              </div>
+            </div>
+          </div>
+          <AlertDialogFooter>
+            <AlertDialogAction 
+              onClick={handleContinue}
+              className="w-full bg-accent hover:bg-accent/90"
+            >
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       {showForm && (
         <AuthGuard>
           <motion.div 
@@ -194,7 +251,6 @@ const BecomeHost = () => {
         </AuthGuard>
       )}
 
-      {/* Key Benefits Section */}
       {!showForm && (
         <section className="py-20 px-4 bg-white">
           <div className="max-w-6xl mx-auto">
