@@ -115,7 +115,7 @@ const ListYourCarDetails = () => {
         make: values.make,
         model: values.model,
       })
-      .eq('id', carId); // Using the actual carId from params
+      .eq('id', carId);
 
     setIsSubmitting(false);
 

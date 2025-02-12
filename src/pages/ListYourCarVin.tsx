@@ -41,16 +41,27 @@ const ListYourCarVin = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof vinFormSchema>) => {
+    if (!carId) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Car ID is missing. Please try again.",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     
+    // We'll store the VIN in the description field temporarily
     const { error } = await supabase
       .from('cars')
-      .update({ vin: values.vin })
+      .update({ description: values.vin })
       .eq('id', carId);
 
     setIsSubmitting(false);
 
     if (error) {
+      console.error('Error saving VIN:', error);
       toast({
         variant: "destructive",
         title: "Error",
@@ -98,7 +109,7 @@ const ListYourCarVin = () => {
                 <span>Step 1 of 10</span>
                 <span>Vehicle Identification</span>
               </div>
-              <Progress value={10} className="h-2" /> {/* 100/10 = 10% */}
+              <Progress value={10} className="h-2" />
             </div>
 
             <h1 className="text-3xl font-bold text-center mb-8">
