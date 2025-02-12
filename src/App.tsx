@@ -10,6 +10,7 @@ import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Search from "./pages/Search";
 import BecomeHost from "./pages/BecomeHost";
+import ListYourCar from "./pages/ListYourCar";
 import Trips from "./pages/Trips";
 import Inbox from "./pages/Inbox";
 import Profile from "./pages/Profile";
@@ -40,6 +41,7 @@ const App = () => (
           <Route path="/signup" element={<SignUp />} />
           <Route path="/search" element={<Search />} />
           <Route path="/become-host" element={<BecomeHost />} />
+          <Route path="/list-your-car" element={<ListYourCar />} />
           <Route path="/trips" element={<Trips />} />
           <Route path="/inbox" element={<Inbox />} />
           <Route path="/profile" element={<Profile />} />
