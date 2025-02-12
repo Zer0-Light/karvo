@@ -78,6 +78,40 @@ const ListYourCarDetails = () => {
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 30 }, (_, i) => (currentYear - i).toString());
 
+  // Add this useEffect to verify carId on component mount
+  useEffect(() => {
+    if (!carId) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "No car ID provided. Redirecting to start.",
+      });
+      navigate("/list-your-car");
+      return;
+    }
+
+    // Verify the carId exists in the database
+    const checkCar = async () => {
+      const { data, error } = await supabase
+        .from('cars')
+        .select('id')
+        .eq('id', carId)
+        .single();
+
+      if (error || !data) {
+        console.error('Error fetching car:', error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Invalid car ID. Redirecting to start.",
+        });
+        navigate("/list-your-car");
+      }
+    };
+
+    checkCar();
+  }, [carId, navigate, toast]);
+
   const form = useForm<z.infer<typeof carFormSchema>>({
     resolver: zodResolver(carFormSchema),
     defaultValues: {
@@ -103,11 +137,13 @@ const ListYourCarDetails = () => {
         title: "Error",
         description: "Car ID is missing. Please try again.",
       });
+      navigate("/list-your-car");
       return;
     }
 
     try {
       setIsSubmitting(true);
+      console.log('Updating car with ID:', carId); // Debug log
       
       const { error } = await supabase
         .from('cars')
@@ -118,7 +154,10 @@ const ListYourCarDetails = () => {
         })
         .eq('id', carId);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase error:', error); // Debug log
+        throw error;
+      }
 
       toast({
         title: "Car details saved",
