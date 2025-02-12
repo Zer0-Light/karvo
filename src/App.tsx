@@ -11,6 +11,7 @@ import SignUp from "./pages/SignUp";
 import Search from "./pages/Search";
 import BecomeHost from "./pages/BecomeHost";
 import ListYourCar from "./pages/ListYourCar";
+import ListYourCarVin from "./pages/ListYourCarVin";
 import Trips from "./pages/Trips";
 import Inbox from "./pages/Inbox";
 import Profile from "./pages/Profile";
@@ -42,6 +43,7 @@ const App = () => (
           <Route path="/search" element={<Search />} />
           <Route path="/become-host" element={<BecomeHost />} />
           <Route path="/list-your-car" element={<ListYourCar />} />
+          <Route path="/list-your-car/vin/:carId" element={<ListYourCarVin />} />
           <Route path="/trips" element={<Trips />} />
           <Route path="/inbox" element={<Inbox />} />
           <Route path="/profile" element={<Profile />} />
