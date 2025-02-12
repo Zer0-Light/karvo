@@ -72,12 +72,14 @@ export type Database = {
           location: string
           make: string
           model: string
+          odometer_reading: number | null
           photos: string[] | null
           postal_code: string | null
           price_per_day: number
           state: string | null
           status: Database["public"]["Enums"]["car_status"] | null
           street_address: string | null
+          transmission_type: string | null
           updated_at: string
           vin: string | null
           year: number
@@ -93,12 +95,14 @@ export type Database = {
           location: string
           make: string
           model: string
+          odometer_reading?: number | null
           photos?: string[] | null
           postal_code?: string | null
           price_per_day: number
           state?: string | null
           status?: Database["public"]["Enums"]["car_status"] | null
           street_address?: string | null
+          transmission_type?: string | null
           updated_at?: string
           vin?: string | null
           year: number
@@ -114,12 +118,14 @@ export type Database = {
           location?: string
           make?: string
           model?: string
+          odometer_reading?: number | null
           photos?: string[] | null
           postal_code?: string | null
           price_per_day?: number
           state?: string | null
           status?: Database["public"]["Enums"]["car_status"] | null
           street_address?: string | null
+          transmission_type?: string | null
           updated_at?: string
           vin?: string | null
           year?: number
