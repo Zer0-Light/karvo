@@ -19,7 +19,7 @@ const queryClient = new QueryClient();
 
 const MenuButton = () => {
   const location = useLocation();
-  const hiddenPages = ['/login', '/signup', '/become-host'];
+  const hiddenPages = ['/login', '/signup']; // Only hide on login and signup
   const shouldHideButton = hiddenPages.includes(location.pathname);
 
   if (shouldHideButton) return null;
