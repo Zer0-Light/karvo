@@ -6,6 +6,7 @@ import { useToast } from "@/components/ui/use-toast";
 import AuthGuard from "@/components/AuthGuard";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
+import { z } from "zod"; // Added this import
 import {
   Form,
   FormControl,
