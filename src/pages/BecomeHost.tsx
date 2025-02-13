@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -110,12 +109,6 @@ const BecomeHost = () => {
               className="bg-accent hover:bg-accent/90 text-lg px-8 py-6"
             >
               Sign up as Host
-            </Button>
-            <Button 
-              variant="outline"
-              className="border-2 border-accent text-accent hover:bg-accent/10 text-lg px-8 py-6"
-            >
-              Calculate earnings
             </Button>
           </div>
         </motion.div>
