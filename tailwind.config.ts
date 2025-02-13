@@ -21,24 +21,16 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#1A1F2C", // Deep navy blue
+          DEFAULT: "#403E43", // Charcoal gray
           foreground: "#FFFFFF",
         },
         secondary: {
-          DEFAULT: "#F6F8FA", // Light blue-gray
-          foreground: "#1A1F2C",
+          DEFAULT: "#C8C8C9", // Light gray
+          foreground: "#403E43",
         },
         accent: {
-          DEFAULT: "#6E59A5", // Rich purple
+          DEFAULT: "#9b87f5", // Vibrant purple
           foreground: "#FFFFFF",
-        },
-        destructive: {
-          DEFAULT: "#FF4D4D", // Bright red for errors
-          foreground: "#FFFFFF",
-        },
-        muted: {
-          DEFAULT: "#F1F0FB", // Very light purple
-          foreground: "#6E6E76",
         },
       },
       keyframes: {
