@@ -1,42 +1,14 @@
 
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import AuthGuard from "@/components/AuthGuard";
 import { motion } from "framer-motion";
-import { useForm } from "react-hook-form";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Progress } from "@/components/ui/progress";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/integrations/supabase/client";
-
-const odometerFormSchema = z.object({
-  odometer_reading: z.string()
-    .min(1, "Odometer reading is required")
-    .refine(val => !isNaN(Number(val)), "Must be a valid number")
-    .refine(val => Number(val) >= 0, "Odometer reading must be positive")
-    .refine(val => Number(val) <= 999999, "Odometer reading too high"),
-  transmission_type: z.enum(["automatic", "manual"], {
-    required_error: "Please select a transmission type",
-  }),
-});
+import { ListingNavBar } from "@/components/ListingNavBar";
+import { ListingProgress } from "@/components/ListingProgress";
+import { OdometerForm } from "@/components/OdometerForm";
+import type { OdometerFormValues } from "@/schemas/odometerFormSchema";
 
 const ListYourCarOdometer = () => {
   const navigate = useNavigate();
@@ -44,15 +16,7 @@ const ListYourCarOdometer = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const form = useForm<z.infer<typeof odometerFormSchema>>({
-    resolver: zodResolver(odometerFormSchema),
-    defaultValues: {
-      odometer_reading: "",
-      transmission_type: undefined,
-    },
-  });
-
-  const onSubmit = async (values: z.infer<typeof odometerFormSchema>) => {
+  const onSubmit = async (values: OdometerFormValues) => {
     if (!carId) {
       toast({
         variant: "destructive",
@@ -90,7 +54,6 @@ const ListYourCarOdometer = () => {
         description: "Let's continue with listing your car.",
       });
       
-      // Navigate to the next step
       navigate(`/list-your-car/photos/${carId}`);
     } catch (error) {
       console.error('Error in submission:', error);
@@ -106,20 +69,7 @@ const ListYourCarOdometer = () => {
   return (
     <AuthGuard>
       <div className="min-h-screen bg-background">
-        <nav className="w-full px-4 py-6 flex justify-between items-center border-b">
-          <h1 
-            onClick={() => navigate("/")} 
-            className="text-2xl font-bold text-primary cursor-pointer"
-          >
-            KARVO
-          </h1>
-          <Button 
-            variant="ghost"
-            onClick={() => navigate("/")}
-          >
-            Exit
-          </Button>
-        </nav>
+        <ListingNavBar />
 
         <main className="container max-w-4xl mx-auto py-8 px-4">
           <motion.div
@@ -127,14 +77,7 @@ const ListYourCarOdometer = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            {/* Progress Section */}
-            <div className="mb-8">
-              <div className="flex justify-between text-sm text-muted-foreground mb-2">
-                <span>Step 4 of 11</span>
-                <span>Vehicle Details</span>
-              </div>
-              <Progress value={36.36} className="h-2" />
-            </div>
+            <ListingProgress step={4} totalSteps={11} label="Vehicle Details" />
 
             <h1 className="text-3xl font-bold text-center mb-8">
               Vehicle Details
@@ -144,60 +87,7 @@ const ListYourCarOdometer = () => {
             </div>
 
             <div className="max-w-xl mx-auto">
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  <FormField
-                    control={form.control}
-                    name="odometer_reading"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Current Odometer Reading (km)</FormLabel>
-                        <FormControl>
-                          <Input 
-                            type="number"
-                            placeholder="Enter current mileage"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="transmission_type"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Transmission Type</FormLabel>
-                        <Select 
-                          onValueChange={field.onChange} 
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select transmission type" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="automatic">Automatic</SelectItem>
-                            <SelectItem value="manual">Manual</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <Button 
-                    type="submit" 
-                    className="w-full"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? "Saving..." : "Continue"}
-                  </Button>
-                </form>
-              </Form>
+              <OdometerForm onSubmit={onSubmit} isSubmitting={isSubmitting} />
             </div>
           </motion.div>
         </main>
