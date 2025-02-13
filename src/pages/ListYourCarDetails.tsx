@@ -123,8 +123,8 @@ const ListYourCarDetails = () => {
       description: "Let's continue with listing your car.",
     });
     
-    // Navigate to the next step
-    navigate(`/list-your-car/location/${carId}`);
+    // Updated navigation to the odometer page
+    navigate(`/list-your-car/odometer/${carId}`);
   };
 
   return (
