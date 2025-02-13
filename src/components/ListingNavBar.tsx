@@ -7,12 +7,16 @@ export const ListingNavBar = () => {
   
   return (
     <nav className="w-full px-4 py-6 flex justify-between items-center border-b">
-      <h1 
+      <div 
         onClick={() => navigate("/")} 
-        className="text-2xl font-bold text-primary cursor-pointer"
+        className="cursor-pointer"
       >
-        KARVO
-      </h1>
+        <img 
+          src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" 
+          alt="KARVO" 
+          className="h-8"
+        />
+      </div>
       <Button 
         variant="ghost"
         onClick={() => navigate("/")}
