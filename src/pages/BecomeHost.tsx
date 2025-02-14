@@ -7,6 +7,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { Card, CardContent } from "@/components/ui/card";
 import { Car, AlertCircle, CreditCard, Camera, Wallet, Shield, Clock, Star, DollarSign, Users, CarTaxiFront, Heart, Laugh } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import Footer from "@/components/Footer";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -395,6 +396,8 @@ const BecomeHost = () => {
           </motion.div>
         </AlertDialogContent>
       </AlertDialog>
+
+      <Footer />
     </div>
   );
 };
