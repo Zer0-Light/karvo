@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
@@ -16,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/components/ui/use-toast";
+import Footer from "@/components/Footer";
 
 type Message = {
   id: string;
@@ -174,150 +174,153 @@ const Inbox = () => {
 
   return (
     <AuthGuard>
-      <div className="min-h-screen bg-gray-50/50 p-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="max-w-6xl mx-auto"
-        >
-          <h1 className="text-4xl font-bold text-primary mb-8">Inbox</h1>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Conversations List */}
-            <Card className="md:col-span-1">
-              <CardHeader>
-                <CardTitle>Conversations</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ScrollArea className="h-[600px]">
-                  {conversationsLoading ? (
-                    <div className="space-y-4">
-                      {[1, 2, 3].map((i) => (
-                        <div key={i} className="animate-pulse">
-                          <div className="h-12 bg-gray-200 rounded" />
-                        </div>
-                      ))}
-                    </div>
-                  ) : conversations?.length ? (
-                    <div className="space-y-2">
-                      {conversations.map((conversation) => (
-                        <button
-                          key={conversation.user_id}
-                          onClick={() => setSelectedConversation(conversation.user_id)}
-                          className={`w-full p-3 text-left rounded-lg transition-colors ${
-                            selectedConversation === conversation.user_id
-                              ? 'bg-primary text-primary-foreground'
-                              : 'hover:bg-muted'
-                          }`}
-                        >
-                          <div className="flex justify-between items-start">
-                            <span className="font-medium">{conversation.full_name}</span>
-                            {conversation.unread_count > 0 && (
-                              <span className="bg-destructive text-destructive-foreground text-xs px-2 py-1 rounded-full">
-                                {conversation.unread_count}
-                              </span>
-                            )}
-                          </div>
-                          <p className="text-sm truncate opacity-70">
-                            {conversation.last_message}
-                          </p>
-                          <span className="text-xs opacity-50">
-                            {format(new Date(conversation.last_message_time), 'PPp')}
-                          </span>
-                        </button>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="text-center py-8 text-muted-foreground">
-                      <MessageSquare className="mx-auto h-12 w-12 opacity-50 mb-2" />
-                      <p>No conversations yet</p>
-                    </div>
-                  )}
-                </ScrollArea>
-              </CardContent>
-            </Card>
-
-            {/* Messages */}
-            <Card className="md:col-span-2">
-              <CardHeader>
-                <CardTitle>
-                  {selectedConversation 
-                    ? conversations?.find(c => c.user_id === selectedConversation)?.full_name || "Chat"
-                    : "Select a conversation"}
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <ScrollArea className="h-[500px] mb-4">
-                  {selectedConversation ? (
-                    messagesLoading ? (
+      <div className="min-h-screen bg-gray-50/50 flex flex-col">
+        <div className="flex-1 p-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="max-w-6xl mx-auto"
+          >
+            <h1 className="text-4xl font-bold text-primary mb-8">Inbox</h1>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Conversations List */}
+              <Card className="md:col-span-1">
+                <CardHeader>
+                  <CardTitle>Conversations</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ScrollArea className="h-[600px]">
+                    {conversationsLoading ? (
                       <div className="space-y-4">
                         {[1, 2, 3].map((i) => (
                           <div key={i} className="animate-pulse">
-                            <div className="h-16 bg-gray-200 rounded" />
+                            <div className="h-12 bg-gray-200 rounded" />
                           </div>
                         ))}
                       </div>
-                    ) : messages?.length ? (
-                      <div className="space-y-4">
-                        {messages.map((message) => (
-                          <div
-                            key={message.id}
-                            className={`flex ${
-                              message.sender_id === selectedConversation ? 'justify-start' : 'justify-end'
+                    ) : conversations?.length ? (
+                      <div className="space-y-2">
+                        {conversations.map((conversation) => (
+                          <button
+                            key={conversation.user_id}
+                            onClick={() => setSelectedConversation(conversation.user_id)}
+                            className={`w-full p-3 text-left rounded-lg transition-colors ${
+                              selectedConversation === conversation.user_id
+                                ? 'bg-primary text-primary-foreground'
+                                : 'hover:bg-muted'
                             }`}
                           >
-                            <div
-                              className={`max-w-[80%] p-3 rounded-lg ${
-                                message.sender_id === selectedConversation
-                                  ? 'bg-muted'
-                                  : 'bg-primary text-primary-foreground'
-                              }`}
-                            >
-                              <p>{message.content}</p>
-                              <span className="text-xs opacity-50 mt-1 block">
-                                {format(new Date(message.created_at), 'PPp')}
-                              </span>
+                            <div className="flex justify-between items-start">
+                              <span className="font-medium">{conversation.full_name}</span>
+                              {conversation.unread_count > 0 && (
+                                <span className="bg-destructive text-destructive-foreground text-xs px-2 py-1 rounded-full">
+                                  {conversation.unread_count}
+                                </span>
+                              )}
                             </div>
-                          </div>
+                            <p className="text-sm truncate opacity-70">
+                              {conversation.last_message}
+                            </p>
+                            <span className="text-xs opacity-50">
+                              {format(new Date(conversation.last_message_time), 'PPp')}
+                            </span>
+                          </button>
                         ))}
                       </div>
                     ) : (
                       <div className="text-center py-8 text-muted-foreground">
                         <MessageSquare className="mx-auto h-12 w-12 opacity-50 mb-2" />
-                        <p>No messages yet</p>
+                        <p>No conversations yet</p>
                       </div>
-                    )
-                  ) : (
-                    <div className="text-center py-8 text-muted-foreground">
-                      <MessageSquare className="mx-auto h-12 w-12 opacity-50 mb-2" />
-                      <p>Select a conversation to view messages</p>
+                    )}
+                  </ScrollArea>
+                </CardContent>
+              </Card>
+
+              {/* Messages */}
+              <Card className="md:col-span-2">
+                <CardHeader>
+                  <CardTitle>
+                    {selectedConversation 
+                      ? conversations?.find(c => c.user_id === selectedConversation)?.full_name || "Chat"
+                      : "Select a conversation"}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <ScrollArea className="h-[500px] mb-4">
+                    {selectedConversation ? (
+                      messagesLoading ? (
+                        <div className="space-y-4">
+                          {[1, 2, 3].map((i) => (
+                            <div key={i} className="animate-pulse">
+                              <div className="h-16 bg-gray-200 rounded" />
+                            </div>
+                          ))}
+                        </div>
+                      ) : messages?.length ? (
+                        <div className="space-y-4">
+                          {messages.map((message) => (
+                            <div
+                              key={message.id}
+                              className={`flex ${
+                                message.sender_id === selectedConversation ? 'justify-start' : 'justify-end'
+                              }`}
+                            >
+                              <div
+                                className={`max-w-[80%] p-3 rounded-lg ${
+                                  message.sender_id === selectedConversation
+                                    ? 'bg-muted'
+                                    : 'bg-primary text-primary-foreground'
+                                }`}
+                              >
+                                <p>{message.content}</p>
+                                <span className="text-xs opacity-50 mt-1 block">
+                                  {format(new Date(message.created_at), 'PPp')}
+                                </span>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="text-center py-8 text-muted-foreground">
+                          <MessageSquare className="mx-auto h-12 w-12 opacity-50 mb-2" />
+                          <p>No messages yet</p>
+                        </div>
+                      )
+                    ) : (
+                      <div className="text-center py-8 text-muted-foreground">
+                        <MessageSquare className="mx-auto h-12 w-12 opacity-50 mb-2" />
+                        <p>Select a conversation to view messages</p>
+                      </div>
+                    )}
+                  </ScrollArea>
+
+                  {selectedConversation && (
+                    <div className="flex gap-2">
+                      <Input
+                        placeholder="Type your message..."
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault();
+                            sendMessage();
+                          }
+                        }}
+                      />
+                      <Button onClick={sendMessage}>
+                        <Send className="h-4 w-4" />
+                      </Button>
                     </div>
                   )}
-                </ScrollArea>
-
-                {selectedConversation && (
-                  <div className="flex gap-2">
-                    <Input
-                      placeholder="Type your message..."
-                      value={newMessage}
-                      onChange={(e) => setNewMessage(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' && !e.shiftKey) {
-                          e.preventDefault();
-                          sendMessage();
-                        }
-                      }}
-                    />
-                    <Button onClick={sendMessage}>
-                      <Send className="h-4 w-4" />
-                    </Button>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </div>
-        </motion.div>
+                </CardContent>
+              </Card>
+            </div>
+          </motion.div>
+        </div>
+        <Footer />
       </div>
     </AuthGuard>
   );

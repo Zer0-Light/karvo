@@ -24,6 +24,7 @@ import { Progress } from "@/components/ui/progress";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/integrations/supabase/client";
+import Footer from "@/components/Footer";
 
 const carFormSchema = z.object({
   year: z.string().min(4, "Please select a year"),
@@ -86,7 +87,6 @@ const ListYourCarDetails = () => {
     },
   });
 
-  // Update available models when make changes
   const watchMake = form.watch("make");
   useEffect(() => {
     if (watchMake && CAR_MODELS[watchMake]) {
@@ -123,13 +123,12 @@ const ListYourCarDetails = () => {
       description: "Let's continue with listing your car.",
     });
     
-    // Updated navigation to the odometer page
     navigate(`/list-your-car/odometer/${carId}`);
   };
 
   return (
     <AuthGuard>
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background flex flex-col">
         <nav className="w-full px-4 py-6 flex justify-between items-center border-b">
           <h1 
             onClick={() => navigate("/")} 
@@ -145,13 +144,12 @@ const ListYourCarDetails = () => {
           </Button>
         </nav>
 
-        <main className="container max-w-4xl mx-auto py-8 px-4">
+        <main className="container max-w-4xl mx-auto py-8 px-4 flex-1">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            {/* Progress Section */}
             <div className="mb-8">
               <div className="flex justify-between text-sm text-muted-foreground mb-2">
                 <span>Step 2 of 10</span>
@@ -267,6 +265,7 @@ const ListYourCarDetails = () => {
             </div>
           </motion.div>
         </main>
+        <Footer />
       </div>
     </AuthGuard>
   );

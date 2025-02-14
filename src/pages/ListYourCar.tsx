@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ import { Progress } from "@/components/ui/progress";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/integrations/supabase/client";
+import Footer from "@/components/Footer";
 
 const locationFormSchema = z.object({
   street_address: z.string().min(1, "Street address is required"),
@@ -114,7 +116,7 @@ const ListYourCar = () => {
 
   return (
     <AuthGuard>
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background flex flex-col">
         <nav className="w-full px-4 py-6 flex justify-between items-center border-b">
           <h1 
             onClick={() => navigate("/")} 
@@ -130,7 +132,7 @@ const ListYourCar = () => {
           </Button>
         </nav>
 
-        <main className="container max-w-4xl mx-auto py-8 px-4">
+        <main className="container max-w-4xl mx-auto py-8 px-4 flex-1">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -237,6 +239,7 @@ const ListYourCar = () => {
             </div>
           </motion.div>
         </main>
+        <Footer />
       </div>
     </AuthGuard>
   );
