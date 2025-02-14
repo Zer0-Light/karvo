@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Facebook, Twitter, Instagram, Youtube } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
@@ -141,13 +140,6 @@ const Footer = () => {
             </a>
           </div>
           <div className="flex items-center gap-4">
-            <a href="#" className="block">
-              <img 
-                src="/lovable-uploads/4cf19ef8-3ca1-4596-9158-a67d065c9bac.png" 
-                alt="Download on the App Store" 
-                className="h-10"
-              />
-            </a>
             <a href="#" className="block">
               <img 
                 src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" 
