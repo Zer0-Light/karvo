@@ -31,12 +31,15 @@ const CarHistory = () => {
     setIsSubmitting(true);
 
     try {
+      // Update car record with type-safe fields
+      const updateData = {
+        taxes_paid: taxesPaid,
+        no_salvage_title: noSalvageTitle,
+      } as const;
+
       const { error } = await supabase
         .from('cars')
-        .update({
-          taxes_paid: taxesPaid,
-          no_salvage_title: noSalvageTitle,
-        })
+        .update(updateData)
         .eq('id', carId);
 
       if (error) throw error;

@@ -72,6 +72,7 @@ export type Database = {
           location: string
           make: string
           model: string
+          no_salvage_title: boolean | null
           odometer_reading: number | null
           photos: string[] | null
           postal_code: string | null
@@ -79,6 +80,7 @@ export type Database = {
           state: string | null
           status: Database["public"]["Enums"]["car_status"] | null
           street_address: string | null
+          taxes_paid: boolean | null
           transmission_type: string | null
           updated_at: string
           vin: string | null
@@ -95,6 +97,7 @@ export type Database = {
           location: string
           make: string
           model: string
+          no_salvage_title?: boolean | null
           odometer_reading?: number | null
           photos?: string[] | null
           postal_code?: string | null
@@ -102,6 +105,7 @@ export type Database = {
           state?: string | null
           status?: Database["public"]["Enums"]["car_status"] | null
           street_address?: string | null
+          taxes_paid?: boolean | null
           transmission_type?: string | null
           updated_at?: string
           vin?: string | null
@@ -118,6 +122,7 @@ export type Database = {
           location?: string
           make?: string
           model?: string
+          no_salvage_title?: boolean | null
           odometer_reading?: number | null
           photos?: string[] | null
           postal_code?: string | null
@@ -125,6 +130,7 @@ export type Database = {
           state?: string | null
           status?: Database["public"]["Enums"]["car_status"] | null
           street_address?: string | null
+          taxes_paid?: boolean | null
           transmission_type?: string | null
           updated_at?: string
           vin?: string | null
