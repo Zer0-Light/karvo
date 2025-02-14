@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -19,6 +18,7 @@ import { Progress } from "@/components/ui/progress";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/integrations/supabase/client";
+import Footer from "@/components/Footer";
 
 const vinFormSchema = z.object({
   vin: z.string()
@@ -33,7 +33,6 @@ const ListYourCarVin = () => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Add verification of carId
   useEffect(() => {
     const verifyCar = async () => {
       if (!carId) {
@@ -108,7 +107,6 @@ const ListYourCarVin = () => {
         description: "Let's continue with listing your car.",
       });
       
-      // Navigate to the next step with the current carId
       navigate(`/list-your-car/details/${carId}`);
     } catch (error) {
       console.error('Error in submission:', error);
@@ -123,7 +121,7 @@ const ListYourCarVin = () => {
 
   return (
     <AuthGuard>
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background flex flex-col">
         <nav className="w-full px-4 py-6 flex justify-between items-center border-b">
           <h1 
             onClick={() => navigate("/")} 
@@ -139,13 +137,12 @@ const ListYourCarVin = () => {
           </Button>
         </nav>
 
-        <main className="container max-w-4xl mx-auto py-8 px-4">
+        <main className="container max-w-4xl mx-auto py-8 px-4 flex-1">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            {/* Progress Section */}
             <div className="mb-8">
               <div className="flex justify-between text-sm text-muted-foreground mb-2">
                 <span>Step 2 of 11</span>
@@ -195,6 +192,7 @@ const ListYourCarVin = () => {
             </div>
           </motion.div>
         </main>
+        <Footer />
       </div>
     </AuthGuard>
   );

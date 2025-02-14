@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -6,7 +5,7 @@ import { useToast } from "@/components/ui/use-toast";
 import AuthGuard from "@/components/AuthGuard";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
-import { z } from "zod"; // Added this import
+import { z } from "zod";
 import {
   Form,
   FormControl,
@@ -27,6 +26,7 @@ import { Progress } from "@/components/ui/progress";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { supabase } from "@/integrations/supabase/client";
 import { odometerFormSchema } from "@/schemas/odometerFormSchema";
+import Footer from "@/components/Footer";
 
 const ListYourCarOdometer = () => {
   const navigate = useNavigate();
@@ -95,7 +95,7 @@ const ListYourCarOdometer = () => {
 
   return (
     <AuthGuard>
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background flex flex-col">
         <nav className="w-full px-4 py-6 flex justify-between items-center border-b">
           <h1 
             onClick={() => navigate("/")} 
@@ -111,13 +111,12 @@ const ListYourCarOdometer = () => {
           </Button>
         </nav>
 
-        <main className="container max-w-4xl mx-auto py-8 px-4">
+        <main className="container max-w-4xl mx-auto py-8 px-4 flex-1">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            {/* Progress Section */}
             <div className="mb-8">
               <div className="flex justify-between text-sm text-muted-foreground mb-2">
                 <span>Step 3 of 11</span>
@@ -191,6 +190,7 @@ const ListYourCarOdometer = () => {
             </div>
           </motion.div>
         </main>
+        <Footer />
       </div>
     </AuthGuard>
   );

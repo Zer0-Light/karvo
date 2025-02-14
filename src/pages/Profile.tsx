@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import AuthGuard from "@/components/AuthGuard";
@@ -7,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { BadgeCheck, Mail, Phone, Calendar, Shield, AlertCircle } from "lucide-react";
 import { format } from "date-fns";
+import Footer from "@/components/Footer";
 
 type Profile = {
   id: string;
@@ -57,10 +57,9 @@ const Profile = () => {
 
   return (
     <AuthGuard>
-      <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20">
-        <div className="container max-w-4xl mx-auto px-4 py-12">
+      <div className="min-h-screen bg-gradient-to-b from-background to-secondary/20 flex flex-col">
+        <div className="container max-w-4xl mx-auto px-4 py-12 flex-1">
           <div className="space-y-8">
-            {/* Profile Header */}
             <div className="relative">
               <div className="absolute inset-0 h-48 bg-gradient-to-r from-accent to-primary/10 rounded-lg opacity-50" />
               <div className="relative pt-16 px-6 pb-8">
@@ -79,12 +78,10 @@ const Profile = () => {
               </div>
             </div>
 
-            {/* Account Status Card */}
             <Card className="border-none shadow-lg bg-card/50 backdrop-blur-sm">
               <CardContent className="p-8">
                 <h2 className="text-xl font-semibold mb-6">Account Status</h2>
                 <div className="grid gap-6">
-                  {/* Email Status */}
                   <div className="flex items-center gap-4 p-4 rounded-lg bg-background/50 transition-colors hover:bg-background">
                     <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
                       <Mail className="h-6 w-6 text-primary" />
@@ -106,7 +103,6 @@ const Profile = () => {
                     )}
                   </div>
 
-                  {/* Phone Status */}
                   <div className="flex items-center gap-4 p-4 rounded-lg bg-background/50 transition-colors hover:bg-background">
                     <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
                       <Phone className="h-6 w-6 text-primary" />
@@ -128,7 +124,6 @@ const Profile = () => {
                     )}
                   </div>
 
-                  {/* Driver Status */}
                   <div className="flex items-center gap-4 p-4 rounded-lg bg-background/50 transition-colors hover:bg-background">
                     <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
                       <Shield className="h-6 w-6 text-primary" />
@@ -152,7 +147,6 @@ const Profile = () => {
                     )}
                   </div>
 
-                  {/* Join Date */}
                   <div className="flex items-center gap-4 p-4 rounded-lg bg-background/50 transition-colors hover:bg-background">
                     <div className="flex items-center justify-center w-12 h-12 rounded-full bg-primary/10">
                       <Calendar className="h-6 w-6 text-primary" />
@@ -169,6 +163,7 @@ const Profile = () => {
             </Card>
           </div>
         </div>
+        <Footer />
       </div>
     </AuthGuard>
   );
