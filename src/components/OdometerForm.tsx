@@ -64,13 +64,17 @@ export const OdometerForm = ({ onSubmit, isSubmitting }: OdometerFormProps) => {
                 defaultValue={field.value}
               >
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-background">
                     <SelectValue placeholder="Select mileage range" />
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent>
+                <SelectContent className="bg-popover border shadow-md">
                   {MILEAGE_RANGES.map((range) => (
-                    <SelectItem key={range} value={range}>
+                    <SelectItem 
+                      key={range} 
+                      value={range}
+                      className="hover:bg-accent focus:bg-accent"
+                    >
                       {range} miles
                     </SelectItem>
                   ))}
@@ -92,13 +96,23 @@ export const OdometerForm = ({ onSubmit, isSubmitting }: OdometerFormProps) => {
                 defaultValue={field.value}
               >
                 <FormControl>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-background">
                     <SelectValue placeholder="Select transmission type" />
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent>
-                  <SelectItem value="automatic">Automatic</SelectItem>
-                  <SelectItem value="manual">Manual</SelectItem>
+                <SelectContent className="bg-popover border shadow-md">
+                  <SelectItem 
+                    value="automatic"
+                    className="hover:bg-accent focus:bg-accent"
+                  >
+                    Automatic
+                  </SelectItem>
+                  <SelectItem 
+                    value="manual"
+                    className="hover:bg-accent focus:bg-accent"
+                  >
+                    Manual
+                  </SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />
