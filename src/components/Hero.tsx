@@ -38,7 +38,7 @@ const Hero = () => {
         <img 
           src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" 
           alt="KARVO" 
-          className="h-12 w-auto"
+          className="h-36 w-auto"
         />
         <Button 
           variant="outline" 
