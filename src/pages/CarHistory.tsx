@@ -1,170 +1,190 @@
 
-import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { motion } from "framer-motion";
-import { format } from "date-fns";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Calendar, Car, DollarSign, MapPin } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 import AuthGuard from "@/components/AuthGuard";
+import { motion } from "framer-motion";
+import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/integrations/supabase/client";
+import { ListingProgress } from "@/components/ListingProgress";
 import Footer from "@/components/Footer";
 
 const CarHistory = () => {
-  const { carId } = useParams();
   const navigate = useNavigate();
+  const { carId } = useParams();
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [taxesPaid, setTaxesPaid] = useState<boolean | null>(null);
+  const [noSalvageTitle, setNoSalvageTitle] = useState(false);
 
-  const { data: car, isLoading: isLoadingCar } = useQuery({
-    queryKey: ['car', carId],
-    queryFn: async () => {
-      const { data, error } = await supabase
+  const handleSubmit = async () => {
+    if (taxesPaid === null) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Please indicate whether you paid applicable sales taxes.",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const { error } = await supabase
         .from('cars')
-        .select('*')
-        .eq('id', carId)
-        .single();
+        .update({
+          taxes_paid: taxesPaid,
+          no_salvage_title: noSalvageTitle,
+        })
+        .eq('id', carId);
 
       if (error) throw error;
-      return data;
-    },
-  });
 
-  const { data: bookings, isLoading: isLoadingBookings } = useQuery({
-    queryKey: ['car-bookings', carId],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('bookings')
-        .select(`
-          *,
-          profiles:renter_id (
-            full_name,
-            avatar_url
-          )
-        `)
-        .eq('car_id', carId)
-        .order('start_date', { ascending: false });
+      toast({
+        title: "Information saved",
+        description: "Let's continue with listing your car.",
+      });
 
-      if (error) throw error;
-      return data;
-    },
-  });
-
-  if (isLoadingCar || isLoadingBookings) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-      </div>
-    );
-  }
+      // Navigate to the next step (photos)
+      navigate(`/list-your-car/photos/${carId}`);
+    } catch (error) {
+      console.error('Error saving car history:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to save information. Please try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <AuthGuard>
-      <div className="min-h-screen bg-gray-50/50">
-        <nav className="bg-white shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
-              <div className="flex items-center">
-                <Button
-                  variant="ghost"
-                  onClick={() => navigate(-1)}
-                  className="mr-4"
-                >
-                  ← Back
-                </Button>
-                <h1 className="text-xl font-semibold">Car History</h1>
-              </div>
-            </div>
+      <div className="min-h-screen bg-background flex flex-col">
+        <nav className="w-full px-4 py-6 flex justify-between items-center border-b">
+          <h1 
+            onClick={() => navigate("/")} 
+            className="text-2xl font-bold text-primary cursor-pointer"
+          >
+            KARVO
+          </h1>
+          <div className="flex items-center gap-4">
+            <Button 
+              variant="outline" 
+              onClick={() => navigate("/")}
+            >
+              Start over
+            </Button>
+            <Button 
+              variant="ghost"
+              onClick={() => navigate("/")}
+            >
+              Exit
+            </Button>
           </div>
         </nav>
 
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {car && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-                <div className="flex items-start gap-6">
-                  <div className="flex-shrink-0">
-                    <div className="w-40 h-40 rounded-lg overflow-hidden">
-                      <img
-                        src={car.photos?.[0] || "/placeholder.svg"}
-                        alt={`${car.make} ${car.model}`}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
+        <main className="container max-w-4xl mx-auto py-8 px-4 flex-1">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <ListingProgress 
+              step={4} 
+              totalSteps={11} 
+              label="Car History" 
+            />
+
+            <h1 className="text-3xl font-bold text-center mb-8">
+              Car History
+            </h1>
+
+            <div className="max-w-xl mx-auto space-y-8">
+              <div className="space-y-4">
+                <p className="text-lg">
+                  I certify I paid applicable sales or related taxes on the purchase of this vehicle
+                </p>
+                <Button 
+                  variant="link" 
+                  className="p-0 h-auto text-primary"
+                  onClick={() => {
+                    toast({
+                      title: "Sales Tax Information",
+                      description: "This refers to any applicable sales or transfer taxes paid when you purchased the vehicle.",
+                    });
+                  }}
+                >
+                  Learn more
+                </Button>
+                <div className="flex flex-col gap-4 mt-4">
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="radio"
+                      id="taxes-yes"
+                      name="taxes"
+                      checked={taxesPaid === true}
+                      onChange={() => setTaxesPaid(true)}
+                      className="h-4 w-4"
+                    />
+                    <label htmlFor="taxes-yes">Yes</label>
                   </div>
-                  <div className="flex-grow">
-                    <h2 className="text-2xl font-bold mb-4">
-                      {car.year} {car.make} {car.model}
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div className="flex items-center gap-2">
-                        <MapPin className="h-5 w-5 text-gray-400" />
-                        <span>{car.location}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Car className="h-5 w-5 text-gray-400" />
-                        <span>{car.odometer_reading?.toLocaleString()} miles</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <DollarSign className="h-5 w-5 text-gray-400" />
-                        <span>${car.price_per_day}/day</span>
-                      </div>
-                    </div>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="radio"
+                      id="taxes-no"
+                      name="taxes"
+                      checked={taxesPaid === false}
+                      onChange={() => setTaxesPaid(false)}
+                      className="h-4 w-4"
+                    />
+                    <label htmlFor="taxes-no">No</label>
                   </div>
                 </div>
               </div>
 
-              <h3 className="text-xl font-semibold mb-4">Booking History</h3>
-              <div className="space-y-4">
-                {bookings?.length === 0 ? (
-                  <div className="bg-white rounded-lg shadow-sm p-6 text-center">
-                    <Car className="mx-auto h-12 w-12 text-gray-400 mb-2" />
-                    <p className="text-gray-500">No booking history available</p>
-                  </div>
-                ) : (
-                  bookings?.map((booking) => (
-                    <motion.div
-                      key={booking.id}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="bg-white rounded-lg shadow-sm p-6"
+              <div className="pt-8 border-t space-y-4">
+                <div className="flex items-start space-x-2">
+                  <Checkbox
+                    id="salvage"
+                    checked={noSalvageTitle}
+                    onCheckedChange={(checked) => setNoSalvageTitle(checked as boolean)}
+                    className="mt-1"
+                  />
+                  <div className="space-y-1">
+                    <label
+                      htmlFor="salvage"
+                      className="text-lg font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                     >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-4">
-                          <div className="w-12 h-12 rounded-full overflow-hidden bg-gray-100">
-                            <img
-                              src={booking.profiles?.avatar_url || "/placeholder.svg"}
-                              alt={booking.profiles?.full_name}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                          <div>
-                            <h4 className="font-semibold">
-                              {booking.profiles?.full_name}
-                            </h4>
-                            <div className="flex items-center gap-2 text-sm text-gray-500">
-                              <Calendar className="h-4 w-4" />
-                              <span>
-                                {format(new Date(booking.start_date), "MMM d, yyyy")} - {format(new Date(booking.end_date), "MMM d, yyyy")}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <div className="font-semibold">${booking.total_price}</div>
-                          <div className="text-sm text-gray-500">
-                            Status: <span className="capitalize">{booking.status}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </motion.div>
-                  ))
-                )}
+                      My car has never had a branded or salvage title
+                    </label>
+                    <Button 
+                      variant="link" 
+                      className="p-0 h-auto text-primary block"
+                      onClick={() => {
+                        toast({
+                          title: "Salvage Title Information",
+                          description: "A salvage title is issued when a vehicle has been damaged and deemed a total loss by an insurance company.",
+                        });
+                      }}
+                    >
+                      Learn more
+                    </Button>
+                  </div>
+                </div>
               </div>
-            </motion.div>
-          )}
+
+              <Button 
+                onClick={handleSubmit}
+                disabled={isSubmitting || taxesPaid === null}
+                className="w-full"
+              >
+                Next
+              </Button>
+            </div>
+          </motion.div>
         </main>
         <Footer />
       </div>
