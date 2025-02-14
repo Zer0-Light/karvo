@@ -89,9 +89,9 @@ const BecomeHost = () => {
             initial={{ scale: 0.95 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="inline-block mb-6 px-4 py-2 rounded-full bg-accent/10 text-accent text-sm font-medium"
+            className="inline-block mb-6 px-4 py-2 rounded-full bg-accent/10 text-accent font-semibold"
           >
-            Beta Release
+            Join 50,000+ successful hosts
           </motion.div>
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
