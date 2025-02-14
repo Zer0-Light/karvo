@@ -35,7 +35,11 @@ const Hero = () => {
     <section className="relative min-h-screen flex flex-col items-center justify-start bg-background">
       {/* Logo and Become a Host */}
       <div className="absolute top-8 w-full px-4 md:px-8 flex justify-between items-center z-20">
-        <h1 className="text-3xl font-bold text-primary">KARVO</h1>
+        <img 
+          src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" 
+          alt="KARVO" 
+          className="h-12 w-auto"
+        />
         <Button 
           variant="outline" 
           className="bg-white hover:bg-accent/10 border-2 border-accent text-accent font-semibold rounded-full px-6"
