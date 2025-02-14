@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -179,13 +180,17 @@ const ListYourCarDetails = () => {
                           defaultValue={field.value}
                         >
                           <FormControl>
-                            <SelectTrigger>
+                            <SelectTrigger className="bg-white">
                               <SelectValue placeholder="Select year" />
                             </SelectTrigger>
                           </FormControl>
-                          <SelectContent>
+                          <SelectContent className="z-50 bg-white border shadow-md">
                             {years.map((year) => (
-                              <SelectItem key={year} value={year}>
+                              <SelectItem 
+                                key={year} 
+                                value={year}
+                                className="hover:bg-accent focus:bg-accent"
+                              >
                                 {year}
                               </SelectItem>
                             ))}
@@ -207,13 +212,17 @@ const ListYourCarDetails = () => {
                           defaultValue={field.value}
                         >
                           <FormControl>
-                            <SelectTrigger>
+                            <SelectTrigger className="bg-white">
                               <SelectValue placeholder="Select make" />
                             </SelectTrigger>
                           </FormControl>
-                          <SelectContent>
+                          <SelectContent className="z-50 bg-white border shadow-md">
                             {MANUFACTURERS.map((make) => (
-                              <SelectItem key={make} value={make}>
+                              <SelectItem 
+                                key={make} 
+                                value={make}
+                                className="hover:bg-accent focus:bg-accent"
+                              >
                                 {make}
                               </SelectItem>
                             ))}
@@ -236,13 +245,17 @@ const ListYourCarDetails = () => {
                           disabled={!watchMake}
                         >
                           <FormControl>
-                            <SelectTrigger>
+                            <SelectTrigger className="bg-white">
                               <SelectValue placeholder="Select model" />
                             </SelectTrigger>
                           </FormControl>
-                          <SelectContent>
+                          <SelectContent className="z-50 bg-white border shadow-md">
                             {availableModels.map((model) => (
-                              <SelectItem key={model} value={model}>
+                              <SelectItem 
+                                key={model} 
+                                value={model}
+                                className="hover:bg-accent focus:bg-accent"
+                              >
                                 {model}
                               </SelectItem>
                             ))}
