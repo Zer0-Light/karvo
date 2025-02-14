@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -72,7 +71,7 @@ const CAR_MODELS: { [key: string]: string[] } = {
 
 const ListYourCarDetails = () => {
   const navigate = useNavigate();
-  const { carId } = useParams<{ carId: string }>();
+  const { carId } = useParams();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [availableModels, setAvailableModels] = useState<string[]>([]);
@@ -97,54 +96,34 @@ const ListYourCarDetails = () => {
   }, [watchMake, form]);
 
   const onSubmit = async (values: z.infer<typeof carFormSchema>) => {
-    if (!carId || carId === ":carId") {
+    setIsSubmitting(true);
+    
+    const { error } = await supabase
+      .from('cars')
+      .update({
+        year: parseInt(values.year),
+        make: values.make,
+        model: values.model,
+      })
+      .eq('id', carId);
+
+    setIsSubmitting(false);
+
+    if (error) {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Invalid car ID provided",
+        description: "Failed to save car details. Please try again.",
       });
       return;
     }
 
-    setIsSubmitting(true);
+    toast({
+      title: "Car details saved",
+      description: "Let's continue with listing your car.",
+    });
     
-    try {
-      const { error } = await supabase
-        .from('cars')
-        .update({
-          year: parseInt(values.year),
-          make: values.make,
-          model: values.model,
-        })
-        .eq('id', carId);
-
-      setIsSubmitting(false);
-
-      if (error) {
-        console.error('Error saving car details:', error);
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Failed to save car details. Please try again.",
-        });
-        return;
-      }
-
-      toast({
-        title: "Car details saved",
-        description: "Let's continue with listing your car.",
-      });
-      
-      navigate(`/list-your-car/odometer/${carId}`);
-    } catch (error) {
-      console.error('Error in submission:', error);
-      setIsSubmitting(false);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "An unexpected error occurred. Please try again.",
-      });
-    }
+    navigate(`/list-your-car/odometer/${carId}`);
   };
 
   return (
