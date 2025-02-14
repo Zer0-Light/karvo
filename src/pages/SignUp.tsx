@@ -98,6 +98,14 @@ const SignUp = () => {
 
   return (
     <div className="min-h-screen bg-gray-50/50 flex items-center justify-center p-4">
+      <div className="absolute top-8 left-8">
+        <img 
+          src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" 
+          alt="KARVO" 
+          className="h-36 w-auto cursor-pointer"
+          onClick={() => navigate("/")}
+        />
+      </div>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
