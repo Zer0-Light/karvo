@@ -24,6 +24,7 @@ const CarHistory = () => {
   const [taxesPaid, setTaxesPaid] = useState<boolean | null>(null);
   const [noSalvageTitle, setNoSalvageTitle] = useState(false);
   const [isTaxDialogOpen, setIsTaxDialogOpen] = useState(false);
+  const [isSalvageDialogOpen, setIsSalvageDialogOpen] = useState(false);
 
   const handleSubmit = async () => {
     if (taxesPaid === null) {
@@ -178,17 +179,23 @@ const CarHistory = () => {
                     <Button 
                       variant="link" 
                       className="p-0 h-auto text-primary block"
-                      onClick={() => {
-                        toast({
-                          title: "Salvage Title Information",
-                          description: "A salvage title is issued when a vehicle has been damaged and deemed a total loss by an insurance company.",
-                        });
-                      }}
+                      onClick={() => setIsSalvageDialogOpen(true)}
                     >
                       Learn more
                     </Button>
                   </div>
                 </div>
+
+                <Dialog open={isSalvageDialogOpen} onOpenChange={setIsSalvageDialogOpen}>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Salvage Title Information</DialogTitle>
+                      <DialogDescription className="pt-2">
+                        A branded or salvage title means a vehicle has had major damage or may be unsafe to drive. For safety reasons, cars with these titles are not allowed on Karvo.
+                      </DialogDescription>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
               </div>
 
               <Button 
