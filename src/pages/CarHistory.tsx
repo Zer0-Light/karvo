@@ -56,7 +56,7 @@ const CarHistory = () => {
         description: "Let's continue with listing your car.",
       });
 
-      navigate(`/list-your-car/photos/${carId}`);
+      navigate(`/vehicle-value/${carId}`);
     } catch (error) {
       console.error('Error saving car history:', error);
       toast({
