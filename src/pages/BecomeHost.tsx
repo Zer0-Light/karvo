@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -150,7 +149,6 @@ const BecomeHost = () => {
               onClick={handleGetStarted}
               className="bg-accent hover:bg-accent/90 text-lg px-8 py-6 rounded-full shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300"
             >
-              <Laugh className="w-5 h-5 mr-2" />
               Start Earning Today
             </Button>
           </motion.div>
