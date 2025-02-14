@@ -1,9 +1,11 @@
+
 import { motion } from "framer-motion";
 import Hero from "../components/Hero";
 import Features from "../components/Features";
 import CarShowcase from "../components/CarShowcase";
 import HowItWorks from "../components/HowItWorks";
 import MainMenu from "../components/MainMenu";
+import Footer from "@/components/Footer";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 const Index = () => {
@@ -12,6 +14,7 @@ const Index = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
+      className="flex flex-col min-h-screen"
     >
       {/* Promo Banner */}
       <motion.div 
@@ -300,6 +303,8 @@ const Index = () => {
           </button>
         </div>
       </section>
+
+      <Footer />
     </motion.div>
   );
 };
