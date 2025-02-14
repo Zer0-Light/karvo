@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -11,58 +10,62 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-
 const Login = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
   useEffect(() => {
     const checkUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: {
+          session
+        }
+      } = await supabase.auth.getSession();
       if (session?.user) {
         navigate('/search');
       }
     };
-
     checkUser();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const {
+      data: {
+        subscription
+      }
+    } = supabase.auth.onAuthStateChange((event, session) => {
       if (session?.user) {
         navigate('/search');
       }
     });
-
     return () => {
       subscription.unsubscribe();
     };
   }, [navigate]);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const {
+        data,
+        error
+      } = await supabase.auth.signInWithPassword({
         email,
-        password,
+        password
       });
-
       if (error) {
         toast({
           variant: "destructive",
           title: "Login failed",
-          description: error.message,
+          description: error.message
         });
         return;
       }
-
       if (data.user) {
         toast({
           title: "Success",
-          description: "You have successfully logged in!",
+          description: "You have successfully logged in!"
         });
         navigate("/search");
       }
@@ -70,57 +73,54 @@ const Login = () => {
       toast({
         variant: "destructive",
         title: "An error occurred",
-        description: "Please try again later",
+        description: "Please try again later"
       });
     } finally {
       setIsLoading(false);
     }
   };
-
   const handleGoogleLogin = async () => {
     try {
-      const { error } = await supabase.auth.signInWithOAuth({
+      const {
+        error
+      } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/search`,
-        },
+          redirectTo: `${window.location.origin}/search`
+        }
       });
-
       if (error) {
         toast({
           variant: "destructive",
           title: "Login failed",
-          description: error.message,
+          description: error.message
         });
       }
     } catch (error) {
       toast({
         variant: "destructive",
         title: "An error occurred",
-        description: "Please try again later",
+        description: "Please try again later"
       });
     }
   };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex flex-col items-center justify-center p-4">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-md space-y-8"
-      >
+  return <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex flex-col items-center justify-center p-4">
+      <motion.div initial={{
+      opacity: 0,
+      y: 20
+    }} animate={{
+      opacity: 1,
+      y: 0
+    }} transition={{
+      duration: 0.5
+    }} className="w-full max-w-md space-y-8">
         <div className="flex justify-center mb-8">
-          <img 
-            src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" 
-            alt="KARVO" 
-            className="h-24 w-auto rounded" 
-          />
+          <img src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" alt="KARVO" className="h-24 w-auto rounded" />
         </div>
 
         <Card>
           <CardHeader>
-            <CardTitle>Welcome back</CardTitle>
+            <CardTitle>Welcome</CardTitle>
             <CardDescription>Please sign in to your account</CardDescription>
           </CardHeader>
           <CardContent>
@@ -191,8 +191,6 @@ const Login = () => {
           </CardContent>
         </Card>
       </motion.div>
-    </div>
-  );
+    </div>;
 };
-
 export default Login;
