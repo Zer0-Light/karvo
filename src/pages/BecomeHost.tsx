@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -55,13 +54,13 @@ const BecomeHost = () => {
 
   return (
     <div className="min-h-screen overflow-hidden">
-      <nav className="absolute top-0 w-full px-4 py-6 flex justify-between items-center z-50">
-        <h1 
-          onClick={() => navigate("/")} 
-          className="text-3xl font-bold text-primary cursor-pointer"
-        >
-          KARVO
-        </h1>
+      <div className="absolute top-4 w-full px-4 md:px-8 flex justify-between items-center z-20">
+        <img 
+          src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" 
+          alt="KARVO" 
+          className="h-24 w-auto cursor-pointer"
+          onClick={() => navigate("/")}
+        />
         <div className="flex gap-4">
           <Button 
             variant="outline" 
@@ -77,7 +76,7 @@ const BecomeHost = () => {
             Sign up
           </Button>
         </div>
-      </nav>
+      </div>
 
       <section className="relative min-h-[90vh] flex items-center justify-center bg-gradient-to-br from-accent/5 via-white to-accent/10 px-4">
         <motion.div 
