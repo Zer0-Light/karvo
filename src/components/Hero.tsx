@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -34,11 +35,11 @@ const Hero = () => {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-start bg-background">
       {/* Logo and Become a Host */}
-      <div className="absolute top-8 w-full px-4 md:px-8 flex justify-between items-center z-20">
+      <div className="absolute top-4 w-full px-4 md:px-8 flex justify-between items-center z-20">
         <img 
           src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" 
           alt="KARVO" 
-          className="h-36 w-auto"
+          className="h-24 w-auto"
         />
         <Button 
           variant="outline" 
