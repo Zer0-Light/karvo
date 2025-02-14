@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -82,7 +81,6 @@ const Search = () => {
             alt="KARVO" 
             className="h-24 w-auto cursor-pointer"
             onClick={() => navigate("/")}
-            style={{ position: 'fixed' }}
           />
         </div>
         <motion.div
