@@ -74,12 +74,12 @@ const Search = () => {
 
   return (
     <AuthGuard>
-      <div className="min-h-screen bg-gray-50/50 p-6">
-        <div className="absolute top-8 left-8">
+      <div className="min-h-screen bg-gray-50/50">
+        <div className="fixed top-8 left-8 z-10">
           <img 
             src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" 
             alt="KARVO" 
-            className="h-36 w-auto cursor-pointer"
+            className="h-24 w-auto cursor-pointer"
             onClick={() => navigate("/")}
           />
         </div>
@@ -87,9 +87,9 @@ const Search = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="max-w-6xl mx-auto"
+          className="max-w-6xl mx-auto px-6 pt-24 pb-12"
         >
-          <h1 className="text-4xl font-bold text-primary mb-8 mt-40">Find Your Perfect Rental</h1>
+          <h1 className="text-4xl font-bold text-primary mb-8">Find Your Perfect Rental</h1>
           
           <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
             <form onSubmit={handleSearch} className="space-y-6">
