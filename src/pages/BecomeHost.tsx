@@ -1,5 +1,6 @@
+
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
@@ -22,6 +23,22 @@ const BecomeHost = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [showPrerequisites, setShowPrerequisites] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsAuthenticated(!!session);
+    };
+
+    checkAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setIsAuthenticated(!!session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const handleGetStarted = () => {
     setShowPrerequisites(true);
@@ -72,19 +89,23 @@ const BecomeHost = () => {
           onClick={() => navigate("/")}
         />
         <div className="flex gap-4">
-          <Button 
-            variant="outline" 
-            onClick={() => navigate("/login")}
-            className="bg-white hover:bg-accent/10"
-          >
-            Sign in
-          </Button>
-          <Button 
-            onClick={() => navigate("/signup")}
-            className="bg-accent hover:bg-accent/90"
-          >
-            Sign up
-          </Button>
+          {!isAuthenticated && (
+            <>
+              <Button 
+                variant="outline" 
+                onClick={() => navigate("/login")}
+                className="bg-white hover:bg-accent/10"
+              >
+                Sign in
+              </Button>
+              <Button 
+                onClick={() => navigate("/signup")}
+                className="bg-accent hover:bg-accent/90"
+              >
+                Sign up
+              </Button>
+            </>
+          )}
         </div>
       </div>
 
