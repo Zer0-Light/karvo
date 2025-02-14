@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import CarCard from "@/components/CarCard";
 import { useNavigate } from "react-router-dom";
+import Footer from "@/components/Footer";
 
 const GCC_CITIES = [
   // Saudi Arabia
@@ -74,7 +75,7 @@ const Search = () => {
 
   return (
     <AuthGuard>
-      <div className="min-h-screen bg-gray-50/50">
+      <div className="min-h-screen bg-gray-50/50 flex flex-col">
         <div className="fixed top-8 left-8 z-10">
           <img 
             src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" 
@@ -87,7 +88,7 @@ const Search = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="max-w-6xl mx-auto px-6 pt-24 pb-12"
+          className="flex-1 max-w-6xl mx-auto px-6 pt-24 pb-12"
         >
           <h1 className="text-4xl font-bold text-primary mb-8">Find Your Perfect Rental</h1>
           
@@ -220,6 +221,7 @@ const Search = () => {
             </div>
           )}
         </motion.div>
+        <Footer />
       </div>
     </AuthGuard>
   );
