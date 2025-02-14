@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -35,6 +36,7 @@ const ListYourCarVin = () => {
 
   useEffect(() => {
     const verifyCar = async () => {
+      // Check if carId exists and is not undefined
       if (!carId) {
         toast({
           variant: "destructive",
@@ -45,18 +47,39 @@ const ListYourCarVin = () => {
         return;
       }
 
-      const { data, error } = await supabase
-        .from('cars')
-        .select('id')
-        .eq('id', carId)
-        .single();
+      try {
+        const { data, error } = await supabase
+          .from('cars')
+          .select('id')
+          .eq('id', carId)
+          .maybeSingle();
 
-      if (error || !data) {
-        console.error('Error verifying car:', error);
+        if (error) {
+          console.error('Error verifying car:', error);
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: "Failed to verify car ID",
+          });
+          navigate("/list-your-car");
+          return;
+        }
+
+        if (!data) {
+          toast({
+            variant: "destructive",
+            title: "Error",
+            description: "Invalid car ID",
+          });
+          navigate("/list-your-car");
+          return;
+        }
+      } catch (error) {
+        console.error('Error in car verification:', error);
         toast({
           variant: "destructive",
           title: "Error",
-          description: "Invalid car ID",
+          description: "An error occurred while verifying the car",
         });
         navigate("/list-your-car");
       }
