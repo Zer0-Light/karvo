@@ -11,16 +11,19 @@ import AuthGuard from "@/components/AuthGuard";
 import Footer from "@/components/Footer";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
+import { DateRange } from "react-day-picker";
 
 const CarDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [isBookingOpen, setIsBookingOpen] = useState(false);
-  const [selectedDates, setSelectedDates] = useState<Date[]>([]);
+  const [date, setDate] = useState<DateRange | undefined>();
 
   const { data: car, isLoading } = useQuery({
     queryKey: ['car', id],
     queryFn: async () => {
+      if (!id) throw new Error('No car ID provided');
+      
       const { data, error } = await supabase
         .from('cars')
         .select(`
@@ -33,11 +36,12 @@ const CarDetails = () => {
           )
         `)
         .eq('id', id)
-        .single();
+        .maybeSingle();
 
       if (error) throw error;
       return data;
     },
+    enabled: !!id,
   });
 
   if (isLoading) {
@@ -164,15 +168,15 @@ const CarDetails = () => {
             <div className="py-4">
               <Calendar
                 mode="range"
-                selected={selectedDates}
-                onSelect={(range) => setSelectedDates(range as Date[])}
+                selected={date}
+                onSelect={setDate}
                 numberOfMonths={2}
                 className="rounded-md border"
               />
             </div>
             <Button 
               className="w-full"
-              disabled={selectedDates.length !== 2}
+              disabled={!date?.from || !date?.to}
             >
               Continue Booking
             </Button>
