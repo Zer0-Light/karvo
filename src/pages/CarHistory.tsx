@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -9,6 +8,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/integrations/supabase/client";
 import { ListingProgress } from "@/components/ListingProgress";
 import Footer from "@/components/Footer";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const CarHistory = () => {
   const navigate = useNavigate();
@@ -17,6 +23,7 @@ const CarHistory = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [taxesPaid, setTaxesPaid] = useState<boolean | null>(null);
   const [noSalvageTitle, setNoSalvageTitle] = useState(false);
+  const [isTaxDialogOpen, setIsTaxDialogOpen] = useState(false);
 
   const handleSubmit = async () => {
     if (taxesPaid === null) {
@@ -31,7 +38,6 @@ const CarHistory = () => {
     setIsSubmitting(true);
 
     try {
-      // Update car record with type-safe fields
       const updateData = {
         taxes_paid: taxesPaid,
         no_salvage_title: noSalvageTitle,
@@ -49,7 +55,6 @@ const CarHistory = () => {
         description: "Let's continue with listing your car.",
       });
 
-      // Navigate to the next step (photos)
       navigate(`/list-your-car/photos/${carId}`);
     } catch (error) {
       console.error('Error saving car history:', error);
@@ -113,15 +118,22 @@ const CarHistory = () => {
                 <Button 
                   variant="link" 
                   className="p-0 h-auto text-primary"
-                  onClick={() => {
-                    toast({
-                      title: "Sales Tax Information",
-                      description: "This refers to any applicable sales or transfer taxes paid when you purchased the vehicle.",
-                    });
-                  }}
+                  onClick={() => setIsTaxDialogOpen(true)}
                 >
                   Learn more
                 </Button>
+
+                <Dialog open={isTaxDialogOpen} onOpenChange={setIsTaxDialogOpen}>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Vehicle Sales Tax Information</DialogTitle>
+                      <DialogDescription className="pt-2">
+                        Taxes apply to most vehicle purchases in the United States, but some hosts may qualify for an exemption. If your vehicle purchase was tax-exempt, let us know so we can apply the correct tax rate when you list it on Karvo.
+                      </DialogDescription>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
+
                 <div className="flex flex-col gap-4 mt-4">
                   <div className="flex items-center space-x-2">
                     <input
