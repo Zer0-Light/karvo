@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -32,6 +33,15 @@ const CarHistory = () => {
         variant: "destructive",
         title: "Error",
         description: "Please indicate whether you paid applicable sales taxes.",
+      });
+      return;
+    }
+
+    if (!noSalvageTitle) {
+      toast({
+        variant: "destructive",
+        title: "Vehicle Not Eligible",
+        description: "We cannot accept vehicles with branded or salvage titles on Karvo.",
       });
       return;
     }
@@ -200,7 +210,7 @@ const CarHistory = () => {
 
               <Button 
                 onClick={handleSubmit}
-                disabled={isSubmitting || taxesPaid === null}
+                disabled={isSubmitting || taxesPaid === null || !noSalvageTitle}
                 className="w-full"
               >
                 Next
