@@ -99,13 +99,17 @@ const Search = () => {
                 <div className="space-y-2">
                   <Label htmlFor="location">Location</Label>
                   <Select value={location} onValueChange={setLocation}>
-                    <SelectTrigger id="location" className="w-full">
+                    <SelectTrigger id="location" className="w-full bg-white">
                       <MapPin className="mr-2 h-4 w-4" />
                       <SelectValue placeholder="Select a city" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="z-50 bg-white border shadow-md">
                       {GCC_CITIES.map((city) => (
-                        <SelectItem key={city.value} value={city.value}>
+                        <SelectItem 
+                          key={city.value} 
+                          value={city.value}
+                          className="hover:bg-accent focus:bg-accent"
+                        >
                           {city.label}
                         </SelectItem>
                       ))}
@@ -116,15 +120,35 @@ const Search = () => {
                 <div className="space-y-2">
                   <Label htmlFor="carType">Vehicle Type</Label>
                   <Select value={carType} onValueChange={setCarType}>
-                    <SelectTrigger id="carType" className="w-full">
+                    <SelectTrigger id="carType" className="w-full bg-white">
                       <Car className="mr-2 h-4 w-4" />
                       <SelectValue placeholder="Select vehicle type" />
                     </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="luxury">Luxury</SelectItem>
-                      <SelectItem value="suv">SUV</SelectItem>
-                      <SelectItem value="sports">Sports</SelectItem>
-                      <SelectItem value="economy">Economy</SelectItem>
+                    <SelectContent className="z-50 bg-white border shadow-md">
+                      <SelectItem 
+                        value="luxury"
+                        className="hover:bg-accent focus:bg-accent"
+                      >
+                        Luxury
+                      </SelectItem>
+                      <SelectItem 
+                        value="suv"
+                        className="hover:bg-accent focus:bg-accent"
+                      >
+                        SUV
+                      </SelectItem>
+                      <SelectItem 
+                        value="sports"
+                        className="hover:bg-accent focus:bg-accent"
+                      >
+                        Sports
+                      </SelectItem>
+                      <SelectItem 
+                        value="economy"
+                        className="hover:bg-accent focus:bg-accent"
+                      >
+                        Economy
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -136,7 +160,7 @@ const Search = () => {
                       <Button
                         variant="outline"
                         className={cn(
-                          "w-full justify-start text-left font-normal",
+                          "w-full justify-start text-left font-normal bg-white",
                           !pickupDate && "text-muted-foreground"
                         )}
                       >
@@ -144,7 +168,7 @@ const Search = () => {
                         {pickupDate ? format(pickupDate, "PPP") : "Select pickup date"}
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
+                    <PopoverContent className="w-auto p-0 bg-white" align="start">
                       <CalendarComponent
                         mode="single"
                         selected={pickupDate}
@@ -163,7 +187,7 @@ const Search = () => {
                       <Button
                         variant="outline"
                         className={cn(
-                          "w-full justify-start text-left font-normal",
+                          "w-full justify-start text-left font-normal bg-white",
                           !returnDate && "text-muted-foreground"
                         )}
                       >
@@ -171,7 +195,7 @@ const Search = () => {
                         {returnDate ? format(returnDate, "PPP") : "Select return date"}
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
+                    <PopoverContent className="w-auto p-0 bg-white" align="start">
                       <CalendarComponent
                         mode="single"
                         selected={returnDate}
