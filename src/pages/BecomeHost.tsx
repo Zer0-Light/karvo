@@ -54,6 +54,15 @@ const BecomeHost = () => {
 
   return (
     <div className="min-h-screen overflow-hidden">
+      <motion.div 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="bg-accent text-white py-3 text-center font-medium"
+      >
+        First-time riders get 15% off—your adventure starts for less! 🚗💨
+      </motion.div>
+
       <div className="absolute top-4 w-full px-4 md:px-8 flex justify-between items-center z-20">
         <img 
           src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" 
