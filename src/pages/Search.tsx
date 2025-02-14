@@ -19,6 +19,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import CarCard from "@/components/CarCard";
+import { useNavigate } from "react-router-dom";
 
 const GCC_CITIES = [
   // Saudi Arabia
@@ -40,6 +41,7 @@ const GCC_CITIES = [
 ];
 
 const Search = () => {
+  const navigate = useNavigate();
   const [location, setLocation] = useState<string>("");
   const [carType, setCarType] = useState<string>("");
   const [pickupDate, setPickupDate] = useState<Date | undefined>();
@@ -61,7 +63,7 @@ const Search = () => {
       const { data, error } = await query;
 
       if (error) throw error;
-      return data || []; // Ensure we always return an array
+      return data || [];
     },
   });
 
@@ -73,13 +75,21 @@ const Search = () => {
   return (
     <AuthGuard>
       <div className="min-h-screen bg-gray-50/50 p-6">
+        <div className="absolute top-8 left-8">
+          <img 
+            src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" 
+            alt="KARVO" 
+            className="h-36 w-auto cursor-pointer"
+            onClick={() => navigate("/")}
+          />
+        </div>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="max-w-6xl mx-auto"
         >
-          <h1 className="text-4xl font-bold text-primary mb-8">Find Your Perfect Rental</h1>
+          <h1 className="text-4xl font-bold text-primary mb-8 mt-40">Find Your Perfect Rental</h1>
           
           <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
             <form onSubmit={handleSearch} className="space-y-6">
