@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import AuthGuard from "@/components/AuthGuard";
 import { motion } from "framer-motion";
+import { z } from "zod";
 import { odometerFormSchema } from "@/schemas/odometerFormSchema";
 import { supabase } from "@/integrations/supabase/client";
 import { ListingProgress } from "@/components/ListingProgress";
@@ -13,16 +14,16 @@ import Footer from "@/components/Footer";
 
 const ListYourCarOdometer = () => {
   const navigate = useNavigate();
-  const { carId } = useParams();
+  const { carId } = useParams<{ carId: string }>();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onSubmit = async (values: z.infer<typeof odometerFormSchema>) => {
-    if (!carId) {
+    if (!carId || carId === ":carId") {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "No car ID provided",
+        description: "Invalid car ID provided",
       });
       return;
     }
