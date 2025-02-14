@@ -14,7 +14,7 @@ export const ListingNavBar = () => {
         <img 
           src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" 
           alt="KARVO" 
-          className="h-8"
+          className="h-36"
         />
       </div>
       <Button 
