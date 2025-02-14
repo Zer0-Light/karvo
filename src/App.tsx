@@ -13,6 +13,7 @@ import BecomeHost from "./pages/BecomeHost";
 import ListYourCar from "./pages/ListYourCar";
 import ListYourCarVin from "./pages/ListYourCarVin";
 import ListYourCarDetails from "./pages/ListYourCarDetails";
+import ListYourCarOdometer from "./pages/ListYourCarOdometer";
 import Trips from "./pages/Trips";
 import Inbox from "./pages/Inbox";
 import Profile from "./pages/Profile";
@@ -22,7 +23,7 @@ const queryClient = new QueryClient();
 
 const MenuButton = () => {
   const location = useLocation();
-  const hiddenPages = ['/login', '/signup']; // Only hide on login and signup
+  const hiddenPages = ['/login', '/signup'];
   const shouldHideButton = hiddenPages.includes(location.pathname);
 
   if (shouldHideButton) return null;
@@ -46,6 +47,7 @@ const App = () => (
           <Route path="/list-your-car" element={<ListYourCar />} />
           <Route path="/list-your-car/vin/:carId" element={<ListYourCarVin />} />
           <Route path="/list-your-car/details/:carId" element={<ListYourCarDetails />} />
+          <Route path="/list-your-car/odometer/:carId" element={<ListYourCarOdometer />} />
           <Route path="/trips" element={<Trips />} />
           <Route path="/inbox" element={<Inbox />} />
           <Route path="/profile" element={<Profile />} />
