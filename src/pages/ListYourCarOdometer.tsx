@@ -31,10 +31,15 @@ const ListYourCarOdometer = () => {
     setIsSubmitting(true);
     
     try {
+      // Extract the lower bound of the mileage range or 0 for "130,000+"
+      const mileage = values.odometer_reading === "130,000+" 
+        ? 130000
+        : parseInt(values.odometer_reading.split("-")[0].replace(/,/g, ""));
+
       const { error } = await supabase
         .from('cars')
         .update({
-          odometer_reading: parseInt(values.odometer_reading),
+          odometer_reading: mileage,
           transmission_type: values.transmission_type,
         })
         .eq('id', carId);

@@ -10,7 +10,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -24,6 +23,23 @@ interface OdometerFormProps {
   onSubmit: (values: OdometerFormValues) => Promise<void>;
   isSubmitting: boolean;
 }
+
+const MILEAGE_RANGES = [
+  "0-10,000",
+  "10,001-20,000",
+  "20,001-30,000",
+  "30,001-40,000",
+  "40,001-50,000",
+  "50,001-60,000",
+  "60,001-70,000",
+  "70,001-80,000",
+  "80,001-90,000",
+  "90,001-100,000",
+  "100,001-110,000",
+  "110,001-120,000",
+  "120,001-130,000",
+  "130,000+"
+];
 
 export const OdometerForm = ({ onSubmit, isSubmitting }: OdometerFormProps) => {
   const form = useForm<OdometerFormValues>({
@@ -42,14 +58,24 @@ export const OdometerForm = ({ onSubmit, isSubmitting }: OdometerFormProps) => {
           name="odometer_reading"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Current Odometer Reading (km)</FormLabel>
-              <FormControl>
-                <Input 
-                  type="number"
-                  placeholder="Enter current mileage"
-                  {...field}
-                />
-              </FormControl>
+              <FormLabel>Current Mileage Range</FormLabel>
+              <Select 
+                onValueChange={field.onChange} 
+                defaultValue={field.value}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select mileage range" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {MILEAGE_RANGES.map((range) => (
+                    <SelectItem key={range} value={range}>
+                      {range} miles
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
