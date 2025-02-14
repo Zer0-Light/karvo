@@ -64,11 +64,11 @@ export const OdometerForm = ({ onSubmit, isSubmitting }: OdometerFormProps) => {
                 defaultValue={field.value}
               >
                 <FormControl>
-                  <SelectTrigger className="bg-background">
+                  <SelectTrigger className="bg-white">
                     <SelectValue placeholder="Select mileage range" />
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent className="bg-popover border shadow-md">
+                <SelectContent className="z-50 bg-white border shadow-md">
                   {MILEAGE_RANGES.map((range) => (
                     <SelectItem 
                       key={range} 
@@ -96,11 +96,11 @@ export const OdometerForm = ({ onSubmit, isSubmitting }: OdometerFormProps) => {
                 defaultValue={field.value}
               >
                 <FormControl>
-                  <SelectTrigger className="bg-background">
+                  <SelectTrigger className="bg-white">
                     <SelectValue placeholder="Select transmission type" />
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent className="bg-popover border shadow-md">
+                <SelectContent className="z-50 bg-white border shadow-md">
                   <SelectItem 
                     value="automatic"
                     className="hover:bg-accent focus:bg-accent"
