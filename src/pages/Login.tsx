@@ -115,7 +115,7 @@ const Login = () => {
       duration: 0.5
     }} className="w-full max-w-md space-y-8">
         <div className="flex justify-center mb-8">
-          <img src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" alt="KARVO" className="h-12 w-auto rounded-full" />
+          <img src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" alt="KARVO" className="h-12 w-auto rounded" />
         </div>
 
         <Card>
