@@ -22,13 +22,13 @@ const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [filters, setFilters] = useState<SearchFilters>({
     location: searchParams.get('location') || "",
-    carType: searchParams.get('type') || "",
+    carType: searchParams.get('type') || "all",
     pickupDate: searchParams.get('from') ? new Date(searchParams.get('from')!) : undefined,
     returnDate: searchParams.get('to') ? new Date(searchParams.get('to')!) : undefined,
   });
 
   const { data: cars = [], isLoading } = useQuery({
-    queryKey: ['available-cars', filters],
+    queryKey: ['available-cars', filters.location, filters.carType, filters.pickupDate?.toISOString(), filters.returnDate?.toISOString()],
     enabled: !!(filters.location && filters.pickupDate && filters.returnDate),
     queryFn: async () => {
       let query = supabase
@@ -40,7 +40,7 @@ const Search = () => {
         query = query.ilike('location', `%${filters.location}%`);
       }
 
-      if (filters.carType) {
+      if (filters.carType && filters.carType !== 'all') {
         query = query.eq('type', filters.carType);
       }
 
@@ -57,7 +57,7 @@ const Search = () => {
     if (newFilters.location) params.set('location', newFilters.location);
     if (newFilters.pickupDate) params.set('from', newFilters.pickupDate.toISOString());
     if (newFilters.returnDate) params.set('to', newFilters.returnDate.toISOString());
-    if (newFilters.carType) params.set('type', newFilters.carType);
+    if (newFilters.carType && newFilters.carType !== 'all') params.set('type', newFilters.carType);
     setSearchParams(params);
     
     // Update filters state

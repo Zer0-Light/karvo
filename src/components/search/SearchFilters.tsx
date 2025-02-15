@@ -23,7 +23,7 @@ const SearchFilters = ({ carType, onCarTypeChange }: SearchFiltersProps) => {
             <SelectValue placeholder="Filter by vehicle type" />
           </SelectTrigger>
           <SelectContent className="z-50 bg-white border shadow-md">
-            <SelectItem value="" className="hover:bg-accent focus:bg-accent">
+            <SelectItem value="all" className="hover:bg-accent focus:bg-accent">
               All Types
             </SelectItem>
             <SelectItem value="luxury" className="hover:bg-accent focus:bg-accent">
