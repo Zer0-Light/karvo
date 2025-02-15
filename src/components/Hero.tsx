@@ -88,7 +88,7 @@ const Hero = () => {
                   <Command>
                     <CommandInput placeholder="Search cities..." />
                     <CommandEmpty>No city found.</CommandEmpty>
-                    <CommandGroup heading="Cities">
+                    <CommandGroup>
                       {cities.map((city) => (
                         <CommandItem
                           key={city.code}
