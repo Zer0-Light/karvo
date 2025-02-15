@@ -1,10 +1,11 @@
+
 import { motion } from "framer-motion";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Search } from "lucide-react";
 import { Calendar } from "./ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "./ui/command";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "./ui/command";
 import { format } from "date-fns";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -80,28 +81,30 @@ const Hero = () => {
                       : "Select your city..."}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-[300px] md:w-[400px] p-0">
-                  <Command>
+                <PopoverContent className="w-[300px] md:w-[400px] p-0" align="start">
+                  <Command className="bg-white">
                     <CommandInput placeholder="Search cities..." className="h-9" />
-                    <CommandEmpty>No city found.</CommandEmpty>
-                    <CommandGroup heading="Cities">
-                      {cities.map((city) => (
-                        <CommandItem
-                          key={city.code}
-                          value={city.code}
-                          onSelect={(currentValue) => {
-                            setLocation(currentValue);
-                            setOpen(false);
-                          }}
-                          className="flex flex-col items-start py-3 px-4 hover:bg-gray-50"
-                        >
-                          <span className="font-medium">{city.name}</span>
-                          <span className="text-sm text-muted-foreground">
-                            {city.region}
-                          </span>
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
+                    <CommandList>
+                      <CommandEmpty>No city found.</CommandEmpty>
+                      <CommandGroup heading="Cities">
+                        {cities.map((city) => (
+                          <CommandItem
+                            key={city.code}
+                            value={city.code}
+                            onSelect={(currentValue) => {
+                              setLocation(currentValue);
+                              setOpen(false);
+                            }}
+                            className="flex flex-col items-start py-3 px-4 hover:bg-gray-50"
+                          >
+                            <span className="font-medium">{city.name}</span>
+                            <span className="text-sm text-muted-foreground">
+                              {city.region}
+                            </span>
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
                   </Command>
                 </PopoverContent>
               </Popover>
