@@ -11,18 +11,18 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 
-// Middle Eastern airports data
-const airports = [
-  { code: "DXB", name: "Dubai International Airport", city: "Dubai, UAE" },
-  { code: "AUH", name: "Abu Dhabi International Airport", city: "Abu Dhabi, UAE" },
-  { code: "DOH", name: "Hamad International Airport", city: "Doha, Qatar" },
-  { code: "MCT", name: "Muscat International Airport", city: "Muscat, Oman" },
-  { code: "KWI", name: "Kuwait International Airport", city: "Kuwait City, Kuwait" },
-  { code: "BAH", name: "Bahrain International Airport", city: "Manama, Bahrain" },
-  { code: "RUH", name: "King Khalid International Airport", city: "Riyadh, Saudi Arabia" },
-  { code: "JED", name: "King Abdulaziz International Airport", city: "Jeddah, Saudi Arabia" },
-  { code: "CAI", name: "Cairo International Airport", city: "Cairo, Egypt" },
-  { code: "AMM", name: "Queen Alia International Airport", city: "Amman, Jordan" },
+// Middle Eastern cities data
+const cities = [
+  { code: "DXB", name: "Dubai", region: "United Arab Emirates" },
+  { code: "AUH", name: "Abu Dhabi", region: "United Arab Emirates" },
+  { code: "RUH", name: "Riyadh", region: "Saudi Arabia" },
+  { code: "JED", name: "Jeddah", region: "Saudi Arabia" },
+  { code: "DOH", name: "Doha", region: "Qatar" },
+  { code: "MCT", name: "Muscat", region: "Oman" },
+  { code: "KWI", name: "Kuwait City", region: "Kuwait" },
+  { code: "BAH", name: "Manama", region: "Bahrain" },
+  { code: "DMM", name: "Dammam", region: "Saudi Arabia" },
+  { code: "SHJ", name: "Sharjah", region: "United Arab Emirates" },
 ];
 
 const Hero = () => {
@@ -69,37 +69,38 @@ const Hero = () => {
 
           {/* Search Section */}
           <div className="bg-[#FFFFFF] rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] p-6 flex flex-col md:flex-row items-stretch md:items-center gap-4 w-full max-w-4xl mx-auto backdrop-blur-sm border border-gray-100">
-            {/* Location Autocomplete */}
+            {/* Location Dropdown */}
             <div className="flex-1">
               <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
                     type="button"
-                    className="w-full justify-between rounded-xl bg-gray-50/80 border-0 hover:bg-gray-100/80 hover:text-primary transition-colors"
+                    className="w-full justify-between rounded-xl bg-white border border-gray-200 hover:bg-gray-50 hover:text-primary transition-colors"
                   >
-                    {location
-                      ? airports.find((airport) => airport.code === location)?.name
-                      : "Select airport..."}
+                    {location ? 
+                      cities.find((city) => city.code === location)?.name 
+                      : "Select your city..."}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-[300px] md:w-[400px] p-0">
+                <PopoverContent className="w-[300px] md:w-[400px] p-0 bg-white border shadow-lg">
                   <Command>
-                    <CommandInput placeholder="Search airports..." />
-                    <CommandEmpty>No airport found.</CommandEmpty>
+                    <CommandInput placeholder="Search cities..." className="h-9" />
+                    <CommandEmpty>No city found.</CommandEmpty>
                     <CommandGroup>
-                      {airports.map((airport) => (
+                      {cities.map((city) => (
                         <CommandItem
-                          key={airport.code}
-                          value={airport.code}
+                          key={city.code}
+                          value={city.code}
                           onSelect={(currentValue) => {
                             setLocation(currentValue);
                             setOpen(false);
                           }}
+                          className="flex flex-col items-start py-3 px-4 hover:bg-gray-50"
                         >
-                          <span>{airport.name}</span>
-                          <span className="ml-2 text-sm text-muted-foreground">
-                            ({airport.city})
+                          <span className="font-medium">{city.name}</span>
+                          <span className="text-sm text-muted-foreground">
+                            {city.region}
                           </span>
                         </CommandItem>
                       ))}
