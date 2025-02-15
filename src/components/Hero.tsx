@@ -71,44 +71,13 @@ const Hero = () => {
           <div className="bg-[#FFFFFF] rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] p-6 flex flex-col md:flex-row items-stretch md:items-center gap-4 w-full max-w-4xl mx-auto backdrop-blur-sm border border-gray-100">
             {/* Location Dropdown */}
             <div className="flex-1">
-              <Popover open={open} onOpenChange={setOpen}>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    role="combobox"
-                    aria-expanded={open}
-                    className="w-full justify-between rounded-xl bg-white border border-gray-200 hover:bg-gray-50 hover:text-primary transition-colors"
-                  >
-                    {location ? 
-                      cities.find((city) => city.code === location)?.name 
-                      : "Select your city..."}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-[300px] md:w-[400px] p-0 bg-white border shadow-lg">
-                  <Command>
-                    <CommandInput placeholder="Search cities..." />
-                    <CommandEmpty>No city found.</CommandEmpty>
-                    <CommandGroup>
-                      {cities.map((city) => (
-                        <CommandItem
-                          key={city.code}
-                          value={city.code}
-                          onSelect={(currentValue) => {
-                            setLocation(currentValue);
-                            setOpen(false);
-                          }}
-                          className="flex flex-col items-start py-3 px-4 hover:bg-gray-50"
-                        >
-                          <span className="font-medium">{city.name}</span>
-                          <span className="text-sm text-muted-foreground">
-                            {city.region}
-                          </span>
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </Command>
-                </PopoverContent>
-              </Popover>
+              <Button
+                variant="outline"
+                disabled
+                className="w-full justify-between rounded-xl bg-white border border-gray-200 hover:bg-gray-50 hover:text-primary transition-colors cursor-not-allowed opacity-60"
+              >
+                Select your city...
+              </Button>
             </div>
 
             {/* Start Date Calendar */}
