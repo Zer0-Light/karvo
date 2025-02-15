@@ -8,6 +8,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Footer from "@/components/Footer";
 import SearchForm from "@/components/search/SearchForm";
 import SearchResults from "@/components/search/SearchResults";
+import SearchFilters from "@/components/search/SearchFilters";
 
 interface SearchFilters {
   location: string;
@@ -21,13 +22,13 @@ const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [filters, setFilters] = useState<SearchFilters>({
     location: searchParams.get('location') || "",
-    carType: "",
+    carType: searchParams.get('type') || "",
     pickupDate: searchParams.get('from') ? new Date(searchParams.get('from')!) : undefined,
     returnDate: searchParams.get('to') ? new Date(searchParams.get('to')!) : undefined,
   });
 
   const { data: cars = [], isLoading } = useQuery({
-    queryKey: ['available-cars', filters.location, filters.carType, filters.pickupDate, filters.returnDate],
+    queryKey: ['available-cars', filters],
     enabled: !!(filters.location && filters.pickupDate && filters.returnDate),
     queryFn: async () => {
       let query = supabase
@@ -56,10 +57,15 @@ const Search = () => {
     if (newFilters.location) params.set('location', newFilters.location);
     if (newFilters.pickupDate) params.set('from', newFilters.pickupDate.toISOString());
     if (newFilters.returnDate) params.set('to', newFilters.returnDate.toISOString());
+    if (newFilters.carType) params.set('type', newFilters.carType);
     setSearchParams(params);
     
     // Update filters state
     setFilters(newFilters);
+  };
+
+  const handleCarTypeChange = (carType: string) => {
+    handleSearch({ ...filters, carType });
   };
 
   return (
@@ -83,6 +89,13 @@ const Search = () => {
           
           <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
             <SearchForm onSearch={handleSearch} />
+          </div>
+
+          <div className="mb-6">
+            <SearchFilters 
+              carType={filters.carType}
+              onCarTypeChange={handleCarTypeChange}
+            />
           </div>
 
           <SearchResults cars={cars} isLoading={isLoading} />

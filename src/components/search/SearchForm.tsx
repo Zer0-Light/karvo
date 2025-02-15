@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Search as SearchIcon, Calendar, Car, MapPin } from "lucide-react";
+import { Search as SearchIcon, Calendar, MapPin } from "lucide-react";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
@@ -47,7 +47,6 @@ interface SearchFormProps {
 const SearchForm = ({ onSearch }: SearchFormProps) => {
   const [searchParams] = useSearchParams();
   const [location, setLocation] = useState<string>("");
-  const [carType, setCarType] = useState<string>("");
   const [pickupDate, setPickupDate] = useState<Date>();
   const [returnDate, setReturnDate] = useState<Date>();
 
@@ -78,12 +77,12 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSearch({ location, carType, pickupDate, returnDate });
+    onSearch({ location, carType: "", pickupDate, returnDate });
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="space-y-2">
           <Label htmlFor="location">Location</Label>
           <Select value={location} onValueChange={setLocation}>
@@ -101,30 +100,6 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
                   {city.label}
                 </SelectItem>
               ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="carType">Vehicle Type</Label>
-          <Select value={carType} onValueChange={setCarType}>
-            <SelectTrigger id="carType" className="w-full bg-white">
-              <Car className="mr-2 h-4 w-4" />
-              <SelectValue placeholder="Select vehicle type" />
-            </SelectTrigger>
-            <SelectContent className="z-50 bg-white border shadow-md">
-              <SelectItem value="luxury" className="hover:bg-accent focus:bg-accent">
-                Luxury
-              </SelectItem>
-              <SelectItem value="suv" className="hover:bg-accent focus:bg-accent">
-                SUV
-              </SelectItem>
-              <SelectItem value="sports" className="hover:bg-accent focus:bg-accent">
-                Sports
-              </SelectItem>
-              <SelectItem value="economy" className="hover:bg-accent focus:bg-accent">
-                Economy
-              </SelectItem>
             </SelectContent>
           </Select>
         </div>
