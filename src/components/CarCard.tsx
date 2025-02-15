@@ -31,7 +31,7 @@ const CarCard = ({
     <Card className="overflow-hidden hover:shadow-lg transition-shadow">
       <div className="aspect-[16/9] relative overflow-hidden">
         <img
-          src={photos?.[0] || "/placeholder.svg"}
+          src="/lovable-uploads/b1c6211a-f605-408b-9047-ce71ed5a3571.png"
           alt={`${make} ${model}`}
           className="w-full h-full object-cover"
         />
