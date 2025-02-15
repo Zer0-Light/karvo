@@ -1,8 +1,9 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { format } from "date-fns";
+import { useSearchParams } from "react-router-dom";
 import { 
   Select,
   SelectContent,
@@ -44,10 +45,36 @@ interface SearchFormProps {
 }
 
 const SearchForm = ({ onSearch }: SearchFormProps) => {
+  const [searchParams] = useSearchParams();
   const [location, setLocation] = useState<string>("");
   const [carType, setCarType] = useState<string>("");
-  const [pickupDate, setPickupDate] = useState<Date | undefined>();
-  const [returnDate, setReturnDate] = useState<Date | undefined>();
+  const [pickupDate, setPickupDate] = useState<Date>();
+  const [returnDate, setReturnDate] = useState<Date>();
+
+  // Get today's date at midnight for consistent comparison
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  useEffect(() => {
+    // Read URL parameters and set form values
+    const locationParam = searchParams.get('location');
+    const fromParam = searchParams.get('from');
+    const toParam = searchParams.get('to');
+
+    if (locationParam) setLocation(locationParam);
+    if (fromParam) setPickupDate(new Date(fromParam));
+    if (toParam) setReturnDate(new Date(toParam));
+
+    // If we have parameters, trigger search immediately
+    if (locationParam || fromParam || toParam) {
+      onSearch({
+        location: locationParam || "",
+        carType: "",
+        pickupDate: fromParam ? new Date(fromParam) : undefined,
+        returnDate: toParam ? new Date(toParam) : undefined,
+      });
+    }
+  }, [searchParams, onSearch]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -122,8 +149,8 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
                 mode="single"
                 selected={pickupDate}
                 onSelect={setPickupDate}
+                disabled={(date) => date < today}
                 initialFocus
-                disabled={(date) => date < new Date()}
               />
             </PopoverContent>
           </Popover>
@@ -149,8 +176,8 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
                 mode="single"
                 selected={returnDate}
                 onSelect={setReturnDate}
+                disabled={(date) => date < today || (pickupDate && date < pickupDate)}
                 initialFocus
-                disabled={(date) => pickupDate ? date <= pickupDate : date < new Date()}
               />
             </PopoverContent>
           </Popover>

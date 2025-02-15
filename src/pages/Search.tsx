@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import AuthGuard from "@/components/AuthGuard";
 import { supabase } from "@/integrations/supabase/client";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Footer from "@/components/Footer";
 import SearchForm from "@/components/search/SearchForm";
 import SearchResults from "@/components/search/SearchResults";
@@ -18,9 +18,12 @@ interface SearchFilters {
 
 const Search = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [filters, setFilters] = useState<SearchFilters>({
-    location: "",
+    location: searchParams.get('location') || "",
     carType: "",
+    pickupDate: searchParams.get('from') ? new Date(searchParams.get('from')!) : undefined,
+    returnDate: searchParams.get('to') ? new Date(searchParams.get('to')!) : undefined,
   });
 
   const { data: cars = [], isLoading } = useQuery({
@@ -36,12 +39,28 @@ const Search = () => {
         query = query.ilike('location', `%${filters.location}%`);
       }
 
+      if (filters.carType) {
+        query = query.eq('type', filters.carType);
+      }
+
       const { data, error } = await query;
 
       if (error) throw error;
       return data || [];
     },
   });
+
+  const handleSearch = (newFilters: SearchFilters) => {
+    // Update URL parameters
+    const params = new URLSearchParams();
+    if (newFilters.location) params.set('location', newFilters.location);
+    if (newFilters.pickupDate) params.set('from', newFilters.pickupDate.toISOString());
+    if (newFilters.returnDate) params.set('to', newFilters.returnDate.toISOString());
+    setSearchParams(params);
+    
+    // Update filters state
+    setFilters(newFilters);
+  };
 
   return (
     <AuthGuard>
@@ -63,7 +82,7 @@ const Search = () => {
           <h1 className="text-4xl font-bold text-primary mb-8">Find Your Perfect Rental</h1>
           
           <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
-            <SearchForm onSearch={setFilters} />
+            <SearchForm onSearch={handleSearch} />
           </div>
 
           <SearchResults cars={cars} isLoading={isLoading} />
