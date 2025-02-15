@@ -6,12 +6,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Car, MapPin, Calendar as CalendarIcon, CheckCircle } from "lucide-react";
+import { Car, MapPin, Calendar as CalendarIcon, CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
 import AuthGuard from "@/components/AuthGuard";
 import Footer from "@/components/Footer";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { DateRange } from "react-day-picker";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 const CarDetails = () => {
   const { id } = useParams();
@@ -43,6 +44,14 @@ const CarDetails = () => {
     },
     enabled: !!id,
   });
+
+  const carImages = [
+    "/lovable-uploads/039f0d8e-604d-49b4-8ab9-a0d67d0d5616.png",
+    "/lovable-uploads/5880f091-9d83-4483-964b-95644ea160f9.png",
+    "/lovable-uploads/10fdf748-8696-4c69-a2b0-22e0a80d06d0.png",
+    "/lovable-uploads/dfbe02ad-4d2f-45f6-a90d-ba066c6f6598.png",
+    "/lovable-uploads/dafcc94e-57c2-4351-a1b3-6bbd639992d8.png"
+  ];
 
   if (isLoading) {
     return (
@@ -82,15 +91,25 @@ const CarDetails = () => {
 
         <main className="container mx-auto px-4 pt-28 pb-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Car Images */}
+            {/* Car Images Carousel */}
             <div className="space-y-4">
-              <div className="aspect-video rounded-lg overflow-hidden">
-                <img 
-                  src={car.photos?.[0] || "/placeholder.svg"} 
-                  alt={`${car.make} ${car.model}`}
-                  className="w-full h-full object-cover"
-                />
-              </div>
+              <Carousel className="relative w-full">
+                <CarouselContent>
+                  {carImages.map((image, index) => (
+                    <CarouselItem key={index}>
+                      <div className="aspect-video rounded-lg overflow-hidden">
+                        <img 
+                          src={image}
+                          alt={`${car.make} ${car.model} - View ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="left-2" />
+                <CarouselNext className="right-2" />
+              </Carousel>
             </div>
 
             {/* Car Details */}
@@ -190,3 +209,4 @@ const CarDetails = () => {
 };
 
 export default CarDetails;
+
