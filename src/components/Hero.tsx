@@ -75,7 +75,8 @@ const Hero = () => {
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
-                    type="button"
+                    role="combobox"
+                    aria-expanded={open}
                     className="w-full justify-between rounded-xl bg-white border border-gray-200 hover:bg-gray-50 hover:text-primary transition-colors"
                   >
                     {location ? 
@@ -85,9 +86,9 @@ const Hero = () => {
                 </PopoverTrigger>
                 <PopoverContent className="w-[300px] md:w-[400px] p-0 bg-white border shadow-lg">
                   <Command>
-                    <CommandInput placeholder="Search cities..." className="h-9" />
+                    <CommandInput placeholder="Search cities..." />
                     <CommandEmpty>No city found.</CommandEmpty>
-                    <CommandGroup>
+                    <CommandGroup heading="Cities">
                       {cities.map((city) => (
                         <CommandItem
                           key={city.code}
