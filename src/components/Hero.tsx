@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -116,19 +115,20 @@ const Hero = () => {
                   <Button
                     variant="outline"
                     className={cn(
-                      "w-full justify-start text-left rounded-xl bg-gray-50/80 border-0 hover:bg-gray-100/80 hover:text-primary transition-colors",
+                      "w-full justify-start text-left rounded-xl bg-white border border-gray-200 hover:bg-gray-50 hover:text-primary transition-colors",
                       !startDate && "text-muted-foreground"
                     )}
                   >
                     {startDate ? format(startDate, "PPP") : "From date"}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
+                <PopoverContent className="w-auto p-0 bg-white" align="start">
                   <Calendar
                     mode="single"
                     selected={startDate}
                     onSelect={setStartDate}
                     initialFocus
+                    className="bg-white"
                   />
                 </PopoverContent>
               </Popover>
@@ -140,19 +140,20 @@ const Hero = () => {
                   <Button
                     variant="outline"
                     className={cn(
-                      "w-full justify-start text-left rounded-xl bg-gray-50/80 border-0 hover:bg-gray-100/80 hover:text-primary transition-colors",
+                      "w-full justify-start text-left rounded-xl bg-white border border-gray-200 hover:bg-gray-50 hover:text-primary transition-colors",
                       !endDate && "text-muted-foreground"
                     )}
                   >
                     {endDate ? format(endDate, "PPP") : "Until date"}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
+                <PopoverContent className="w-auto p-0 bg-white" align="start">
                   <Calendar
                     mode="single"
                     selected={endDate}
                     onSelect={setEndDate}
                     initialFocus
+                    className="bg-white"
                   />
                 </PopoverContent>
               </Popover>
