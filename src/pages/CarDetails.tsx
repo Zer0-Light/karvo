@@ -40,6 +40,21 @@ const CarDetails = () => {
         .maybeSingle();
 
       if (error) throw error;
+
+      // Update the host's avatar URL if it's the specific car we're looking at
+      if (data && id === '539520e2-ba81-4f8b-b8e0-ff6f62bdeb10') {
+        const { error: updateError } = await supabase
+          .from('profiles')
+          .update({ 
+            avatar_url: '/lovable-uploads/5e9c0281-400b-4411-b2f8-be1a7cf35240.png' 
+          })
+          .eq('id', data.host_id);
+
+        if (!updateError) {
+          data.host.avatar_url = '/lovable-uploads/5e9c0281-400b-4411-b2f8-be1a7cf35240.png';
+        }
+      }
+
       return data;
     },
     enabled: !!id,
@@ -209,4 +224,3 @@ const CarDetails = () => {
 };
 
 export default CarDetails;
-
