@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -34,7 +33,6 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-start bg-background">
-      {/* Logo and Become a Host */}
       <div className="absolute top-4 w-full px-4 md:px-8 flex justify-between items-center z-20">
         <img 
           src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" 
@@ -67,20 +65,48 @@ const Hero = () => {
             Rent the car you want, wherever you want
           </p>
 
-          {/* Search Section */}
           <div className="bg-[#FFFFFF] rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] p-6 flex flex-col md:flex-row items-stretch md:items-center gap-4 w-full max-w-4xl mx-auto backdrop-blur-sm border border-gray-100">
-            {/* Location Dropdown */}
             <div className="flex-1">
-              <Button
-                variant="outline"
-                disabled
-                className="w-full justify-between rounded-xl bg-white border border-gray-200 hover:bg-gray-50 hover:text-primary transition-colors cursor-not-allowed opacity-60"
-              >
-                Select your city...
-              </Button>
+              <Popover open={open} onOpenChange={setOpen}>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open}
+                    className="w-full justify-between rounded-xl bg-white border border-gray-200 hover:bg-gray-50 hover:text-primary transition-colors"
+                  >
+                    {location ? 
+                      cities.find((city) => city.code === location)?.name 
+                      : "Select your city..."}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-[300px] md:w-[400px] p-0">
+                  <Command>
+                    <CommandInput placeholder="Search cities..." className="h-9" />
+                    <CommandEmpty>No city found.</CommandEmpty>
+                    <CommandGroup heading="Cities">
+                      {cities.map((city) => (
+                        <CommandItem
+                          key={city.code}
+                          value={city.code}
+                          onSelect={(currentValue) => {
+                            setLocation(currentValue);
+                            setOpen(false);
+                          }}
+                          className="flex flex-col items-start py-3 px-4 hover:bg-gray-50"
+                        >
+                          <span className="font-medium">{city.name}</span>
+                          <span className="text-sm text-muted-foreground">
+                            {city.region}
+                          </span>
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
             </div>
 
-            {/* Start Date Calendar */}
             <div className="flex-1">
               <Popover>
                 <PopoverTrigger asChild>
@@ -105,7 +131,6 @@ const Hero = () => {
               </Popover>
             </div>
 
-            {/* End Date Calendar */}
             <div className="flex-1">
               <Popover>
                 <PopoverTrigger asChild>
@@ -135,7 +160,6 @@ const Hero = () => {
             </Button>
           </div>
 
-          {/* Hero Image */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
