@@ -31,6 +31,15 @@ const Hero = () => {
   const [endDate, setEndDate] = useState<Date>();
   const [open, setOpen] = useState(false);
 
+  const handleSearch = () => {
+    const searchParams = new URLSearchParams();
+    if (location) searchParams.set('location', location);
+    if (startDate) searchParams.set('from', startDate.toISOString());
+    if (endDate) searchParams.set('to', endDate.toISOString());
+    
+    navigate(`/search?${searchParams.toString()}`);
+  };
+
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-start bg-background">
       <div className="absolute top-4 w-full px-4 md:px-8 flex justify-between items-center z-20">
@@ -159,7 +168,10 @@ const Hero = () => {
               </Popover>
             </div>
 
-            <Button className="bg-accent hover:bg-accent/90 rounded-xl w-full md:w-14 h-14 flex items-center justify-center">
+            <Button 
+              onClick={handleSearch}
+              className="bg-accent hover:bg-accent/90 rounded-xl w-full md:w-14 h-14 flex items-center justify-center"
+            >
               <Search className="h-5 w-5" />
             </Button>
           </div>
