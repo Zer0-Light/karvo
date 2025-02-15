@@ -1,3 +1,4 @@
+
 import { motion } from "framer-motion";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
@@ -39,6 +40,10 @@ const Hero = () => {
     
     navigate(`/search?${searchParams.toString()}`);
   };
+
+  // Get today's date at midnight for consistent comparison
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-start bg-background">
@@ -136,6 +141,7 @@ const Hero = () => {
                     mode="single"
                     selected={startDate}
                     onSelect={setStartDate}
+                    disabled={(date) => date < today}
                     initialFocus
                     className="bg-white"
                   />
@@ -161,6 +167,7 @@ const Hero = () => {
                     mode="single"
                     selected={endDate}
                     onSelect={setEndDate}
+                    disabled={(date) => date < today || (startDate && date < startDate)}
                     initialFocus
                     className="bg-white"
                   />
