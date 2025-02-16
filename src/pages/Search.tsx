@@ -47,27 +47,27 @@ const Search = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const fetchCars = async (): Promise<Car[]> => {
-    let query = supabase
-      .from('cars')
-      .select();
+  const fetchCars = async () => {
+    try {
+      let baseQuery = supabase.from('cars').select('*');
 
-    if (filters.location) {
-      // Split location into city and state/country parts
-      const locationParts = filters.location.split(', ').map(part => part.toLowerCase());
-      
-      // Search in both city and location fields
-      query = query.or(`city.ilike.%${locationParts[0]}%,location.ilike.%${locationParts[0]}%`);
+      if (filters.location) {
+        const locationParts = filters.location.split(', ').map(part => part.toLowerCase());
+        baseQuery = baseQuery.or(`city.ilike.%${locationParts[0]}%,location.ilike.%${locationParts[0]}%`);
+      }
+
+      if (filters.carType && filters.carType !== 'all') {
+        baseQuery = baseQuery.eq('type', filters.carType);
+      }
+
+      const { data, error } = await baseQuery;
+
+      if (error) throw error;
+      return data as Car[];
+    } catch (error) {
+      console.error('Error fetching cars:', error);
+      return [] as Car[];
     }
-
-    if (filters.carType && filters.carType !== 'all') {
-      query = query.eq('type', filters.carType);
-    }
-
-    const { data, error } = await query;
-
-    if (error) throw error;
-    return data || [];
   };
 
   const { data: cars = [], isLoading } = useQuery({
@@ -78,8 +78,8 @@ const Search = () => {
       filters.pickupDate?.toISOString(),
       filters.returnDate?.toISOString()
     ],
-    enabled: Boolean(filters.location && filters.pickupDate && filters.returnDate),
-    queryFn: fetchCars
+    queryFn: fetchCars,
+    enabled: Boolean(filters.location && filters.pickupDate && filters.returnDate)
   });
 
   const handleSearch = (newFilters: SearchFiltersType) => {
