@@ -49,16 +49,17 @@ const Search = () => {
 
   const fetchCars = async () => {
     try {
-      const query = supabase.from('cars').select();
-      
+      let query = supabase
+        .from('cars')
+        .select('*');
+
       if (filters.location) {
         const locationPart = filters.location.split(', ')[0].toLowerCase();
-        const filterString = `or,(city.ilike.%${locationPart}%,location.ilike.%${locationPart}%)`;
-        query.filter(filterString);
+        query = query.or(`city.ilike.%${locationPart}%,location.ilike.%${locationPart}%`);
       }
 
       if (filters.carType && filters.carType !== 'all') {
-        query.eq('type', filters.carType);
+        query = query.eq('type', filters.carType);
       }
 
       const { data, error } = await query;
