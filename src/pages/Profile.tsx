@@ -174,58 +174,62 @@ const Profile = () => {
   return (
     <AuthGuard>
       <div className="min-h-screen bg-background">
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="bg-accent text-white py-3 text-center font-medium"
-        >
-          First-time riders get 15% off—your adventure starts for less! 🚗💨
-        </motion.div>
+        <div className="fixed top-0 left-0 right-0 z-50">
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="bg-accent text-white py-3 text-center font-medium"
+          >
+            First-time riders get 15% off—your adventure starts for less! 🚗💨
+          </motion.div>
 
-        <nav className="fixed top-0 left-0 right-0 bg-black text-white z-50">
-          <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-            <img 
-              src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" 
-              alt="KARVO" 
-              className="h-8 w-auto cursor-pointer"
-              onClick={() => navigate("/")}
-            />
-          </div>
-        </nav>
+          <nav className="bg-black text-white">
+            <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+              <img 
+                src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" 
+                alt="KARVO" 
+                className="h-8 w-auto cursor-pointer"
+                onClick={() => navigate("/")}
+              />
+            </div>
+          </nav>
+        </div>
 
-        <ProfileHeader
-          profile={profile}
-          isEditing={isEditing}
-          uploadingAvatar={uploadingAvatar}
-          onEdit={() => setIsEditing(true)}
-          onFileChange={handleFileChange}
-        />
+        <div className="pt-32">
+          <ProfileHeader
+            profile={profile}
+            isEditing={isEditing}
+            uploadingAvatar={uploadingAvatar}
+            onEdit={() => setIsEditing(true)}
+            onFileChange={handleFileChange}
+          />
 
-        <main className="container mx-auto px-4 pt-8 pb-16">
-          <div className="max-w-4xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="space-y-8">
-                <VerifiedInfo profile={profile} />
-                {reviews && <Reviews reviews={reviews} />}
-              </div>
+          <main className="container mx-auto px-4 pt-8 pb-16">
+            <div className="max-w-4xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="space-y-8">
+                  <VerifiedInfo profile={profile} />
+                  {reviews && <Reviews reviews={reviews} />}
+                </div>
 
-              <div className="md:col-span-2">
-                {isEditing ? (
-                  <ProfileForm
-                    formData={formData}
-                    isHost={profile?.is_host}
-                    onSubmit={handleSubmit}
-                    onChange={handleFormChange}
-                    onCancel={() => setIsEditing(false)}
-                  />
-                ) : (
-                  <ProfileInfo profile={profile} />
-                )}
+                <div className="md:col-span-2">
+                  {isEditing ? (
+                    <ProfileForm
+                      formData={formData}
+                      isHost={profile?.is_host}
+                      onSubmit={handleSubmit}
+                      onChange={handleFormChange}
+                      onCancel={() => setIsEditing(false)}
+                    />
+                  ) : (
+                    <ProfileInfo profile={profile} />
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        </main>
+          </main>
+        </div>
 
         <Footer />
       </div>
