@@ -11,6 +11,7 @@ import VerifiedInfo from "@/components/profile/VerifiedInfo";
 import Reviews from "@/components/profile/Reviews";
 import ProfileForm from "@/components/profile/ProfileForm";
 import ProfileInfo from "@/components/profile/ProfileInfo";
+import SearchForm from "@/components/search/SearchForm";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -162,6 +163,19 @@ const Profile = () => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const handleSearch = (formData: {
+    location: string;
+    carType: string;
+    pickupDate?: Date;
+    returnDate?: Date;
+  }) => {
+    const searchParams = new URLSearchParams();
+    if (formData.location) searchParams.set('location', formData.location);
+    if (formData.pickupDate) searchParams.set('from', formData.pickupDate.toISOString());
+    if (formData.returnDate) searchParams.set('to', formData.returnDate.toISOString());
+    navigate(`/search?${searchParams.toString()}`);
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -183,17 +197,24 @@ const Profile = () => {
             First-time riders get 15% off—your adventure starts for less! 🚗💨
           </motion.div>
 
-          <nav className="bg-black text-white px-4 py-4">
-            <img 
-              src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" 
-              alt="KARVO" 
-              className="h-8 w-auto cursor-pointer"
-              onClick={() => navigate("/")}
-            />
+          <nav className="bg-white shadow-sm px-4 py-4">
+            <div className="container mx-auto">
+              <div className="flex flex-col lg:flex-row items-center gap-4">
+                <img 
+                  src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" 
+                  alt="KARVO" 
+                  className="h-8 w-auto cursor-pointer"
+                  onClick={() => navigate("/")}
+                />
+                <div className="flex-1 w-full lg:max-w-4xl">
+                  <SearchForm onSearch={handleSearch} />
+                </div>
+              </div>
+            </div>
           </nav>
         </div>
 
-        <div className="pt-32">
+        <div className="pt-48 lg:pt-44">
           <ProfileHeader
             profile={profile}
             isEditing={isEditing}
