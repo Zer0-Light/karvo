@@ -10,17 +10,17 @@ import SearchForm from "@/components/search/SearchForm";
 import SearchResults from "@/components/search/SearchResults";
 import SearchFilters from "@/components/search/SearchFilters";
 
-interface SearchFilters {
+type SearchFiltersType = {
   location: string;
   carType: string;
   pickupDate?: Date;
   returnDate?: Date;
-}
+};
 
 const Search = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [filters, setFilters] = useState<SearchFilters>({
+  const [filters, setFilters] = useState<SearchFiltersType>({
     location: searchParams.get('location') || "",
     carType: searchParams.get('type') || "all",
     pickupDate: searchParams.get('from') ? new Date(searchParams.get('from')!) : undefined,
@@ -51,7 +51,7 @@ const Search = () => {
     },
   });
 
-  const handleSearch = (newFilters: SearchFilters) => {
+  const handleSearch = (newFilters: SearchFiltersType) => {
     // Update URL parameters
     const params = new URLSearchParams();
     if (newFilters.location) params.set('location', newFilters.location);
@@ -65,7 +65,8 @@ const Search = () => {
   };
 
   const handleCarTypeChange = (carType: string) => {
-    handleSearch({ ...filters, carType });
+    const newFilters = { ...filters, carType };
+    handleSearch(newFilters);
   };
 
   return (

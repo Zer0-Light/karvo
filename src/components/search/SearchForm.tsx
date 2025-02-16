@@ -68,7 +68,7 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
     if (locationParam || fromParam || toParam) {
       onSearch({
         location: locationParam || "",
-        carType: "",
+        carType: "all",
         pickupDate: fromParam ? new Date(fromParam) : undefined,
         returnDate: toParam ? new Date(toParam) : undefined,
       });
@@ -77,7 +77,7 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSearch({ location, carType: "", pickupDate, returnDate });
+    onSearch({ location, carType: "all", pickupDate, returnDate });
   };
 
   return (
