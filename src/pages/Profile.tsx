@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -199,7 +200,17 @@ const Profile = () => {
 
           <nav className="bg-white shadow-sm px-6 py-6">
             <div className="container mx-auto max-w-5xl">
-              <SearchForm onSearch={handleSearch} />
+              <div className="flex items-center gap-8">
+                <img 
+                  src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" 
+                  alt="KARVO" 
+                  className="h-8 w-auto cursor-pointer"
+                  onClick={() => navigate("/")}
+                />
+                <div className="flex-1">
+                  <SearchForm onSearch={handleSearch} />
+                </div>
+              </div>
             </div>
           </nav>
         </div>
