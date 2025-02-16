@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -184,15 +183,13 @@ const Profile = () => {
             First-time riders get 15% off—your adventure starts for less! 🚗💨
           </motion.div>
 
-          <nav className="bg-black text-white">
-            <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-              <img 
-                src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" 
-                alt="KARVO" 
-                className="h-8 w-auto cursor-pointer"
-                onClick={() => navigate("/")}
-              />
-            </div>
+          <nav className="bg-black text-white px-4 py-4">
+            <img 
+              src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" 
+              alt="KARVO" 
+              className="h-8 w-auto cursor-pointer"
+              onClick={() => navigate("/")}
+            />
           </nav>
         </div>
 
