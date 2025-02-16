@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -8,9 +8,7 @@ import Footer from "@/components/Footer";
 import SearchForm from "@/components/search/SearchForm";
 import SearchResults from "@/components/search/SearchResults";
 import SearchFilters from "@/components/search/SearchFilters";
-import { useEffect } from "react";
 import { Database } from "@/integrations/supabase/types";
-import { PostgrestFilterBuilder } from "@supabase/postgrest-js";
 
 type Car = Database['public']['Tables']['cars']['Row'];
 
@@ -47,16 +45,14 @@ const Search = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const fetchCars = async () => {
-    try {
-      let query = supabase
-        .from('cars')
-        .select('*');
+  const fetchCars = useCallback(async () => {
+    if (!filters.location) return [];
 
-      if (filters.location) {
-        const locationPart = filters.location.split(', ')[0].toLowerCase();
-        query = query.or(`city.ilike.%${locationPart}%,location.ilike.%${locationPart}%`);
-      }
+    try {
+      const baseQuery = supabase.from('cars').select('*');
+      const locationPart = filters.location.split(', ')[0].toLowerCase();
+      
+      let query = baseQuery.or(`city.ilike.%${locationPart}%,location.ilike.%${locationPart}%`);
 
       if (filters.carType && filters.carType !== 'all') {
         query = query.eq('type', filters.carType);
@@ -74,7 +70,7 @@ const Search = () => {
       console.error('Error in fetchCars:', error);
       return [];
     }
-  };
+  }, [filters.location, filters.carType]);
 
   const { data: cars = [], isLoading } = useQuery({
     queryKey: [
@@ -88,23 +84,22 @@ const Search = () => {
     enabled: Boolean(filters.location && filters.pickupDate && filters.returnDate)
   });
 
-  const handleSearch = (newFilters: SearchFiltersType) => {
-    // Update URL parameters
+  const handleSearch = useCallback((newFilters: SearchFiltersType) => {
     const params = new URLSearchParams();
     if (newFilters.location) params.set('location', newFilters.location);
     if (newFilters.pickupDate) params.set('from', newFilters.pickupDate.toISOString());
     if (newFilters.returnDate) params.set('to', newFilters.returnDate.toISOString());
     if (newFilters.carType && newFilters.carType !== 'all') params.set('type', newFilters.carType);
-    setSearchParams(params);
     
-    // Update filters state
+    // Update URL without causing a reload
+    setSearchParams(params, { replace: true });
     setFilters(newFilters);
-  };
+  }, [setSearchParams]);
 
-  const handleCarTypeChange = (carType: string) => {
+  const handleCarTypeChange = useCallback((carType: string) => {
     const newFilters = { ...filters, carType };
     handleSearch(newFilters);
-  };
+  }, [filters, handleSearch]);
 
   return (
     <div className="min-h-screen bg-gray-50/50 flex flex-col">
@@ -143,4 +138,3 @@ const Search = () => {
 };
 
 export default Search;
-
