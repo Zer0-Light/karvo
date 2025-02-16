@@ -10,7 +10,7 @@ import SearchResults from "@/components/search/SearchResults";
 import SearchFilters from "@/components/search/SearchFilters";
 import { useEffect } from "react";
 import { Database } from "@/integrations/supabase/types";
-import { PostgrestError } from "@supabase/supabase-js";
+import { PostgrestFilterBuilder } from "@supabase/postgrest-js";
 
 type Car = Database['public']['Tables']['cars']['Row'];
 
@@ -49,24 +49,16 @@ const Search = () => {
 
   const fetchCars = async () => {
     try {
-      let conditions = [];
+      const query = supabase.from('cars').select();
       
       if (filters.location) {
-        const locationParts = filters.location.split(', ').map(part => part.toLowerCase());
-        conditions.push(`city.ilike.%${locationParts[0]}%`);
-        conditions.push(`location.ilike.%${locationParts[0]}%`);
-      }
-
-      let query = supabase
-        .from('cars')
-        .select('*');
-
-      if (conditions.length > 0) {
-        query = query.or(conditions.join(','));
+        const locationPart = filters.location.split(', ')[0].toLowerCase();
+        const filterString = `or,(city.ilike.%${locationPart}%,location.ilike.%${locationPart}%)`;
+        query.filter(filterString);
       }
 
       if (filters.carType && filters.carType !== 'all') {
-        query = query.eq('type', filters.carType);
+        query.eq('type', filters.carType);
       }
 
       const { data, error } = await query;
@@ -76,7 +68,7 @@ const Search = () => {
         return [];
       }
       
-      return (data || []) as Car[];
+      return data || [];
     } catch (error) {
       console.error('Error in fetchCars:', error);
       return [];
