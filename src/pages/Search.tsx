@@ -28,8 +28,14 @@ const Search = () => {
   });
 
   const { data: cars = [], isLoading } = useQuery({
-    queryKey: ['available-cars', filters.location, filters.carType, filters.pickupDate?.toISOString(), filters.returnDate?.toISOString()],
-    enabled: !!(filters.location && filters.pickupDate && filters.returnDate),
+    queryKey: [
+      'available-cars',
+      filters.location,
+      filters.carType,
+      filters.pickupDate?.toISOString(),
+      filters.returnDate?.toISOString()
+    ],
+    enabled: Boolean(filters.location && filters.pickupDate && filters.returnDate),
     queryFn: async () => {
       let query = supabase
         .from('cars')
