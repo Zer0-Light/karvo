@@ -30,6 +30,7 @@ const CarDetails = () => {
         .select(`
           *,
           host:profiles!cars_host_id_fkey (
+            id,
             full_name,
             avatar_url,
             host_since,
@@ -170,7 +171,12 @@ const CarDetails = () => {
                     className="h-16 w-16 rounded-full object-cover"
                   />
                   <div>
-                    <h3 className="font-semibold">{car.host?.full_name}</h3>
+                    <h3 
+                      className="font-semibold hover:text-primary cursor-pointer"
+                      onClick={() => navigate(`/profile/${car.host?.id}`)}
+                    >
+                      {car.host?.full_name}
+                    </h3>
                     <p className="text-sm text-muted-foreground">
                       Host since {car.host?.host_since ? format(new Date(car.host.host_since), 'MMMM yyyy') : 'N/A'}
                     </p>
