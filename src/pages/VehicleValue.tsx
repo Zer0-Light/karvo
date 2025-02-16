@@ -25,8 +25,31 @@ const VehicleValue = () => {
     },
   });
 
-  const handleContinue = () => {
-    navigate(`/cars/${carId}`);
+  const handleContinue = async () => {
+    try {
+      // Update car status to available when continuing
+      const { error } = await supabase
+        .from('cars')
+        .update({ status: 'available' })
+        .eq('id', carId);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "Your car has been listed successfully!",
+      });
+
+      // Navigate to the car profile
+      navigate(`/cars/${carId}`);
+    } catch (error) {
+      console.error('Error listing car:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to list your car. Please try again.",
+      });
+    }
   };
 
   if (isLoading) {
@@ -59,7 +82,7 @@ const VehicleValue = () => {
         </Button>
 
         <div className="max-w-2xl mx-auto">
-          <h1 className="text-3xl font-bold mb-8">Vehicle Value Assessment</h1>
+          <h1 className="text-3xl font-bold mb-8">Final Step: Vehicle Value</h1>
 
           <div className="bg-white rounded-lg shadow-md p-6 mb-8">
             <div className="space-y-6">
@@ -83,6 +106,13 @@ const VehicleValue = () => {
                   </div>
                 )}
               </div>
+
+              <div className="bg-blue-50 p-4 rounded-lg">
+                <p className="text-sm text-blue-700">
+                  This value helps us determine insurance coverage and protection for your vehicle. 
+                  By continuing, you agree to list your car on KARVO.
+                </p>
+              </div>
             </div>
           </div>
 
@@ -91,7 +121,7 @@ const VehicleValue = () => {
               size="lg"
               onClick={handleContinue}
             >
-              Continue to Car Profile
+              List My Car
             </Button>
           </div>
         </div>
