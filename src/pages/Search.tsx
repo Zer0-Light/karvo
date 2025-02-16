@@ -10,6 +10,7 @@ import SearchResults from "@/components/search/SearchResults";
 import SearchFilters from "@/components/search/SearchFilters";
 import { useEffect } from "react";
 import { Database } from "@/integrations/supabase/types";
+import { PostgrestError } from "@supabase/supabase-js";
 
 type Car = Database['public']['Tables']['cars']['Row'];
 
@@ -46,11 +47,10 @@ const Search = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const fetchCars = async () => {
+  const fetchCars = async (): Promise<Car[]> => {
     let query = supabase
       .from('cars')
-      .select()
-      .eq('status', 'available');
+      .select();
 
     if (filters.location) {
       // Split location into city and state/country parts
@@ -67,7 +67,7 @@ const Search = () => {
     const { data, error } = await query;
 
     if (error) throw error;
-    return (data || []) as Car[];
+    return data || [];
   };
 
   const { data: cars = [], isLoading } = useQuery({
