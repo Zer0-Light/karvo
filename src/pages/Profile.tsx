@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import AuthGuard from "@/components/AuthGuard";
 import Footer from "@/components/Footer";
@@ -173,6 +174,15 @@ const Profile = () => {
   return (
     <AuthGuard>
       <div className="min-h-screen bg-background">
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-accent text-white py-3 text-center font-medium"
+        >
+          First-time riders get 15% off—your adventure starts for less! 🚗💨
+        </motion.div>
+
         <nav className="fixed top-0 left-0 right-0 bg-black text-white z-50">
           <div className="container mx-auto px-4 py-4 flex justify-between items-center">
             <img 
