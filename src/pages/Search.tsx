@@ -54,9 +54,6 @@ const Search = () => {
       
       let query = baseQuery.or(`city.ilike.%${locationPart}%,location.ilike.%${locationPart}%`);
 
-      if (filters.carType && filters.carType !== 'all') {
-        query = query.eq('type', filters.carType);
-      }
 
       const { data, error } = await query;
       

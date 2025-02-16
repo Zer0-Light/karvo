@@ -90,7 +90,7 @@ const Hero = () => {
                     className="w-full justify-between rounded-xl bg-white border border-gray-200 hover:bg-gray-50 hover:text-primary transition-colors"
                   >
                     {location ? 
-                      cities.find((city) => city.code === location)?.name 
+                      cities.find((city) => city.name === location)?.name 
                       : "Select your city..."}
                   </Button>
                 </PopoverTrigger>
@@ -102,8 +102,8 @@ const Hero = () => {
                       <CommandGroup heading="Cities">
                         {cities.map((city) => (
                           <CommandItem
-                            key={city.code}
-                            value={city.code}
+                            key={city.name}
+                            value={city.name}
                             onSelect={(currentValue) => {
                               setLocation(currentValue);
                               setOpen(false);
