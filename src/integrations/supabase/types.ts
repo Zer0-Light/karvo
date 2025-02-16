@@ -255,6 +255,61 @@ export type Database = {
         }
         Relationships: []
       }
+      renter_reviews: {
+        Row: {
+          booking_id: string
+          comment: string | null
+          created_at: string
+          host_id: string
+          id: string
+          rating: number
+          renter_id: string
+          updated_at: string
+        }
+        Insert: {
+          booking_id: string
+          comment?: string | null
+          created_at?: string
+          host_id: string
+          id?: string
+          rating: number
+          renter_id: string
+          updated_at?: string
+        }
+        Update: {
+          booking_id?: string
+          comment?: string | null
+          created_at?: string
+          host_id?: string
+          id?: string
+          rating?: number
+          renter_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "renter_reviews_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: true
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "renter_reviews_host_id_fkey"
+            columns: ["host_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "renter_reviews_renter_id_fkey"
+            columns: ["renter_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reviews: {
         Row: {
           booking_id: string

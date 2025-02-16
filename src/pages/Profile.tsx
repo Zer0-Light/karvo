@@ -1,8 +1,8 @@
-
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { Star } from "lucide-react";
 import AuthGuard from "@/components/AuthGuard";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -59,6 +59,29 @@ const Profile = () => {
       });
     }
   }, [profile]);
+
+  const { data: reviews } = useQuery({
+    queryKey: ['renter-reviews', user?.id],
+    queryFn: async () => {
+      if (!user?.id) throw new Error('No user ID');
+      
+      const { data, error } = await supabase
+        .from('renter_reviews')
+        .select(`
+          *,
+          host:profiles!renter_reviews_host_id_fkey(
+            full_name,
+            avatar_url
+          )
+        `)
+        .eq('renter_id', user.id)
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      return data;
+    },
+    enabled: !!user?.id,
+  });
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -157,7 +180,7 @@ const Profile = () => {
 
         <main className="container mx-auto px-4 pt-28 pb-16">
           <div className="max-w-2xl mx-auto">
-            <div className="bg-white rounded-lg shadow p-6">
+            <div className="bg-white rounded-lg shadow p-6 mb-6">
               <div className="flex justify-end mb-4">
                 <Button 
                   variant="outline"
@@ -277,6 +300,50 @@ const Profile = () => {
                 </>
               )}
             </div>
+
+            {reviews && reviews.length > 0 && (
+              <div className="bg-white rounded-lg shadow p-6">
+                <h2 className="text-xl font-semibold mb-6">Reviews from Hosts</h2>
+                <div className="space-y-6">
+                  {reviews.map((review) => (
+                    <div key={review.id} className="border-b last:border-b-0 pb-6 last:pb-0">
+                      <div className="flex items-start space-x-4">
+                        <img
+                          src={review.host.avatar_url || "/placeholder.svg"}
+                          alt={review.host.full_name}
+                          className="h-12 w-12 rounded-full object-cover"
+                        />
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between">
+                            <h3 className="font-medium">{review.host.full_name}</h3>
+                            <div className="flex items-center">
+                              {Array.from({ length: review.rating }).map((_, i) => (
+                                <Star
+                                  key={i}
+                                  className="w-4 h-4 fill-yellow-400 text-yellow-400"
+                                />
+                              ))}
+                              {Array.from({ length: 5 - review.rating }).map((_, i) => (
+                                <Star
+                                  key={i}
+                                  className="w-4 h-4 text-gray-300"
+                                />
+                              ))}
+                            </div>
+                          </div>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            {new Date(review.created_at).toLocaleDateString()}
+                          </p>
+                          {review.comment && (
+                            <p className="mt-2 text-gray-700">{review.comment}</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </main>
 
