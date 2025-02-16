@@ -207,6 +207,7 @@ export type Database = {
       profiles: {
         Row: {
           avatar_url: string | null
+          city: string | null
           created_at: string
           email_verified: boolean | null
           full_name: string | null
@@ -218,11 +219,13 @@ export type Database = {
           join_date: string | null
           phone_number: string | null
           phone_verified: boolean | null
+          state: string | null
           total_cars_listed: number | null
           updated_at: string
         }
         Insert: {
           avatar_url?: string | null
+          city?: string | null
           created_at?: string
           email_verified?: boolean | null
           full_name?: string | null
@@ -234,11 +237,13 @@ export type Database = {
           join_date?: string | null
           phone_number?: string | null
           phone_verified?: boolean | null
+          state?: string | null
           total_cars_listed?: number | null
           updated_at?: string
         }
         Update: {
           avatar_url?: string | null
+          city?: string | null
           created_at?: string
           email_verified?: boolean | null
           full_name?: string | null
@@ -250,6 +255,7 @@ export type Database = {
           join_date?: string | null
           phone_number?: string | null
           phone_verified?: boolean | null
+          state?: string | null
           total_cars_listed?: number | null
           updated_at?: string
         }

@@ -23,6 +23,8 @@ const Profile = () => {
     full_name: "",
     phone_number: "",
     host_description: "",
+    city: "",
+    state: "",
   });
 
   useEffect(() => {
@@ -57,6 +59,8 @@ const Profile = () => {
         full_name: profile.full_name || "",
         phone_number: profile.phone_number || "",
         host_description: profile.host_description || "",
+        city: profile.city || "",
+        state: profile.state || "",
       });
     }
   }, [profile]);
@@ -205,7 +209,8 @@ const Profile = () => {
             <div className="text-center mb-8">
               <h1 className="text-3xl font-bold mb-2">{profile?.full_name}</h1>
               <p className="text-muted-foreground">
-                {profile?.city}, {profile?.state} · Joined {new Date(profile?.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
+                {profile?.city && profile?.state ? `${profile.city}, ${profile.state} · ` : ''}
+                Joined {new Date(profile?.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
               </p>
               {!isEditing && (
                 <Button 
@@ -307,6 +312,24 @@ const Profile = () => {
                           id="phone_number"
                           value={formData.phone_number}
                           onChange={(e) => setFormData(prev => ({ ...prev, phone_number: e.target.value }))}
+                        />
+                      </div>
+
+                      <div>
+                        <Label htmlFor="city">City</Label>
+                        <Input
+                          id="city"
+                          value={formData.city}
+                          onChange={(e) => setFormData(prev => ({ ...prev, city: e.target.value }))}
+                        />
+                      </div>
+
+                      <div>
+                        <Label htmlFor="state">State</Label>
+                        <Input
+                          id="state"
+                          value={formData.state}
+                          onChange={(e) => setFormData(prev => ({ ...prev, state: e.target.value }))}
                         />
                       </div>
 
