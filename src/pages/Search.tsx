@@ -49,24 +49,37 @@ const Search = () => {
 
   const fetchCars = async () => {
     try {
-      let baseQuery = supabase.from('cars').select('*');
-
+      let conditions = [];
+      
       if (filters.location) {
         const locationParts = filters.location.split(', ').map(part => part.toLowerCase());
-        baseQuery = baseQuery.or(`city.ilike.%${locationParts[0]}%,location.ilike.%${locationParts[0]}%`);
+        conditions.push(`city.ilike.%${locationParts[0]}%`);
+        conditions.push(`location.ilike.%${locationParts[0]}%`);
+      }
+
+      let query = supabase
+        .from('cars')
+        .select('*');
+
+      if (conditions.length > 0) {
+        query = query.or(conditions.join(','));
       }
 
       if (filters.carType && filters.carType !== 'all') {
-        baseQuery = baseQuery.eq('type', filters.carType);
+        query = query.eq('type', filters.carType);
       }
 
-      const { data, error } = await baseQuery;
-
-      if (error) throw error;
-      return data as Car[];
+      const { data, error } = await query;
+      
+      if (error) {
+        console.error('Error fetching cars:', error);
+        return [];
+      }
+      
+      return (data || []) as Car[];
     } catch (error) {
-      console.error('Error fetching cars:', error);
-      return [] as Car[];
+      console.error('Error in fetchCars:', error);
+      return [];
     }
   };
 
