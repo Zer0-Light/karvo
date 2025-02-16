@@ -197,24 +197,14 @@ const Profile = () => {
             First-time riders get 15% off—your adventure starts for less! 🚗💨
           </motion.div>
 
-          <nav className="bg-white shadow-sm px-4 py-4">
-            <div className="container mx-auto">
-              <div className="flex flex-col lg:flex-row items-center gap-4">
-                <img 
-                  src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" 
-                  alt="KARVO" 
-                  className="h-8 w-auto cursor-pointer"
-                  onClick={() => navigate("/")}
-                />
-                <div className="flex-1 w-full lg:max-w-4xl">
-                  <SearchForm onSearch={handleSearch} />
-                </div>
-              </div>
+          <nav className="bg-white shadow-sm px-6 py-6">
+            <div className="container mx-auto max-w-5xl">
+              <SearchForm onSearch={handleSearch} />
             </div>
           </nav>
         </div>
 
-        <div className="pt-48 lg:pt-44">
+        <div className="pt-40">
           <ProfileHeader
             profile={profile}
             isEditing={isEditing}
