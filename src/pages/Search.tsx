@@ -100,12 +100,13 @@ const Search = () => {
 
   return (
     <div className="min-h-screen bg-gray-50/50 flex flex-col">
-      <div className="fixed top-8 left-8 z-50">
+      <div className="fixed top-8 left-8 z-[9999]">
         <img 
           src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" 
           alt="KARVO" 
           className="h-24 w-auto cursor-pointer"
           onClick={() => navigate("/")}
+          style={{ position: 'fixed' }}
         />
       </div>
       <motion.div
