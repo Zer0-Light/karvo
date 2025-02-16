@@ -168,13 +168,14 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
         </div>
       </div>
 
-      <Button type="submit" className="w-full md:w-auto">
-        <SearchIcon className="mr-2 h-5 w-5" />
-        Search Available Cars
-      </Button>
+      <div className="flex justify-center">
+        <Button type="submit" className="w-[200px]">
+          <SearchIcon className="mr-2 h-5 w-5" />
+          Search Available Cars
+        </Button>
+      </div>
     </form>
   );
 };
 
 export default SearchForm;
-
