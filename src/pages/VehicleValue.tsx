@@ -1,139 +1,102 @@
 
-import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
-import AuthGuard from "@/components/AuthGuard";
-import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
-import { ListingProgress } from "@/components/ListingProgress";
-import Footer from "@/components/Footer";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { ArrowLeft, Check, AlertTriangle } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 const VehicleValue = () => {
-  const navigate = useNavigate();
   const { carId } = useParams();
+  const navigate = useNavigate();
   const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [value, setValue] = useState("");
 
-  const handleSubmit = async () => {
-    if (!value || isNaN(Number(value))) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Please enter a valid vehicle value.",
-      });
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    try {
-      const { error } = await supabase
+  const { data: car, isLoading } = useQuery({
+    queryKey: ['car', carId],
+    queryFn: async () => {
+      const { data, error } = await supabase
         .from('cars')
-        .update({ vehicle_value: Number(value) })
-        .eq('id', carId);
+        .select('*')
+        .eq('id', carId)
+        .maybeSingle();
 
       if (error) throw error;
+      return data;
+    },
+  });
 
-      toast({
-        title: "Information saved",
-        description: "Let's continue with listing your car.",
-      });
-
-      navigate(`/list-your-car/photos/${carId}`);
-    } catch (error) {
-      console.error('Error saving vehicle value:', error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to save information. Please try again.",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+  const handleContinue = () => {
+    navigate(`/cars/${carId}`);
   };
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  if (!car) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4">
+        <h1 className="text-2xl font-semibold">Car not found</h1>
+        <Button onClick={() => navigate("/list-your-car")}>Back to Listing</Button>
+      </div>
+    );
+  }
+
   return (
-    <AuthGuard>
-      <div className="min-h-screen bg-background flex flex-col">
-        <nav className="w-full px-4 py-6 flex justify-between items-center border-b">
-          <h1 
-            onClick={() => navigate("/")} 
-            className="text-2xl font-bold text-primary cursor-pointer"
-          >
-            KARVO
-          </h1>
-          <div className="flex items-center gap-4">
-            <Button 
-              variant="outline" 
-              onClick={() => navigate("/")}
-            >
-              Start over
-            </Button>
-            <Button 
-              variant="ghost"
-              onClick={() => navigate("/")}
-            >
-              Exit
-            </Button>
-          </div>
-        </nav>
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto px-4 py-8">
+        <Button
+          variant="ghost"
+          className="mb-6"
+          onClick={() => navigate(-1)}
+        >
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back
+        </Button>
 
-        <main className="container max-w-4xl mx-auto py-8 px-4 flex-1">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <ListingProgress 
-              step={5} 
-              totalSteps={11} 
-              label="Vehicle Value" 
-            />
+        <div className="max-w-2xl mx-auto">
+          <h1 className="text-3xl font-bold mb-8">Vehicle Value Assessment</h1>
 
-            <h1 className="text-3xl font-bold text-center mb-8">
-              Vehicle Value
-            </h1>
-
-            <div className="max-w-xl mx-auto space-y-8">
-              <div className="space-y-4">
-                <Label htmlFor="value">What is your vehicle's estimated value?</Label>
-                <div className="relative">
-                  <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-                    $
-                  </span>
-                  <Input
-                    id="value"
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    placeholder="Enter vehicle value"
-                    value={value}
-                    onChange={(e) => setValue(e.target.value)}
-                    className="pl-8"
-                  />
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Please provide the estimated current market value of your vehicle. This helps us determine appropriate insurance coverage.
-                </p>
+          <div className="bg-white rounded-lg shadow-md p-6 mb-8">
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-semibold">Estimated Value</h2>
+                <span className="text-2xl font-bold">
+                  ${car.vehicle_value?.toLocaleString() ?? 'N/A'}
+                </span>
               </div>
 
-              <Button 
-                onClick={handleSubmit}
-                disabled={isSubmitting || !value}
-                className="w-full"
-              >
-                Next
-              </Button>
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 text-green-600">
+                  <Check className="h-5 w-5" />
+                  <span>Vehicle value assessment complete</span>
+                </div>
+
+                {!car.vehicle_value && (
+                  <div className="flex items-center gap-2 text-yellow-600">
+                    <AlertTriangle className="h-5 w-5" />
+                    <span>Value assessment pending</span>
+                  </div>
+                )}
+              </div>
             </div>
-          </motion.div>
-        </main>
-        <Footer />
+          </div>
+
+          <div className="flex justify-end">
+            <Button
+              size="lg"
+              onClick={handleContinue}
+            >
+              Continue to Car Profile
+            </Button>
+          </div>
+        </div>
       </div>
-    </AuthGuard>
+    </div>
   );
 };
 
