@@ -60,7 +60,14 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
     const fromParam = searchParams.get('from');
     const toParam = searchParams.get('to');
 
-    if (locationParam) setLocation(locationParam);
+    // Find the matching city object based on the location parameter
+    if (locationParam) {
+      const matchingCity = GCC_CITIES.find(city => 
+        city.value === locationParam.toLowerCase()
+      );
+      setLocation(matchingCity ? matchingCity.value : locationParam);
+    }
+    
     if (fromParam) setPickupDate(new Date(fromParam));
     if (toParam) setReturnDate(new Date(toParam));
 
@@ -88,7 +95,9 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
           <Select value={location} onValueChange={setLocation}>
             <SelectTrigger id="location" className="w-full bg-white">
               <MapPin className="mr-2 h-4 w-4" />
-              <SelectValue placeholder="Select a city" />
+              <SelectValue placeholder="Select a city">
+                {location && GCC_CITIES.find(city => city.value === location)?.label}
+              </SelectValue>
             </SelectTrigger>
             <SelectContent className="z-50 bg-white border shadow-md">
               {GCC_CITIES.map((city) => (
@@ -168,3 +177,4 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
 };
 
 export default SearchForm;
+
