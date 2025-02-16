@@ -6,13 +6,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Car, MapPin, Calendar as CalendarIcon, CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { Car, MapPin, Calendar as CalendarIcon, CheckCircle } from "lucide-react";
 import AuthGuard from "@/components/AuthGuard";
 import Footer from "@/components/Footer";
-import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { DateRange } from "react-day-picker";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Badge } from "@/components/ui/badge";
 
 const CarDetails = () => {
   const { id } = useParams();
@@ -40,21 +40,6 @@ const CarDetails = () => {
         .maybeSingle();
 
       if (error) throw error;
-
-      // Update the host's avatar URL if it's the specific car we're looking at
-      if (data && id === '539520e2-ba81-4f8b-b8e0-ff6f62bdeb10') {
-        const { error: updateError } = await supabase
-          .from('profiles')
-          .update({ 
-            avatar_url: '/lovable-uploads/5e9c0281-400b-4411-b2f8-be1a7cf35240.png' 
-          })
-          .eq('id', data.host_id);
-
-        if (!updateError) {
-          data.host.avatar_url = '/lovable-uploads/5e9c0281-400b-4411-b2f8-be1a7cf35240.png';
-        }
-      }
-
       return data;
     },
     enabled: !!id,
@@ -87,6 +72,10 @@ const CarDetails = () => {
     );
   }
 
+  const formatCarType = (type: string) => {
+    return type.charAt(0).toUpperCase() + type.slice(1);
+  };
+
   return (
     <AuthGuard>
       <div className="min-h-screen bg-background">
@@ -106,7 +95,6 @@ const CarDetails = () => {
 
         <main className="container mx-auto px-4 pt-28 pb-16">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Car Images Carousel */}
             <div className="space-y-4">
               <Carousel className="relative w-full">
                 <CarouselContent>
@@ -127,12 +115,16 @@ const CarDetails = () => {
               </Carousel>
             </div>
 
-            {/* Car Details */}
             <div className="space-y-6">
               <div>
-                <h1 className="text-3xl font-bold mb-2">
-                  {car.year} {car.make} {car.model}
-                </h1>
+                <div className="flex items-center gap-2 mb-2">
+                  <h1 className="text-3xl font-bold">
+                    {car.year} {car.make} {car.model}
+                  </h1>
+                  <Badge variant="secondary" className="text-sm">
+                    {formatCarType(car.type || 'sedan')}
+                  </Badge>
+                </div>
                 <div className="flex items-center text-muted-foreground">
                   <MapPin className="h-4 w-4 mr-1" />
                   <span>{car.location}</span>
@@ -169,7 +161,6 @@ const CarDetails = () => {
                 </Button>
               </div>
 
-              {/* Host Information */}
               <div className="border-t pt-6">
                 <h2 className="text-xl font-semibold mb-4">About the Host</h2>
                 <div className="flex items-center space-x-4">
@@ -193,7 +184,6 @@ const CarDetails = () => {
           </div>
         </main>
 
-        {/* Booking Dialog */}
         <Dialog open={isBookingOpen} onOpenChange={setIsBookingOpen}>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>

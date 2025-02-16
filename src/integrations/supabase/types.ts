@@ -82,6 +82,7 @@ export type Database = {
           street_address: string | null
           taxes_paid: boolean | null
           transmission_type: string | null
+          type: string | null
           updated_at: string
           vehicle_value: number | null
           vin: string | null
@@ -108,6 +109,7 @@ export type Database = {
           street_address?: string | null
           taxes_paid?: boolean | null
           transmission_type?: string | null
+          type?: string | null
           updated_at?: string
           vehicle_value?: number | null
           vin?: string | null
@@ -134,6 +136,7 @@ export type Database = {
           street_address?: string | null
           taxes_paid?: boolean | null
           transmission_type?: string | null
+          type?: string | null
           updated_at?: string
           vehicle_value?: number | null
           vin?: string | null
