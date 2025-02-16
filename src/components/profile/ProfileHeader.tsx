@@ -19,7 +19,7 @@ const ProfileHeader = ({ profile, isEditing, uploadingAvatar, onEdit, onFileChan
             <img
               src={profile?.avatar_url || "/placeholder.svg"}
               alt={profile?.full_name}
-              className="h-32 w-32 rounded-full border-4 border-white object-cover"
+              className="h-32 w-32 rounded-full border-4 border-white object-cover bg-white"
             />
             {isEditing && (
               <Input
@@ -34,7 +34,7 @@ const ProfileHeader = ({ profile, isEditing, uploadingAvatar, onEdit, onFileChan
         </div>
       </div>
 
-      <div className="text-center mb-8">
+      <div className="text-center mb-8 mt-20">
         <h1 className="text-3xl font-bold mb-2">{profile?.full_name}</h1>
         <p className="text-muted-foreground">
           {profile?.city && profile?.state ? `${profile.city}, ${profile.state} · ` : ''}
