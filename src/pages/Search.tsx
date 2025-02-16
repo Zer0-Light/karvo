@@ -9,6 +9,9 @@ import SearchForm from "@/components/search/SearchForm";
 import SearchResults from "@/components/search/SearchResults";
 import SearchFilters from "@/components/search/SearchFilters";
 import { useEffect } from "react";
+import { Database } from "@/integrations/supabase/types";
+
+type Car = Database['public']['Tables']['cars']['Row'];
 
 type SearchFiltersType = {
   location: string;
@@ -43,7 +46,7 @@ const Search = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const { data: cars = [], isLoading } = useQuery({
+  const { data: cars = [], isLoading } = useQuery<Car[]>({
     queryKey: [
       'available-cars',
       filters.location,
