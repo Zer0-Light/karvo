@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { format } from "date-fns";
 import { useSearchParams } from "react-router-dom";
 import { 
   Select,
@@ -11,10 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Search as SearchIcon, Calendar, MapPin } from "lucide-react";
-import { Calendar as CalendarComponent } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
+import { Search as SearchIcon, MapPin } from "lucide-react";
 
 const GCC_CITIES = [
   // Saudi Arabia
@@ -47,20 +43,10 @@ interface SearchFormProps {
 const SearchForm = ({ onSearch }: SearchFormProps) => {
   const [searchParams] = useSearchParams();
   const [location, setLocation] = useState<string>("");
-  const [pickupDate, setPickupDate] = useState<Date>();
-  const [returnDate, setReturnDate] = useState<Date>();
-
-  // Get today's date at midnight for consistent comparison
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
 
   useEffect(() => {
-    // Read URL parameters and set form values
     const locationParam = searchParams.get('location');
-    const fromParam = searchParams.get('from');
-    const toParam = searchParams.get('to');
 
-    // Find the matching city object based on the location parameter
     if (locationParam) {
       const matchingCity = GCC_CITIES.find(city => 
         city.value === locationParam.toLowerCase()
@@ -68,29 +54,23 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
       setLocation(matchingCity ? matchingCity.value : locationParam);
     }
     
-    if (fromParam) setPickupDate(new Date(fromParam));
-    if (toParam) setReturnDate(new Date(toParam));
-
-    // If we have parameters, trigger search immediately
-    if (locationParam || fromParam || toParam) {
+    if (locationParam) {
       onSearch({
-        location: locationParam || "",
-        carType: "all",
-        pickupDate: fromParam ? new Date(fromParam) : undefined,
-        returnDate: toParam ? new Date(toParam) : undefined,
+        location: locationParam,
+        carType: "all"
       });
     }
   }, [searchParams, onSearch]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSearch({ location, carType: "all", pickupDate, returnDate });
+    onSearch({ location, carType: "all" });
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="space-y-2">
+      <div className="flex gap-4 items-end">
+        <div className="flex-1 space-y-2">
           <Label htmlFor="location">Location</Label>
           <Select value={location} onValueChange={setLocation}>
             <SelectTrigger id="location" className="w-full bg-white">
@@ -113,68 +93,13 @@ const SearchForm = ({ onSearch }: SearchFormProps) => {
           </Select>
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="pickupDate">Pickup Date</Label>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={cn(
-                  "w-full justify-start text-left font-normal bg-white",
-                  !pickupDate && "text-muted-foreground"
-                )}
-              >
-                <Calendar className="mr-2 h-4 w-4" />
-                {pickupDate ? format(pickupDate, "PPP") : "Select pickup date"}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0 bg-white" align="start">
-              <CalendarComponent
-                mode="single"
-                selected={pickupDate}
-                onSelect={setPickupDate}
-                disabled={(date) => date < today}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="returnDate">Return Date</Label>
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={cn(
-                  "w-full justify-start text-left font-normal bg-white",
-                  !returnDate && "text-muted-foreground"
-                )}
-              >
-                <Calendar className="mr-2 h-4 w-4" />
-                {returnDate ? format(returnDate, "PPP") : "Select return date"}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0 bg-white" align="start">
-              <CalendarComponent
-                mode="single"
-                selected={returnDate}
-                onSelect={setReturnDate}
-                disabled={(date) => date < today || (pickupDate && date < pickupDate)}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
-        </div>
+        <Button type="submit">
+          <SearchIcon className="mr-2 h-5 w-5" />
+          Search Available Cars
+        </Button>
       </div>
-
-      <Button type="submit" className="w-full md:w-auto">
-        <SearchIcon className="mr-2 h-5 w-5" />
-        Search Available Cars
-      </Button>
     </form>
   );
 };
 
 export default SearchForm;
-
