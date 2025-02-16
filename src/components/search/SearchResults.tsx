@@ -5,9 +5,10 @@ import CarCard from "@/components/CarCard";
 interface SearchResultsProps {
   cars: any[];
   isLoading: boolean;
+  isAuthenticated: boolean;
 }
 
-const SearchResults = ({ cars, isLoading }: SearchResultsProps) => {
+const SearchResults = ({ cars, isLoading, isAuthenticated }: SearchResultsProps) => {
   if (isLoading) {
     return (
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -41,10 +42,11 @@ const SearchResults = ({ cars, isLoading }: SearchResultsProps) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {cars.map((car) => (
-        <CarCard key={car.id} {...car} />
+        <CarCard key={car.id} {...car} isAuthenticated={isAuthenticated} />
       ))}
     </div>
   );
 };
 
 export default SearchResults;
+

@@ -3,6 +3,7 @@ import { Car, MapPin } from "lucide-react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "@/components/ui/use-toast";
 
 type CarCardProps = {
   id: string;
@@ -13,6 +14,7 @@ type CarCardProps = {
   location: string;
   photos: string[] | null;
   description: string | null;
+  isAuthenticated: boolean;
 };
 
 const CarCard = ({
@@ -23,9 +25,24 @@ const CarCard = ({
   price_per_day,
   location,
   photos,
-  description
+  description,
+  isAuthenticated
 }: CarCardProps) => {
   const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleClick = () => {
+    if (!isAuthenticated) {
+      toast({
+        title: "Authentication Required",
+        description: "Please log in or sign up to book this car.",
+        variant: "destructive",
+      });
+      navigate("/login");
+      return;
+    }
+    navigate(`/cars/${id}`);
+  };
 
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow">
@@ -54,9 +71,9 @@ const CarCard = ({
       <CardFooter>
         <Button 
           className="w-full" 
-          onClick={() => navigate(`/cars/${id}`)}
+          onClick={handleClick}
         >
-          View Details
+          {isAuthenticated ? "View Details" : "Log in to Book"}
         </Button>
       </CardFooter>
     </Card>
@@ -64,3 +81,4 @@ const CarCard = ({
 };
 
 export default CarCard;
+
