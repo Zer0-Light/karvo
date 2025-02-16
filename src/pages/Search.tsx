@@ -46,7 +46,27 @@ const Search = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const { data: cars = [], isLoading } = useQuery<Car[]>({
+  const fetchCars = async () => {
+    let query = supabase
+      .from('cars')
+      .select('*')
+      .eq('status', 'available');
+
+    if (filters.location) {
+      query = query.ilike('location', `%${filters.location}%`);
+    }
+
+    if (filters.carType && filters.carType !== 'all') {
+      query = query.eq('type', filters.carType);
+    }
+
+    const { data, error } = await query;
+
+    if (error) throw error;
+    return data;
+  };
+
+  const { data: cars = [], isLoading } = useQuery({
     queryKey: [
       'available-cars',
       filters.location,
@@ -55,25 +75,7 @@ const Search = () => {
       filters.returnDate?.toISOString()
     ],
     enabled: Boolean(filters.location && filters.pickupDate && filters.returnDate),
-    queryFn: async () => {
-      let query = supabase
-        .from('cars')
-        .select('*')
-        .eq('status', 'available');
-
-      if (filters.location) {
-        query = query.ilike('location', `%${filters.location}%`);
-      }
-
-      if (filters.carType && filters.carType !== 'all') {
-        query = query.eq('type', filters.carType);
-      }
-
-      const { data, error } = await query;
-
-      if (error) throw error;
-      return data || [];
-    },
+    queryFn: fetchCars,
   });
 
   const handleSearch = (newFilters: SearchFiltersType) => {
