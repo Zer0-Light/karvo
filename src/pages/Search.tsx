@@ -49,11 +49,15 @@ const Search = () => {
   const fetchCars = async () => {
     let query = supabase
       .from('cars')
-      .select('*')
+      .select()
       .eq('status', 'available');
 
     if (filters.location) {
-      query = query.ilike('location', `%${filters.location}%`);
+      // Split location into city and state/country parts
+      const locationParts = filters.location.split(', ').map(part => part.toLowerCase());
+      
+      // Search in both city and location fields
+      query = query.or(`city.ilike.%${locationParts[0]}%,location.ilike.%${locationParts[0]}%`);
     }
 
     if (filters.carType && filters.carType !== 'all') {
@@ -63,7 +67,7 @@ const Search = () => {
     const { data, error } = await query;
 
     if (error) throw error;
-    return data;
+    return (data || []) as Car[];
   };
 
   const { data: cars = [], isLoading } = useQuery({
@@ -75,7 +79,7 @@ const Search = () => {
       filters.returnDate?.toISOString()
     ],
     enabled: Boolean(filters.location && filters.pickupDate && filters.returnDate),
-    queryFn: fetchCars,
+    queryFn: fetchCars
   });
 
   const handleSearch = (newFilters: SearchFiltersType) => {
