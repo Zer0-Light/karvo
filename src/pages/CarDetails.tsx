@@ -75,6 +75,10 @@ const CarDetails = () => {
                   src={car.photos[0]}
                   alt={`${car.year} ${car.make} ${car.model}`}
                   className="w-full h-full object-cover"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = "/placeholder.svg";
+                  }}
                 />
               ) : (
                 <div className="w-full h-full bg-secondary flex items-center justify-center">
