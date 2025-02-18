@@ -26,13 +26,13 @@ const ListYourCarCongrats = () => {
 
   const sparkleVariants = {
     initial: { scale: 0, rotate: 0 },
-    animate: {
-      scale: [0, 1.2, 1],
-      rotate: [0, 45, 0],
+    animate: { 
+      scale: 1,
+      rotate: 45,
       transition: {
         duration: 0.5,
         repeat: Infinity,
-        repeatType: "reverse" // Fixed: Using literal type instead of string
+        repeatType: "reverse" as const
       }
     }
   };
