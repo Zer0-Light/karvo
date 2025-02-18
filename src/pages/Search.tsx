@@ -54,7 +54,6 @@ const Search = () => {
       
       let query = baseQuery.or(`city.ilike.%${locationPart}%,location.ilike.%${locationPart}%`);
 
-
       const { data, error } = await query;
       
       if (error) {
@@ -88,7 +87,6 @@ const Search = () => {
     if (newFilters.returnDate) params.set('to', newFilters.returnDate.toISOString());
     if (newFilters.carType && newFilters.carType !== 'all') params.set('type', newFilters.carType);
     
-    // Update URL without causing a reload
     setSearchParams(params, { replace: true });
     setFilters(newFilters);
   }, [setSearchParams]);
@@ -99,39 +97,40 @@ const Search = () => {
   }, [filters, handleSearch]);
 
   return (
-    <div className="min-h-screen bg-gray-50/50 flex flex-col">
-      <div className="fixed top-8 left-8 z-[9999]">
+    <>
+      <div className="fixed top-8 left-8 z-50">
         <img 
           src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" 
           alt="KARVO" 
           className="h-24 w-auto cursor-pointer"
           onClick={() => navigate("/")}
-          style={{ position: 'fixed' }}
         />
       </div>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="flex-1 max-w-6xl mx-auto px-6 pt-24 pb-12"
-      >
-        <h1 className="text-4xl font-bold text-primary mb-8">Find Your Perfect Rental</h1>
-        
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
-          <SearchForm onSearch={handleSearch} />
-        </div>
+      <div className="min-h-screen bg-gray-50/50 flex flex-col">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="flex-1 max-w-6xl mx-auto px-6 pt-24 pb-12"
+        >
+          <h1 className="text-4xl font-bold text-primary mb-8">Find Your Perfect Rental</h1>
+          
+          <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
+            <SearchForm onSearch={handleSearch} />
+          </div>
 
-        <div className="mb-6">
-          <SearchFilters 
-            carType={filters.carType}
-            onCarTypeChange={handleCarTypeChange}
-          />
-        </div>
+          <div className="mb-6">
+            <SearchFilters 
+              carType={filters.carType}
+              onCarTypeChange={handleCarTypeChange}
+            />
+          </div>
 
-        <SearchResults cars={cars} isLoading={isLoading} isAuthenticated={!!user} />
-      </motion.div>
-      <Footer />
-    </div>
+          <SearchResults cars={cars} isLoading={isLoading} isAuthenticated={!!user} />
+        </motion.div>
+        <Footer />
+      </div>
+    </>
   );
 };
 
