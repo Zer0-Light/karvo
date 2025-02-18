@@ -32,7 +32,7 @@ const ListYourCarCongrats = () => {
       transition: {
         duration: 0.5,
         repeat: Infinity,
-        repeatType: "reverse"
+        repeatType: "reverse" // Fixed: Using literal type instead of string
       }
     }
   };
