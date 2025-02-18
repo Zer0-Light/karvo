@@ -11,6 +11,7 @@ import Footer from "@/components/Footer";
 import { Calendar } from "@/components/ui/calendar";
 import { Camera, Upload, X } from "lucide-react";
 import { format } from "date-fns";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const ListYourCarPhotos = () => {
   const navigate = useNavigate();
@@ -169,59 +170,69 @@ const ListYourCarPhotos = () => {
 
             <div className="space-y-8">
               {/* Photo Upload Section */}
-              <div className="space-y-4">
-                <h2 className="text-xl font-semibold">Car Photos</h2>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {previewUrls.map((url, index) => (
-                    <div key={index} className="relative aspect-video">
-                      <img
-                        src={url}
-                        alt={`Car preview ${index + 1}`}
-                        className="w-full h-full object-cover rounded-lg"
-                      />
-                      <button
-                        onClick={() => removePhoto(index)}
-                        className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
-                      >
-                        <X className="h-4 w-4" />
-                      </button>
-                    </div>
-                  ))}
-                  {photos.length < 10 && (
-                    <label className="aspect-video flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-primary transition-colors">
-                      <div className="text-center space-y-2">
-                        <Camera className="mx-auto h-8 w-8 text-gray-400" />
-                        <span className="text-sm text-gray-500">Add Photo</span>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={handlePhotoSelect}
-                          className="hidden"
-                          multiple
+              <Card>
+                <CardHeader>
+                  <CardTitle>Car Photos</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    {previewUrls.map((url, index) => (
+                      <div key={index} className="relative aspect-video">
+                        <img
+                          src={url}
+                          alt={`Car preview ${index + 1}`}
+                          className="w-full h-full object-cover rounded-lg"
                         />
+                        <button
+                          onClick={() => removePhoto(index)}
+                          className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                        >
+                          <X className="h-4 w-4" />
+                        </button>
                       </div>
-                    </label>
-                  )}
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Upload up to 10 photos of your car. The first photo will be your main photo.
-                </p>
-              </div>
+                    ))}
+                    {photos.length < 10 && (
+                      <label className="aspect-video flex items-center justify-center border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-primary transition-colors">
+                        <div className="text-center space-y-2">
+                          <Camera className="mx-auto h-8 w-8 text-gray-400" />
+                          <span className="text-sm text-gray-500">Add Photo</span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handlePhotoSelect}
+                            className="hidden"
+                            multiple
+                          />
+                        </div>
+                      </label>
+                    )}
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-4">
+                    Upload up to 10 photos of your car. The first photo will be your main photo.
+                  </p>
+                </CardContent>
+              </Card>
 
               {/* Availability Calendar */}
-              <div className="space-y-4">
-                <h2 className="text-xl font-semibold">Availability</h2>
-                <Calendar
-                  mode="multiple"
-                  selected={selectedDates}
-                  onSelect={setSelectedDates}
-                  className="rounded-md border"
-                  disabled={(date) => date < new Date()}
-                />
-                <p className="text-sm text-muted-foreground">
-                  Select the dates when your car will be available for rent.
-                </p>
-              </div>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Availability</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-col items-center space-y-4">
+                    <Calendar
+                      mode="multiple"
+                      selected={selectedDates}
+                      onSelect={setSelectedDates}
+                      className="rounded-lg border shadow-sm bg-card p-4"
+                      disabled={(date) => date < new Date()}
+                    />
+                    <p className="text-sm text-muted-foreground">
+                      Select the dates when your car will be available for rent.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
 
               <Button 
                 onClick={handleSubmit}
