@@ -46,7 +46,7 @@ const Checkout = () => {
   }, [fromDate, toDate]);
 
   const tripTotal = car ? car.price_per_day * totalDays : 0;
-  const protectionCost = protectionPlan ? 40 * totalDays : 0;
+  const protectionCost = protectionPlan ? 40 : 0; // Flat rate of 40 SAR
   const tripFee = tripTotal * 0.10; // 10% trip fee
   const tax = (tripTotal + tripFee + protectionCost) * 0.08; // 8% tax
   const grandTotal = tripTotal + tripFee + tax + protectionCost;
@@ -123,7 +123,7 @@ const Checkout = () => {
                     <p className="text-sm text-muted-foreground">
                       Most popular choice. Lowest out-of-pocket cost if anything happens.
                     </p>
-                    <p className="text-sm font-medium mt-2">SAR 40/day</p>
+                    <p className="text-sm font-medium mt-2">SAR 40</p>
                   </div>
                 </div>
               </CardContent>
