@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
@@ -18,56 +19,86 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
   useEffect(() => {
     const checkUser = async () => {
-      const {
-        data: {
-          session
-        }
-      } = await supabase.auth.getSession();
+      const { data: { session } } = await supabase.auth.getSession();
       if (session?.user) {
         navigate('/search');
       }
     };
     checkUser();
-    const {
-      data: {
-        subscription
-      }
-    } = supabase.auth.onAuthStateChange((event, session) => {
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
         navigate('/search');
       }
     });
-    return () => {
-      subscription.unsubscribe();
-    };
+
+    return () => subscription.unsubscribe();
   }, [navigate]);
+
+  const validateInput = () => {
+    if (!email) {
+      toast({
+        variant: "destructive",
+        title: "Email required",
+        description: "Please enter your email address"
+      });
+      return false;
+    }
+    if (!password) {
+      toast({
+        variant: "destructive",
+        title: "Password required",
+        description: "Please enter your password"
+      });
+      return false;
+    }
+    return true;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!validateInput()) return;
+    
     setIsLoading(true);
     try {
-      const {
-        data,
-        error
-      } = await supabase.auth.signInWithPassword({
-        email,
-        password
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password: password
       });
+
       if (error) {
-        toast({
-          variant: "destructive",
-          title: "Login failed",
-          description: error.message
-        });
+        if (error.message.includes("Invalid login credentials")) {
+          toast({
+            variant: "destructive",
+            title: "Invalid credentials",
+            description: "Please check your email and password and try again"
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Login failed",
+            description: error.message
+          });
+        }
         return;
       }
+
       if (data.user) {
+        if (rememberMe) {
+          // Store email for remember me functionality
+          localStorage.setItem('rememberedEmail', email);
+        } else {
+          localStorage.removeItem('rememberedEmail');
+        }
+
         toast({
-          title: "Success",
-          description: "You have successfully logged in!"
+          title: "Welcome back!",
+          description: "You have successfully logged in"
         });
         navigate("/search");
       }
@@ -84,14 +115,13 @@ const Login = () => {
 
   const handleGoogleLogin = async () => {
     try {
-      const {
-        error
-      } = await supabase.auth.signInWithOAuth({
+      const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo: `${window.location.origin}/search`
         }
       });
+
       if (error) {
         toast({
           variant: "destructive",
@@ -108,6 +138,15 @@ const Login = () => {
     }
   };
 
+  // Load remembered email on component mount
+  useEffect(() => {
+    const rememberedEmail = localStorage.getItem('rememberedEmail');
+    if (rememberedEmail) {
+      setEmail(rememberedEmail);
+      setRememberMe(true);
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex flex-col">
       <div className="flex-1 flex items-center justify-center p-4">
@@ -121,13 +160,14 @@ const Login = () => {
             <img 
               src="/lovable-uploads/db93a284-c1ab-484e-be12-8a5acbe8e74b.png" 
               alt="KARVO" 
-              className="h-36 w-auto rounded" 
+              className="h-36 w-auto rounded cursor-pointer" 
+              onClick={() => navigate("/")}
             />
           </div>
 
           <Card>
             <CardHeader>
-              <CardTitle>Welcome</CardTitle>
+              <CardTitle>Welcome back</CardTitle>
               <CardDescription>Please sign in to your account</CardDescription>
             </CardHeader>
             <CardContent>
@@ -137,7 +177,16 @@ const Login = () => {
                     <Label htmlFor="email">Email address</Label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-                      <Input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="name@example.com" required className="pl-10" disabled={isLoading} />
+                      <Input 
+                        id="email" 
+                        type="email" 
+                        value={email} 
+                        onChange={e => setEmail(e.target.value)} 
+                        placeholder="name@example.com" 
+                        className="pl-10" 
+                        disabled={isLoading}
+                        autoComplete="email" 
+                      />
                     </div>
                   </div>
 
@@ -145,18 +194,36 @@ const Login = () => {
                     <Label htmlFor="password">Password</Label>
                     <div className="relative">
                       <Lock className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-                      <Input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Enter your password" required className="pl-10" disabled={isLoading} />
+                      <Input 
+                        id="password" 
+                        type="password" 
+                        value={password} 
+                        onChange={e => setPassword(e.target.value)} 
+                        placeholder="Enter your password" 
+                        className="pl-10" 
+                        disabled={isLoading}
+                        autoComplete="current-password" 
+                      />
                     </div>
                   </div>
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <Checkbox id="remember" />
+                      <Checkbox 
+                        id="remember" 
+                        checked={rememberMe}
+                        onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+                      />
                       <Label htmlFor="remember" className="text-sm cursor-pointer">
                         Remember me
                       </Label>
                     </div>
-                    <button type="button" className="text-sm text-primary hover:underline font-medium" onClick={() => navigate("/forgot-password")} disabled={isLoading}>
+                    <button 
+                      type="button" 
+                      className="text-sm text-primary hover:underline font-medium" 
+                      onClick={() => navigate("/forgot-password")} 
+                      disabled={isLoading}
+                    >
                       Forgot password?
                     </button>
                   </div>
@@ -178,7 +245,13 @@ const Login = () => {
                   </div>
                 </div>
 
-                <Button type="button" variant="outline" className="w-full" onClick={handleGoogleLogin} disabled={isLoading}>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  className="w-full" 
+                  onClick={handleGoogleLogin} 
+                  disabled={isLoading}
+                >
                   <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
                     <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
                     <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
@@ -190,7 +263,12 @@ const Login = () => {
 
                 <p className="text-center text-sm text-muted-foreground">
                   Don't have an account?{" "}
-                  <button type="button" onClick={() => navigate("/signup")} className="text-primary hover:underline font-medium" disabled={isLoading}>
+                  <button 
+                    type="button" 
+                    onClick={() => navigate("/signup")} 
+                    className="text-primary hover:underline font-medium" 
+                    disabled={isLoading}
+                  >
                     Sign up
                   </button>
                 </p>
