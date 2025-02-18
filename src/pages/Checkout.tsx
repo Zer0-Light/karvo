@@ -123,7 +123,7 @@ const Checkout = () => {
                     <p className="text-sm text-muted-foreground">
                       Most popular choice. Lowest out-of-pocket cost if anything happens.
                     </p>
-                    <p className="text-sm font-medium mt-2">﷼40/day</p>
+                    <p className="text-sm font-medium mt-2">SAR 40/day</p>
                   </div>
                 </div>
               </CardContent>
@@ -161,29 +161,29 @@ const Checkout = () => {
               <CardContent className="space-y-4 pt-6">
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span>{`﷼${car.price_per_day} × ${totalDays} days`}</span>
-                    <span>﷼{tripTotal}</span>
+                    <span>{`SAR ${car.price_per_day} × ${totalDays} days`}</span>
+                    <span>SAR {tripTotal}</span>
                   </div>
                   {protectionPlan && (
                     <div className="flex justify-between">
                       <span>Protection plan</span>
-                      <span>﷼{protectionCost}</span>
+                      <span>SAR {protectionCost}</span>
                     </div>
                   )}
                   <div className="flex justify-between">
                     <span>Trip fee</span>
-                    <span>﷼{tripFee.toFixed(2)}</span>
+                    <span>SAR {tripFee.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Tax</span>
-                    <span>﷼{tax.toFixed(2)}</span>
+                    <span>SAR {tax.toFixed(2)}</span>
                   </div>
                 </div>
               </CardContent>
               <CardFooter className="flex-col gap-4 border-t pt-6">
                 <div className="flex justify-between w-full font-semibold">
                   <span>Total</span>
-                  <span>﷼{grandTotal.toFixed(2)}</span>
+                  <span>SAR {grandTotal.toFixed(2)}</span>
                 </div>
                 <Button className="w-full" size="lg">
                   Confirm and pay
