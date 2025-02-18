@@ -15,7 +15,6 @@ import ListYourCarVin from "./pages/ListYourCarVin";
 import ListYourCarDetails from "./pages/ListYourCarDetails";
 import ListYourCarOdometer from "./pages/ListYourCarOdometer";
 import CarHistory from "./pages/CarHistory";
-import VehicleValue from "./pages/VehicleValue";
 import CarDetails from "./pages/CarDetails";
 import Trips from "./pages/Trips";
 import Inbox from "./pages/Inbox";
@@ -52,7 +51,6 @@ const App = () => (
           <Route path="/list-your-car/details/:carId" element={<ListYourCarDetails />} />
           <Route path="/list-your-car/odometer/:carId" element={<ListYourCarOdometer />} />
           <Route path="/car-history/:carId" element={<CarHistory />} />
-          <Route path="/vehicle-value/:carId" element={<VehicleValue />} />
           <Route path="/cars/:id" element={<CarDetails />} />
           <Route path="/trips" element={<Trips />} />
           <Route path="/inbox" element={<Inbox />} />
