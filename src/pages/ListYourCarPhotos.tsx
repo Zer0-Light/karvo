@@ -113,7 +113,7 @@ const ListYourCarPhotos = () => {
         description: "Your car photos and availability have been saved.",
       });
 
-      navigate(`/cars/${carId}`);
+      navigate(`/list-your-car/congrats/${carId}`);
     } catch (error) {
       console.error('Error saving car photos and availability:', error);
       toast({
