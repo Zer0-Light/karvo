@@ -129,7 +129,7 @@ const BecomeHost = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-5xl md:text-7xl font-bold text-primary mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary via-accent to-primary"
           >
-            Share your car, earn up to $1,500/month
+            Share your car, earn up to 5,625 SAR/month
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -155,9 +155,9 @@ const BecomeHost = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             {[
-              { number: "$1,500", text: "Average monthly earnings", icon: DollarSign },
+              { number: "5,625 SAR", text: "Average monthly earnings", icon: DollarSign },
               { number: "50K+", text: "Active hosts on platform", icon: Users },
-              { number: "$1M", text: "Insurance protection", icon: Shield },
+              { number: "3.75M SAR", text: "Insurance protection", icon: Shield },
             ].map((stat, index) => (
               <motion.div
                 key={index}
@@ -265,7 +265,7 @@ const BecomeHost = () => {
           <div className="grid md:grid-cols-3 gap-8 mb-12">
             <Card className="p-6">
               <h3 className="text-2xl font-bold text-primary mb-4">Economy Cars</h3>
-              <p className="text-4xl font-bold text-accent mb-2">$500-700</p>
+              <p className="text-4xl font-bold text-accent mb-2">1,875-2,625 SAR</p>
               <p className="text-gray-600 mb-4">Monthly average</p>
               <ul className="text-gray-600 space-y-2">
                 <li>• Honda Civic</li>
@@ -275,7 +275,7 @@ const BecomeHost = () => {
             </Card>
             <Card className="p-6">
               <h3 className="text-2xl font-bold text-primary mb-4">SUVs & Luxury</h3>
-              <p className="text-4xl font-bold text-accent mb-2">$800-1,200</p>
+              <p className="text-4xl font-bold text-accent mb-2">3,000-4,500 SAR</p>
               <p className="text-gray-600 mb-4">Monthly average</p>
               <ul className="text-gray-600 space-y-2">
                 <li>• BMW 3 Series</li>
@@ -285,7 +285,7 @@ const BecomeHost = () => {
             </Card>
             <Card className="p-6">
               <h3 className="text-2xl font-bold text-primary mb-4">Premium</h3>
-              <p className="text-4xl font-bold text-accent mb-2">$1,300+</p>
+              <p className="text-4xl font-bold text-accent mb-2">4,875+ SAR</p>
               <p className="text-gray-600 mb-4">Monthly average</p>
               <ul className="text-gray-600 space-y-2">
                 <li>• Porsche Cayenne</li>
