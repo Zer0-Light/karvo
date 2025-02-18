@@ -235,7 +235,7 @@ const BecomeHost = () => {
           <div className="grid md:grid-cols-3 gap-12">
             {[
               { icon: DollarSign, title: "Steady Income", description: "Earn consistent monthly income by sharing your car. Set competitive prices and earn more during peak seasons." },
-              { icon: Shield, title: "Complete Protection", description: "Every trip includes $1M insurance coverage, 24/7 roadside assistance, and comprehensive driver screening." },
+              { icon: Shield, title: "Complete Protection", description: "Every trip includes 3.75M SAR insurance coverage, 24/7 roadside assistance, and comprehensive driver screening." },
               { icon: Heart, title: "Dedicated Support", description: "Our host support team is available 24/7 to help you succeed and maximize your earnings." }
             ].map((feature, index) => (
               <motion.div 
