@@ -6,12 +6,14 @@ import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/integrations/supabase/client";
 
 const Checkout = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [totalDays, setTotalDays] = useState(0);
+  const [protectionPlan, setProtectionPlan] = useState(false);
   const [searchParams] = useState(new URLSearchParams(window.location.search));
   const fromDate = searchParams.get('from') ? new Date(searchParams.get('from')!) : null;
   const toDate = searchParams.get('to') ? new Date(searchParams.get('to')!) : null;
@@ -44,9 +46,10 @@ const Checkout = () => {
   }, [fromDate, toDate]);
 
   const tripTotal = car ? car.price_per_day * totalDays : 0;
+  const protectionCost = protectionPlan ? 40 * totalDays : 0;
   const tripFee = tripTotal * 0.10; // 10% trip fee
-  const tax = (tripTotal + tripFee) * 0.08; // 8% tax
-  const grandTotal = tripTotal + tripFee + tax;
+  const tax = (tripTotal + tripFee + protectionCost) * 0.08; // 8% tax
+  const grandTotal = tripTotal + tripFee + tax + protectionCost;
 
   if (isLoading || !car) {
     return (
@@ -102,14 +105,25 @@ const Checkout = () => {
                 <h2 className="text-2xl font-semibold">Choose a protection plan</h2>
               </CardHeader>
               <CardContent className="space-y-4 pt-6">
-                <div className="flex items-start gap-4 p-4 border rounded-lg">
-                  <Shield className="h-5 w-5 text-primary mt-1" />
-                  <div>
-                    <h3 className="font-semibold">Premier plan</h3>
+                <div 
+                  className={`flex items-start gap-4 p-4 border rounded-lg cursor-pointer transition-colors ${
+                    protectionPlan ? 'border-primary bg-primary/5' : 'hover:border-primary/50'
+                  }`}
+                  onClick={() => setProtectionPlan(!protectionPlan)}
+                >
+                  <Shield className={`h-5 w-5 mt-1 ${protectionPlan ? 'text-primary' : 'text-muted-foreground'}`} />
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <h3 className="font-semibold">Premier plan</h3>
+                      <Checkbox 
+                        checked={protectionPlan}
+                        onCheckedChange={(checked) => setProtectionPlan(checked as boolean)}
+                      />
+                    </div>
                     <p className="text-sm text-muted-foreground">
                       Most popular choice. Lowest out-of-pocket cost if anything happens.
                     </p>
-                    <p className="text-sm font-medium mt-2">$40/day</p>
+                    <p className="text-sm font-medium mt-2">﷼40/day</p>
                   </div>
                 </div>
               </CardContent>
@@ -147,23 +161,29 @@ const Checkout = () => {
               <CardContent className="space-y-4 pt-6">
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span>{`$${car.price_per_day} × ${totalDays} days`}</span>
-                    <span>${tripTotal}</span>
+                    <span>{`﷼${car.price_per_day} × ${totalDays} days`}</span>
+                    <span>﷼{tripTotal}</span>
                   </div>
+                  {protectionPlan && (
+                    <div className="flex justify-between">
+                      <span>Protection plan</span>
+                      <span>﷼{protectionCost}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between">
                     <span>Trip fee</span>
-                    <span>${tripFee.toFixed(2)}</span>
+                    <span>﷼{tripFee.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Tax</span>
-                    <span>${tax.toFixed(2)}</span>
+                    <span>﷼{tax.toFixed(2)}</span>
                   </div>
                 </div>
               </CardContent>
               <CardFooter className="flex-col gap-4 border-t pt-6">
                 <div className="flex justify-between w-full font-semibold">
                   <span>Total</span>
-                  <span>${grandTotal.toFixed(2)}</span>
+                  <span>﷼{grandTotal.toFixed(2)}</span>
                 </div>
                 <Button className="w-full" size="lg">
                   Confirm and pay
