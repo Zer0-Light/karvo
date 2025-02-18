@@ -1,7 +1,9 @@
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+
 interface ProfileHeaderProps {
   profile: any;
   isEditing: boolean;
@@ -9,6 +11,7 @@ interface ProfileHeaderProps {
   onEdit: () => void;
   onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
+
 const ProfileHeader = ({
   profile,
   isEditing,
@@ -31,7 +34,7 @@ const ProfileHeader = ({
         </div>
       </div>
 
-      <div className="text-center mb-8 mt-20">
+      <div className="text-center mb-4 mt-20">
         <h1 className="text-3xl font-bold mb-2">{profile?.full_name}</h1>
         <p className="text-muted-foreground">
           {profile?.city && profile?.state ? `${profile.city}, ${profile.state} · ` : ''}
@@ -44,6 +47,11 @@ const ProfileHeader = ({
             Edit Profile
           </Button>}
       </div>
+
+      <div className="flex justify-center mb-8">
+        <img src="/og-image.png" alt="Karvo Logo" className="h-8" />
+      </div>
     </>;
 };
+
 export default ProfileHeader;
