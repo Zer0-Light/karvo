@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft, Calendar, CreditCard, Gift, Shield, Ticket } from "lucide-react";
@@ -59,6 +58,15 @@ const Checkout = () => {
     );
   }
 
+  if (!fromDate || !toDate) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center gap-4">
+        <h1 className="text-2xl font-semibold">Please select rental dates first</h1>
+        <Button onClick={() => navigate(-1)}>Go Back</Button>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50/50">
       <div className="container max-w-5xl mx-auto px-4 py-8">
@@ -83,6 +91,10 @@ const Checkout = () => {
                     src={car.photos?.[0]}
                     alt={`${car.year} ${car.make} ${car.model}`}
                     className="w-32 h-24 object-cover rounded-lg"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "/placeholder.svg";
+                    }}
                   />
                   <div>
                     <h3 className="font-semibold">{`${car.year} ${car.make} ${car.model}`}</h3>
@@ -92,9 +104,7 @@ const Checkout = () => {
                 <div className="flex items-center gap-2 text-muted-foreground">
                   <Calendar className="h-4 w-4" />
                   <span>
-                    {fromDate && toDate
-                      ? `${format(fromDate, 'MMM d')} - ${format(toDate, 'MMM d, yyyy')}`
-                      : 'Dates not selected'}
+                    {`${format(fromDate, 'MMM d')} - ${format(toDate, 'MMM d, yyyy')} · ${totalDays} days`}
                   </span>
                 </div>
               </CardContent>
