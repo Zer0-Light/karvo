@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -16,6 +17,7 @@ import ListYourCarOdometer from "./pages/ListYourCarOdometer";
 import ListYourCarPhotos from "./pages/ListYourCarPhotos";
 import CarHistory from "./pages/CarHistory";
 import CarDetails from "./pages/CarDetails";
+import Checkout from "./pages/Checkout";
 import Trips from "./pages/Trips";
 import Inbox from "./pages/Inbox";
 import Profile from "./pages/Profile";
@@ -55,6 +57,7 @@ const App = () => (
           <Route path="/list-your-car/congrats/:carId" element={<ListYourCarCongrats />} />
           <Route path="/car-history/:carId" element={<CarHistory />} />
           <Route path="/cars/:id" element={<CarDetails />} />
+          <Route path="/checkout/:id" element={<Checkout />} />
           <Route path="/trips" element={<Trips />} />
           <Route path="/inbox" element={<Inbox />} />
           <Route path="/profile" element={<Profile />} />

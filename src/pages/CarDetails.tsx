@@ -1,5 +1,5 @@
 
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ import { format } from "date-fns";
 const CarDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const { data: car, isLoading } = useQuery({
     queryKey: ['car', id],
@@ -48,6 +49,11 @@ const CarDetails = () => {
       </div>
     );
   }
+
+  const handleBookNow = () => {
+    const params = new URLSearchParams(searchParams);
+    navigate(`/checkout/${id}?${params.toString()}`);
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -104,7 +110,7 @@ const CarDetails = () => {
                   </div>
                 </div>
 
-                <Button className="w-full" size="lg">
+                <Button className="w-full" size="lg" onClick={handleBookNow}>
                   Book Now
                 </Button>
               </div>
