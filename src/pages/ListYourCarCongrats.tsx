@@ -110,9 +110,9 @@ const ListYourCarCongrats = () => {
               <Button
                 size="lg"
                 className="text-lg px-8 py-6 bg-accent hover:bg-accent/90"
-                onClick={() => navigate(`/cars/${carId}`)}
+                onClick={() => navigate("/profile")}
               >
-                View Your Listing
+                View Your Cars
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </motion.div>
